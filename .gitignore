@@ -1,0 +1,15 @@
+# Pull from amazingandyy > mern > .gitignore https://github.com/amazingandyyy/mern/blob/main/.gitignore under MIT License
+node_modules/
+bundle.js
+npm-debug.log
+
+/.idea
+/public
+
+.env
+.passport.js
+.DS_Store
+
+build/
+dist/
+client/.parcel-cache
