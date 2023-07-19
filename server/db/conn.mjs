@@ -8,10 +8,11 @@ let conn;
 try {
   console.log("Connecting to MongoDB Atlas...")
   conn = await client.connect();
+  console.log("Successfully connected!")
 } catch(e) {
   console.error(e);
 }
 
-let db = conn.db("sample_training");
+let db = conn.db("RATL");
 
 export default db;
