@@ -7,9 +7,13 @@ const Login = () => {
 
 	const nav = useNavigate();
 
-	const toHome = () => (
-		nav("/")
-	);
+	const toHome = () => {
+		if (document.getElementById("username_box").value.trim().length !== 0 || document.getElementById("password_box").value.trim().length !== 0){
+			nav("/")
+		} else {
+			document.getElementById("Error").style.color = 'red'
+		}
+	};
 
 return (
 	<center>
@@ -19,11 +23,13 @@ return (
 	style={{width:50, height:50, display:'inline'}} alt="new"/>
 	<hr style={{color:'white'}}></hr>
 	<br />
-	<label style={{color:'white'}}>Username:	</label>
-	<input type="textarea" name="username_box"></input>
+	<label style={{color:'white', marginRight:15}}>Username:	</label>
+	<input type="textarea" id="username_box" name="username_box"></input>
 	<br/>
-	<label style={{color:'white'}}>Password:	</label>
-	<input type="textarea" name="password_box"></input>
+	<label style={{color:'white', marginRight:17}}>Password:	</label>
+	<input type="textarea" id="password_box" name="password_box"></input>
+	<br/>
+	<label id="Error">Please fill out all fields</label>
 	<br/>
 	<button onClick={toHome}>Login</button>
 	</div>

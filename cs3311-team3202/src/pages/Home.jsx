@@ -6,7 +6,6 @@ const Home = () => {
 	document.body.style = 'background: black;';
 
 	var list = ["John A. Smith", "John B. Smith", "John C. Smith", "John D. Smith", "John E. Smith", "John F. Smith", "John G. Smith", "John H. Smith", "John I. Smith", "John J. Smith", "John K. Smith", "John L. Smith", "John M. Smith", "John N. Smith", "John O. Smith", "John P. Smith"];
-	localStorage.setItem("getList", list);
 
 	const nav = useNavigate();
 
@@ -45,7 +44,7 @@ return (
 		src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbSEttZC6mbQYJxWtzJLwcdDH7Jb_lP8i0eqLU7W7l&s" alt="kid"/>}
 		{activeComponent === "Roster" && <div>	<h1 style={{color:'white'}}>ATTENDEES</h1> 
 												<div style={{maxHeight:300, width:200, overflow:'auto'}}>
-												{list.map(txt => <li style={{color:'white'}}>{txt}</li>)}
+												{list.map(txt => <p style={{color:'white'}}>{txt}</p>)}
 												</div>
 										</div>}
 		{activeComponent === "Database" && <div>

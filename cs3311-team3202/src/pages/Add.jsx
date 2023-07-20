@@ -1,13 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Add = () => {
 
 	document.body.style = 'background: black;';
 
+	const nav = useNavigate();
+
+	const toLogin = () => (
+		nav("/Login")
+	);
+
+	const make = () => {
+		if (document.getElementById("fname").value.trim().length !== 0 || 
+			document.getElementById("lname").value.trim().length !== 0 ||
+			document.getElementById("bday").value.trim().length !== 0){
+			nav("/AddConfirm");
+		} else {
+			document.getElementById("Error").style.color = 'red';
+		}
+	};
+
 return (
 	<div>
-
+		<button onClick={toLogin}>Logout</button>
 	<center>
 	<div>
 	<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
@@ -16,21 +32,36 @@ return (
 	</div>
 	<hr style={{color:'white'}}></hr>
 	<br />
-
-	<ul>
-		<li>
-		{/* Endpoint to route to Home component */}
-		<Link to="/">Home</Link>
-		</li>
-		<li>
-		{/* Endpoint to route to About component */}
-		<Link to="/Login">Login</Link>
-		</li>
-		<li>
-		{/* Endpoint to route to Contact Us component */}
-		<Link to="/Add">Add</Link>
-		</li>
-	</ul>
+	<label style={{color:'white', marginRight:15}}>First Name:	</label>
+	<input type="textarea" id="fname"></input>
+	<br/>
+	<label style={{color:'white', marginRight:17}}>Last Name:	</label>
+	<input type="textarea" id="lname"></input>
+	<br/>
+	<label style={{color:'white', marginRight:17}}>Birthdate:	</label>
+	<input type="textarea" id="bday"></input>
+	<br/>
+	<label style={{color:'white', marginRight:17}}  >Program:	</label>
+	<select id="pgram">
+		<option>After School</option>
+		<option>Summer Camp</option>
+		<option>Spiritual Developement</option>
+		<option>Summer Staff</option>
+		<option>Family Events</option>
+	</select>
+	<br/>
+	<label style={{color:'white', marginRight:17}}>        Site:	</label>
+	<select id="pgram">
+		<option>A</option>
+		<option>B</option>
+		<option>C</option>
+		<option>D</option>
+		<option>D</option>
+	</select>
+	<br/>
+	<label id="Error">Please fill out all fields</label>
+	<br/>
+	<button onClick={make}>Add Attendee</button>
 	</center>
 	</div>
 );

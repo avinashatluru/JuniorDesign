@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Navigate, Routes,} from "react-router-d
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Add from "./pages/Add";
+import AddConfirm from "./pages/AddConfirm";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         <Route exact path="/" element={<Home />}/>
         <Route path="/Login" element={<Login />}/>
         <Route path="/Add" element={<Add />}/>
-        <Route path="*" element={<Navigate to="/"replace={true}/>} />
+        <Route path="/AddConfirm" element={<AddConfirm />}/>
+        <Route path="*" element={<Navigate to="/Login"replace={true}/>} />
       </Routes>
     </Router>
   );
