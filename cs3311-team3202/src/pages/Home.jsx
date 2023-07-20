@@ -5,10 +5,17 @@ const Home = () => {
 
 	document.body.style = 'background: black;';
 
+	var list = ["John A. Smith", "John B. Smith", "John C. Smith", "John D. Smith", "John E. Smith", "John F. Smith", "John G. Smith", "John H. Smith", "John I. Smith", "John J. Smith", "John K. Smith", "John L. Smith", "John M. Smith", "John N. Smith", "John O. Smith", "John P. Smith"];
+	localStorage.setItem("getList", list);
+
 	const nav = useNavigate();
 
 	const toLogin = () => (
 		nav("/Login")
+	);
+
+	const toAdd = () => (
+		nav("/Add")
 	);
 
 	const [activeComponent, setActiveComponent] = useState("projects");
@@ -36,10 +43,14 @@ return (
 		<br/>
 		{activeComponent === "Home" && <img style={{width:800, height:400}} 
 		src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbSEttZC6mbQYJxWtzJLwcdDH7Jb_lP8i0eqLU7W7l&s" alt="kid"/>}
-		{activeComponent === "Roster" && <h1 style={{color:'white'}}>ROSTER</h1>}
-		{activeComponent === "Database" && <div><h1 style={{color:'white'}}>DATABASE</h1> 
-												<h1 style={{color:'white'}}>NEW</h1>
-											</div>}
+		{activeComponent === "Roster" && <div>	<h1 style={{color:'white'}}>ATTENDEES</h1> 
+												<div style={{maxHeight:300, width:200, overflow:'auto'}}>
+												{list.map(txt => <li style={{color:'white'}}>{txt}</li>)}
+												</div>
+										</div>}
+		{activeComponent === "Database" && <div>
+											<button onClick={toAdd}>Add Attendee</button>
+										   </div>}
 	</div>
 	</center>
 	</div>
