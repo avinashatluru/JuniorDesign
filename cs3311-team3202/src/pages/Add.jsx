@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Add = () => {
+
+	document.body.style = 'background: black;';
+
 return (
 	<div>
-	<h1>Add Attendee Page</h1>
+	<h1 style={{color:'white'}}>Add Attendee Page</h1>
 	<br />
 	<ul>
 		<li>

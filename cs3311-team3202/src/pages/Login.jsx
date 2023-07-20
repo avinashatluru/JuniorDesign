@@ -1,34 +1,33 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-const nav = useNavigate();
+	document.body.style = 'background: black';
 
-const toHome = () => (
-	nav("/")
-);
+	const nav = useNavigate();
+
+	const toHome = () => (
+		nav("/")
+	);
 
 return (
+	<center>
 	<div>
-	<h1>Login Page</h1>
-	<button onClick={toHome}>Login</button>
+	<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
+	<img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
+	style={{width:50, height:50, display:'inline'}} alt="new"/>
+	<hr style={{color:'white'}}></hr>
 	<br />
-	<ul>
-		<li>
-		{/* Endpoint to route to Home component */}
-		<Link to="/">Home</Link>
-		</li>
-		<li>
-		{/* Endpoint to route to About component */}
-		<Link to="/Login">Login</Link>
-		</li>
-		<li>
-		{/* Endpoint to route to Contact Us component */}
-		<Link to="/Add">Add</Link>
-		</li>
-	</ul>
+	<label style={{color:'white'}}>Username:	</label>
+	<input type="textarea" name="username_box"></input>
+	<br/>
+	<label style={{color:'white'}}>Password:	</label>
+	<input type="textarea" name="password_box"></input>
+	<br/>
+	<button onClick={toHome}>Login</button>
 	</div>
+	</center>
 );
 };
 
