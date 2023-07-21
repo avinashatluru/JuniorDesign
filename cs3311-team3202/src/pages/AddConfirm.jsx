@@ -17,7 +17,7 @@ function AddConfirm() {
     return (
 	    <center>
 	    <div>
-	    <h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
+	    <h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
 	    <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
 	    style={{width:50, height:50, display:'inline', marginRight:100}} alt="new"/>
 	    </div>
