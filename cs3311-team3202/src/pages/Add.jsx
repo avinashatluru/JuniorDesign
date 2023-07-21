@@ -56,11 +56,7 @@ return (
 	<br/>
 	<label style={{color:'white', marginRight:17}}>        Site:	</label>
 	<select id="pgram">
-		<option>A</option>
-		<option>B</option>
-		<option>C</option>
-		<option>D</option>
-		<option>D</option>
+		<option>North Avenue</option>
 	</select>
 	<br/>
 	<label id="Error">Please fill out all fields</label>
