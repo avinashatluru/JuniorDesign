@@ -1,22 +1,24 @@
 import React from "react";
  
 // We use Route in order to define the different routes of our application
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Navigate, Routes,} from "react-router-dom";
  
 // We import all the components we need in our app
-import Navbar from "./components/navbar";
-import RecordList from "./components/recordList";
-import Edit from "./components/edit";
-import Create from "./components/create";
- 
+import './App.css';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Add from "./pages/Add";
+import AddConfirm from "./pages/AddConfirm";
+
 const App = () => {
  return (
    <div>
-     <Navbar />
      <Routes>
-       <Route exact path="/" element={<RecordList />} />
-       <Route path="/edit/:id" element={<Edit />} />
-       <Route path="/create" element={<Create />} />
+       <Route path="/Login" element={<Login />}/>
+       <Route exact path="/" element={<Home />}/>
+       <Route path="/Add" element={<Add />}/>
+       <Route path="/AddConfirm" element={<AddConfirm />}/>
+       <Route path="*" element={<Navigate to="/Login"replace={true}/>} />
      </Routes>
    </div>
  );
