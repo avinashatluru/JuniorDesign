@@ -1,11 +1,11 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 
 	document.body.style = 'background: black;';
 
-	var list = ["John A. Smith", "John B. Smith", "John C. Smith", "John D. Smith", "John E. Smith", "John F. Smith", "John G. Smith", "John H. Smith", "John I. Smith", "John J. Smith", "John K. Smith", "John L. Smith", "John M. Smith", "John N. Smith", "John O. Smith", "John P. Smith"];
+	const [list, setList] = useState([]);
 
 	const nav = useNavigate();
 
@@ -23,6 +23,24 @@ const Home = () => {
 	  newActiveComponent => {setActiveComponent(newActiveComponent);},
 	  [setActiveComponent]
 	);
+	
+	useEffect(() => {
+		async function getRecords() {
+			const response = await fetch("http://localhost:5050/record/");
+			
+			if (!response.ok) {
+				const message = `An error occurred: ${response.statusText}`;
+				window.alert(message);
+				return;
+			}
+			
+			const data = await response.json();
+			const names = data.map(record => `${record.firstName} ${record.lastName}`);
+			setList(names);
+		}
+
+		getRecords();
+	}, []);
 
 return (
 	<div>
