@@ -17,4 +17,4 @@ As of this first semester, however, we are hoping to implement our first artifac
 N/A
 
 **Known Issues**
-* When the application first starts up, a number of Failed to Fetch will occur but the application will run normally after closing 
+* When the application first starts up, a number of Failed to Fetch will occur but the application will run normally after closing the error message
