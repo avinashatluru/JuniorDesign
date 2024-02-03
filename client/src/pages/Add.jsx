@@ -84,7 +84,7 @@ const Add = () => {
 					<label style={{color:'white', marginRight:17}}>Birthdate:</label>
 					<input name="birthDay" type="date" value={form.birthDay} onChange={handleChange} required /><br/>
 
-					<label style={{color:'white', marginRight:17}}>Program:</label>
+					{/* <label style={{color:'white', marginRight:17}}>Program:</label>
 					<select name="program" value={form.program} onChange={handleChange} required>
 						<option value="">Select a program</option>
 						<option value="After School">After School</option>
@@ -98,7 +98,7 @@ const Add = () => {
 					<select name="site" value={form.site} onChange={handleChange} required>
 						<option value="">Select a site</option>
 					<option value="North Avenue">North Avenue</option>
-					</select><br/>
+					</select><br/> */}
 
 					{error && <label id="Error" style={{color: 'red'}}>{error}</label>}
 
