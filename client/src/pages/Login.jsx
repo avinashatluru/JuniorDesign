@@ -70,7 +70,7 @@ return (
 									<br/>
 									<label id="Error">Please fill out all fields</label>
 									<br/>
-									<button onClick={toHome}>Submit</button>
+									<button onClick={toHome}>Login</button>
 									</div>}
 	</div>
 	</center>
