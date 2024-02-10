@@ -27,7 +27,7 @@ function AddConfirm() {
         <button onClick={toHome}>Return to Home</button>
         <button onClick={toAdd}>Add Another Attendee</button>
         </center>
-    )
-}
+    );
+};
 
 export default AddConfirm

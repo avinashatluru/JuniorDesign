@@ -17,6 +17,10 @@ const Home = () => {
 		nav("/Add")
 	);
 
+	const toUserM = () => (
+		nav("/UserManagement")
+	);
+
 	const [activeComponent, setActiveComponent] = useState("projects");
 
 	const modifyActiveComponent = useCallback(
@@ -45,7 +49,7 @@ const Home = () => {
 return (
 	<div>
 		<button onClick={toLogin}>Logout</button>
-		<button onClick={() => modifyActiveComponent("AddUser")}>Add User</button>
+		<button onClick={toUserM}>Manage Users</button>
 	<center>
 	<div>
 		<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
@@ -70,19 +74,6 @@ return (
 		{activeComponent === "Database" && 	<div>
 											<button onClick={toAdd}>Add Attendee</button>
 										   	</div>}
-		{activeComponent === "AddUser" && 	<div>
-											<label style={{color:'white', marginRight:15}}>Full Name:	</label>
-											<input name="Username" type="text" id="name" required /><br/>
-
-											<label style={{color:'white', marginRight:15}}>Password:	</label>
-											<input name="Userpass" type="text" id="userPassword" required /><br/>
-
-											<label style={{color:'white', marginRight:17}}>Authority:		</label>
-											<select name="UserType" id="userType" required>
-												<option value="Admin">Admin</option>
-												<option value="User">User</option>
-											</select><br/>
-											</div>}
 	</div>
 	</center>
 	</div>

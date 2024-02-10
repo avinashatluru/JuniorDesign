@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Add from "./pages/Add";
 import AddConfirm from "./pages/AddConfirm";
+import UserManagement from "./pages/UserManagement";
 
 const App = () => {
  return (
@@ -18,6 +19,7 @@ const App = () => {
        <Route exact path="/" element={<Home />}/>
        <Route path="/Add" element={<Add />}/>
        <Route path="/AddConfirm" element={<AddConfirm />}/>
+       <Route path="/UserManagement" element={<UserManagement />}/>
        <Route path="*" element={<Navigate to="/Login"replace={true}/>} />
      </Routes>
    </div>
