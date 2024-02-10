@@ -1,4 +1,4 @@
-Welcome to the first semester's work from team #3202! 
+Welcome to the work from team #3202! 
 
 We are working closely with RATL to implement an Attendance Checker and Storage application. We hope to implement the ability to create new attendance rosters, edit the potential attendees on those rosters, store those rosters, and eventually export or visualize the data relating to those rosters.
 
