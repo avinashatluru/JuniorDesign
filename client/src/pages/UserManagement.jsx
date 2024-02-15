@@ -10,10 +10,6 @@ function UserManagement() {
 		nav("/")
 	};
 
-    const toAdd = () => (
-		nav("/Add")
-	);
-
     const [activeComponent, setActiveComponent] = useState("projects");
 
 	const modifyActiveComponent = useCallback(

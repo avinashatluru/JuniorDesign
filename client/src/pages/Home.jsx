@@ -21,6 +21,10 @@ const Home = () => {
 		nav("/UserManagement")
 	);
 
+	const toProgramM = () => (
+		nav("/ProgramManagement")
+	);
+
 	const [activeComponent, setActiveComponent] = useState("projects");
 
 	const modifyActiveComponent = useCallback(
@@ -50,6 +54,7 @@ return (
 	<div>
 		<button onClick={toLogin}>Logout</button>
 		<button onClick={toUserM}>Manage Users</button>
+		<button onClick={toProgramM}>Manage Programs</button>
 	<center>
 	<div>
 		<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
