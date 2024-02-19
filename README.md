@@ -17,7 +17,7 @@ To run applictaion, change into the "client" directory and execute the command "
 * Added ability for admins to assign attendees to programs programs
 
 **Bug Fixes** \
-N/A
+* None
 
 **Known Issues**
 * When the application first starts up, a Failed to Fetch error will occur but the application will run normally after closing the error message
