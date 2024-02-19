@@ -8,6 +8,21 @@ To run applictaion, change into the "client" directory and execute the command "
 
 # Release Notes #
 
+## Version 0.2.0 
+
+**New Features**
+* Added ability for admins to add users
+* Added ability for admins to remove users
+* Added ability for admins create programs
+* Added ability for admins to assign attendees to programs programs
+
+**Bug Fixes** \
+N/A
+
+**Known Issues**
+* When the application first starts up, a Failed to Fetch error will occur but the application will run normally after closing the error message
+
+
 ## Version 0.1.0 
 
 **New Features**
@@ -19,4 +34,4 @@ To run applictaion, change into the "client" directory and execute the command "
 N/A
 
 **Known Issues**
-* When the application first starts up, a number of Failed to Fetch will occur but the application will run normally after closing the error message
+* When the application first starts up, a Failed to Fetch error will occur but the application will run normally after closing the error message
