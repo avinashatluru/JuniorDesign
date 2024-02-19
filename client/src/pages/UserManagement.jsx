@@ -38,6 +38,7 @@ function UserManagement() {
 											<option value="Admin">Admin</option>
 											<option value="User">User</option>
 										</select><br/>
+										<button type="submitAdd">Add</button>
 										</div>}
     {activeComponent === "Remove" && <div>	
 										<h1 style={{color:'white'}}>Select user to remove</h1> 
@@ -46,7 +47,7 @@ function UserManagement() {
 										<select name="program">
 											<option value="">Select a User</option>
 										</select><br/>
-										<button type="submit">Remove</button>
+										<button type="submitRemove">Remove</button>
 										</div>
 										</div>}
 	</div>
