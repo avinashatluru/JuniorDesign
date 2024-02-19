@@ -16,7 +16,7 @@ To run applictaion, change into the "client" directory and execute the command "
 * Added ability for admins create programs
 * Added ability for admins to assign attendees to programs programs
 
-**Bug Fixes** \
+**Bug Fixes**
 * None
 
 **Known Issues**
