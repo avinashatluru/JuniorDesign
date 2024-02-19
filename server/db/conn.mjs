@@ -1,20 +1,17 @@
-import { MongoClient } from "mongodb";
+import mongoose from 'mongoose';
+const connectionString = 'mongodb+srv://admin:Team3202@ratl.jhan6qk.mongodb.net/' || '';
 
-const connectionString = process.env.ATLAS_URI || "";
+const connectDB = async () => {
+  try {
+    await mongoose.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected...');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  }
+};
 
-console.log(connectionString)
-
-const client = new MongoClient(connectionString);
-
-let conn;
-try {
-  console.log("Connecting to MongoDB Atlas...")
-  conn = await client.connect();
-  console.log("Successfully connected!")
-} catch(e) {
-  console.error(e);
-}
-
-let db = conn.db("RATL");
-
-export default db;
+export { connectDB };
