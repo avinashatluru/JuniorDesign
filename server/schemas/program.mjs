@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const programSchema = new mongoose.Schema({
   name: {
@@ -12,5 +12,4 @@ const programSchema = new mongoose.Schema({
 });
 
 const Program = mongoose.model('Program', programSchema);
-
-module.exports = Program;
+export default Program;

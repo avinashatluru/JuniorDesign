@@ -1,7 +1,7 @@
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const Program = require('../schemas/program');
+import Program from '../schemas/program.mjs';
 
 // Create a new program
 router.post('/', async (req, res) => {
@@ -52,4 +52,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
