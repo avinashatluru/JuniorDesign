@@ -20,7 +20,7 @@ To run applictaion, change into the "client" directory and execute the command "
 * Fetch error has been resolved
 
 **Known Issues**
-* None
+* The backend and frontend components are currently not linked properly
 
 
 ## Version 0.1.0 
