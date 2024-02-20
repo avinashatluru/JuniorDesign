@@ -17,10 +17,10 @@ To run applictaion, change into the "client" directory and execute the command "
 * Added ability for admins to assign attendees to programs programs
 
 **Bug Fixes**
-* None
+* Fetch error has been resolved
 
 **Known Issues**
-* When the application first starts up, a Failed to Fetch error will occur but the application will run normally after closing the error message
+* None
 
 
 ## Version 0.1.0 
