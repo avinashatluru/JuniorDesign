@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 
+	//Shut up VSCode's typescript linter
+	//@ts-ignore
 	document.body.style = 'background: black;';
 
 	const [list, setList] = useState([]);
@@ -34,7 +36,7 @@ const Home = () => {
 	
 	useEffect(() => {
 		async function getRecords() {
-			const response = await fetch("http://localhost:5050/record/");
+			const response = await fetch("http://localhost:5050/api/attendees/");
 			
 			if (!response.ok) {
 				const message = `An error occurred: ${response.statusText}`;
@@ -43,7 +45,7 @@ const Home = () => {
 			}
 			
 			const data = await response.json();
-			const names = data.map(record => `${record.firstName} ${record.lastName}`);
+			const names = data.map(record => [`${record.firstName} ${record.lastName}`, record._id]);
 			setList(names);
 		}
 
@@ -73,7 +75,7 @@ return (
 		{activeComponent === "Roster" && <div>	
 											<h1 style={{color:'white'}}>ATTENDEES</h1> 
 											<div style={{maxHeight:300, width:200, overflow:'auto'}}>
-											{list.map(txt => <p style={{color:'white'}}>{txt}</p>)}
+											{list.map(txt => <p key={txt[1]} style={{color:'white'}}>{txt[0]}</p>)}
 											</div>
 										 </div>}
 		{activeComponent === "Database" && 	<div>
