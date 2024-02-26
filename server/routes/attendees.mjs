@@ -5,7 +5,6 @@ import Attendee from '../schemas/attendee.mjs';
 
 // Create a new attendee
 router.post('/', async (req, res) => {
-  console.log("new attendee");
   try {
     const { firstName, lastName, birthday } = req.body;
     const newattendee = new Attendee({ firstName, lastName, birthday });
