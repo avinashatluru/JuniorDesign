@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
+	//Shut up VSCode's typescript linter
+	//@ts-ignore
 	document.body.style = 'background: black';
 
 	const nav = useNavigate();

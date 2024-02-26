@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 function AddConfirm() {
 
     const nav = useNavigate();
-    document.body.style = 'background: black';
+    //Shut up VSCode's typescript linter
+	//@ts-ignore
+	document.body.style = 'background: black';
 
     const toHome = () => {
 		nav("/")

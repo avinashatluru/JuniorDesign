@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Add = () => {
 
+	//Shut up VSCode's typescript linter
+	//@ts-ignore
 	document.body.style = 'background: black;';
 
 	const navigate = useNavigate();
@@ -18,9 +20,7 @@ const Add = () => {
 	const [form, setForm] = useState({
 		firstName: "",
 		lastName: "",
-		birthDay: "",
-		program: "",
-		site:"",
+		birthday: ""
 	});
 	const [error, setError] = useState('');
 
@@ -48,7 +48,7 @@ const Add = () => {
 			return;
 		}
 
-		await fetch("http://localhost:5050/record", {
+		await fetch("http://localhost:5050/api/attendees", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -59,7 +59,7 @@ const Add = () => {
 			window.alert(error);
 			return;
 		});
-		setForm({ firstName: "", lastName: "", birthDay: "", program: "", site: "" });
+		setForm({ firstName: "", lastName: "", birthday: ""});
 		navigate("/AddConfirm");
 	}
 
@@ -82,7 +82,7 @@ const Add = () => {
 					<input name="lastName" type="text" value={form.lastName} onChange={handleChange} required /><br/>
 
 					<label style={{color:'white', marginRight:17}}>Birthdate:</label>
-					<input name="birthDay" type="date" value={form.birthDay} onChange={handleChange} required /><br/>
+					<input name="birthday" type="date" value={form.birthday} onChange={handleChange} required /><br/>
 
 					{/* <label style={{color:'white', marginRight:17}}>Program:</label>
 					<select name="program" value={form.program} onChange={handleChange} required>
