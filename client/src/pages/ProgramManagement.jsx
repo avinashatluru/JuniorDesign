@@ -3,17 +3,40 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select"
 import programsActions from "../actions/programs";
 
-
-
-
-
 function UserManagement() {
 
     const nav = useNavigate();
 	const [programs, setPrograms] = useState([]);
 	const [newProgram, setNewProgram] = useState({ name: "", date: "", type: "", site: "" });
 	const [selectedAttendees, setSelectedAttendees] = useState([]);
+	const [currentProgram, setCurrentProgram] = useState("select a program")
     document.body.style = 'background: black';
+	const programss = [{label:"program1", value:"program1"}, {label:"program2", value:"program2"}]
+	let p1 = ["parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
+	let p2 = ["partb1", "partb2", "partb3"]
+	const [currList, setCurrList] = useState([])
+
+	const handleSelect = (e) => {
+		setCurrentProgram(e.label)
+		switchList()
+	}
+
+	const switchText = () => {
+		let x;
+		currentProgram === "select a program"
+			?(x = "program")
+			:(x = currentProgram)
+		return x
+	}
+
+	const switchList = () => {
+		if (currentProgram === "program1"){
+			setCurrList(p1);
+		}
+		if (currentProgram === "program2"){
+			setCurrList(p2);
+		}
+	} 
 
     const toHome = () => {
 		nav("/")
@@ -97,6 +120,7 @@ function UserManagement() {
                      style={{ width: 50, height: 50, display: 'inline' }} alt="new" />
                 <hr style={{ color: 'white' }}></hr>
                 <h2 style={{ color: 'white', display: 'inline', marginRight: 260 }} onClick={() => setActiveComponent("Add")}>Add Program</h2>
+				<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Attend")}>Attendance</h2>
                 <h2 style={{ color: 'white', display: 'inline' }} onClick={() => setActiveComponent("assign")}>Assign Attendees</h2>
                 <br /><br />
 	{activeComponent === 'Add' && (
@@ -166,6 +190,18 @@ function UserManagement() {
 										<button type="submit">Submit</button>
 										</div>
 										</div>}
+	{activeComponent === "Attend" && <div>	
+									<h1 style={{color:'white'}}>Select Program</h1> 
+									<Select options={programss} value={currentProgram} onChange={handleSelect}></Select><br/>
+									<h1 style={{color:'white'}}>Mark Attendance for {switchText()}</h1> 								<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
+       								{currList.map((item, value) => (
+       									<div key={value}>
+											<input value={item} type="checkbox" />
+        										<span>{item}</span>
+       										</div>))}
+   									</div> <br/>
+									<button type="submitAttendance">Mark Attendance</button>
+								 </div>}
 	</div>
 	</center>
     );
