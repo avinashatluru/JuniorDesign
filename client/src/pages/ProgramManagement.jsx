@@ -2,6 +2,7 @@ import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select"
 import programsActions from "../actions/programs";
+import './ProgramManagement.css'
 
 function UserManagement() {
 
@@ -12,15 +13,29 @@ function UserManagement() {
 	const [currentProgram, setCurrentProgram] = useState("select a program")
     document.body.style = 'background: black';
 	const programss = [{label:"program1", value:"program1"}, {label:"program2", value:"program2"}]
-	let p1 = ["parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
+	let p1 = ["parta1", "parta2", "parta3", "parta4", "parta5", "parta6", "parta7", "parta8", "parta9", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
 	let p2 = ["partb1", "partb2", "partb3"]
 	const [currList, setCurrList] = useState([])
+	const [marked, setMarked] = useState([])
 
+	//Places all attendees whose box was checked into a new list on the side
+	const handleMark = (e) => {
+		var markedList = [...marked]
+		if(e.target.checked){
+			markedList = [...marked, e.target.value]
+		} else {
+			markedList.splice(marked.indexOf(e.target.value), 1)
+		}
+		setMarked(markedList)
+	}
+
+	//changes checklist based on selection for selct field
 	const handleSelect = (e) => {
 		setCurrentProgram(e.label)
 		switchList()
 	}
 
+	//switch text to which program was most recently selected
 	const switchText = () => {
 		let x;
 		currentProgram === "select a program"
@@ -29,6 +44,7 @@ function UserManagement() {
 		return x
 	}
 
+	//switch which list is displayed
 	const switchList = () => {
 		if (currentProgram === "program1"){
 			setCurrList(p1);
@@ -99,7 +115,6 @@ function UserManagement() {
 		  	console.error("Failed to add program:", error);
 		}
 	};
-	
 
 	const handleDeleteProgram = async (id) => {
         try {
@@ -109,8 +124,6 @@ function UserManagement() {
             console.error("Failed to delete program:", error);
         }
     };
-	
-
 
     return (
         <center>
@@ -192,14 +205,23 @@ function UserManagement() {
 										</div>}
 	{activeComponent === "Attend" && <div>	
 									<h1 style={{color:'white'}}>Select Program</h1> 
-									<Select options={programss} value={currentProgram} onChange={handleSelect}></Select><br/>
-									<h1 style={{color:'white'}}>Mark Attendance for {switchText()}</h1> 								<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
-       								{currList.map((item, value) => (
+									<Select style={{color:'black'}} options={programss} value={currentProgram} onChange={handleSelect}></Select><br/>
+									<h1 style={{color:'white'}}>Mark Attendance for {switchText()}</h1> 								
+									<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
+       									{currList.map((item, value) => (
        									<div key={value}>
-											<input value={item} type="checkbox" />
+											<input value={item} type="checkbox" onChange={handleMark}/>
         										<span>{item}</span>
        										</div>))}
-   									</div> <br/>
+   									</div> 
+									<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="marked-ones">
+										<h2>Marked Attendees</h2>
+										{marked.map((item, value) => (
+       									<div key={value}>
+        										<span>{item}</span>
+       										</div>))}
+									</div>
+									<br/>
 									<button type="submitAttendance">Mark Attendance</button>
 								 </div>}
 	</div>
