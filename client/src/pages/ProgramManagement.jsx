@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select"
 import programsActions from "../actions/programs";
 import './ProgramManagement.css'
+import { BarChart } from '@mui/x-charts/BarChart';
 
 function UserManagement() {
 
@@ -132,8 +133,9 @@ function UserManagement() {
                 <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
                      style={{ width: 50, height: 50, display: 'inline' }} alt="new" />
                 <hr style={{ color: 'white' }}></hr>
-                <h2 style={{ color: 'white', display: 'inline', marginRight: 260 }} onClick={() => setActiveComponent("Add")}>Add Program</h2>
-				<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Attend")}>Attendance</h2>
+				<h2 style={{ color: 'white', display: 'inline', marginRight: 100 }} onClick={() => setActiveComponent("Current")}>Current Programs</h2>
+                <h2 style={{ color: 'white', display: 'inline', marginRight: 100 }} onClick={() => setActiveComponent("Add")}>Add Program</h2>
+				<h2 style={{color:'white', display:'inline', marginRight: 100 }} onClick={() => modifyActiveComponent("Attend")}>Attendance</h2>
                 <h2 style={{ color: 'white', display: 'inline' }} onClick={() => setActiveComponent("assign")}>Assign Attendees</h2>
                 <br /><br />
 	{activeComponent === 'Add' && (
@@ -223,6 +225,17 @@ function UserManagement() {
 									</div>
 									<br/>
 									<button type="submitAttendance">Mark Attendance</button>
+								 </div>}
+	{activeComponent === "Current" && <div>	
+									<h1 style={{color:'white'}}>Current Programs and Statistics</h1> 
+									<div style={{color:'white', maxHeight:350, width:550}} className="chart-box">
+									<BarChart
+									dataset={[{program:"yoga", num:6}, {program:"summer camp", num:16}, {program:"after school", num:8}, {program:"e", num:60}]}
+									xAxis={[{scaleType:"band", dataKey:'program'}]}
+									series={[{dataKey:"num"}]}
+  									width={500}
+  									height={300}/>
+									</div>
 								 </div>}
 	</div>
 	</center>
