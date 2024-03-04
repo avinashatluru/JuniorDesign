@@ -6,8 +6,8 @@ import Program from '../schemas/program.mjs';
 // Create a new program
 router.post('/', async (req, res) => {
   try {
-    const { name, date } = req.body;
-    const newProgram = new Program({ name, date });
+    const { name, date, site} = req.body;
+    const newProgram = new Program({ name, date, location, attendees: [] });
     const savedProgram = await newProgram.save();
     res.json(savedProgram);
   } catch (error) {
@@ -29,10 +29,10 @@ router.get('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, date } = req.body;
+    const { name, date, site } = req.body;
     const updatedProgram = await Program.findByIdAndUpdate(
       id,
-      { name, date },
+      { name, date, site },
       { new: true }
     );
     res.json(updatedProgram);

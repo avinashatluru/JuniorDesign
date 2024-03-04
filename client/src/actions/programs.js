@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:5050/programs';
+const baseUrl = 'http://localhost:5050/api/programs';
 
 const getAllPrograms = () => {
   return axios.get(baseUrl);
@@ -14,7 +14,7 @@ const deleteProgram = (id) => {
   return axios.delete(`${baseUrl}/${id}`);
 };
 
-export default {
+export {
   getAllPrograms,
   createProgram,
   deleteProgram

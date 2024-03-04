@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../actions/users.js";
+import { createProgram } from "../actions/programs.js";
 
-const Add = () => {
+const AddPrograms = () => {
 
 	//Shut up VSCode's typescript linter
 	//@ts-ignore
@@ -19,9 +19,9 @@ const Add = () => {
 	);
 
 	const [form, setForm] = useState({
-		firstName: "",
-		lastName: "",
-		birthday: ""
+		name: "",
+		date: "",
+		site: ""
 	});
 	const [error, setError] = useState('');
 
@@ -52,7 +52,7 @@ const Add = () => {
 		try {
 			// Call createProgram function with form data
 	
-			const response = await createUser(form);
+			const response = await createProgram(form);
 			// Handle success (e.g., show success message)
 			console.log('Program created successfully:', response.data);
 		} catch (error) {
@@ -75,13 +75,13 @@ const Add = () => {
 				<hr style={{color:'white'}}></hr>
 				<br />
 				<form onSubmit={handleSubmit}>
-					<label style={{color:'white', marginRight:15}}>First Name:</label>
+					<label style={{color:'white', marginRight:15}}>Program Name:</label>
 					<input name="firstName" type="text" value={form.firstName} onChange={handleChange} required /><br/>
 
-					<label style={{color:'white', marginRight:17}}>Last Name:</label>
+					<label style={{color:'white', marginRight:17}}>Date:</label>
 					<input name="lastName" type="text" value={form.lastName} onChange={handleChange} required /><br/>
 
-					<label style={{color:'white', marginRight:17}}>Birthdate:</label>
+					<label style={{color:'white', marginRight:17}}>Location:</label>
 					<input name="birthday" type="date" value={form.birthday} onChange={handleChange} required /><br/>
 
 					{/* <label style={{color:'white', marginRight:17}}>Program:</label>
@@ -102,11 +102,11 @@ const Add = () => {
 
 					{error && <label id="Error" style={{color: 'red'}}>{error}</label>}
 
-					<button type="submit">Add Attendee</button>
+					<button type="submit">Create New Program</button>
 				</form>
 			</center>
 		</div>
 	);
 };
 
-export default Add;
+export default AddProgram;

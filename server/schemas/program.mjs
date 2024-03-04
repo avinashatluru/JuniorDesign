@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Attendee from './attendee.mjs';
 
 const programSchema = new mongoose.Schema({
   name: {
@@ -8,7 +9,12 @@ const programSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true
-  }
+  },
+  site: {
+    type: String,
+    required: true
+  },
+  attendees: [Attendee]
 });
 
 const Program = mongoose.model('Program', programSchema);
