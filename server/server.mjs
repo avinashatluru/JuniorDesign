@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/attendees', attendees);
-app.use('/api/programs', programs);
+app.use('/api/program', programs);
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {

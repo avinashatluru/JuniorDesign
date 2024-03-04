@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:5050/api/programs';
+const baseUrl = 'http://localhost:5050/api/program';
 
 const getAllPrograms = () => {
   return axios.get(baseUrl);

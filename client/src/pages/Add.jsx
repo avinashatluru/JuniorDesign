@@ -54,7 +54,7 @@ const Add = () => {
 	
 			const response = await createUser(form);
 			// Handle success (e.g., show success message)
-			console.log('Program created successfully:', response.data);
+			console.log('Attendee created successfully:', response.data);
 		} catch (error) {
 			// Handle error (e.g., display error message)
 			console.error('Error creating user', error.message);

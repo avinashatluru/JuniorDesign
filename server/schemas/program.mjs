@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Attendee from './attendee.mjs';
+const Schema = mongoose.Schema;
 
 const programSchema = new mongoose.Schema({
   name: {
@@ -14,7 +14,10 @@ const programSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  attendees: [Attendee]
+  attendees: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Attendee'
+  }]
 });
 
 const Program = mongoose.model('Program', programSchema);
