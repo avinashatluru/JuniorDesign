@@ -3,6 +3,8 @@ import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { createProgram } from "../actions/programs.js";
 
+import './ProgramManagement.css'
+import { BarChart } from '@mui/x-charts/BarChart';
 
 function ProgramManagement() {
 
@@ -13,15 +15,29 @@ function ProgramManagement() {
 	const [currentProgram, setCurrentProgram] = useState("select a program")
     document.body.style = 'background: black';
 	const programss = [{label:"program1", value:"program1"}, {label:"program2", value:"program2"}]
-	let p1 = ["parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
+	let p1 = ["parta1", "parta2", "parta3", "parta4", "parta5", "parta6", "parta7", "parta8", "parta9", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
 	let p2 = ["partb1", "partb2", "partb3"]
 	const [currList, setCurrList] = useState([])
+	const [marked, setMarked] = useState([])
 
+	//Places all attendees whose box was checked into a new list on the side
+	const handleMark = (e) => {
+		var markedList = [...marked]
+		if(e.target.checked){
+			markedList = [...marked, e.target.value]
+		} else {
+			markedList.splice(marked.indexOf(e.target.value), 1)
+		}
+		setMarked(markedList)
+	}
+
+	//changes checklist based on selection for selct field
 	const handleSelect = (e) => {
 		setCurrentProgram(e.label)
 		switchList()
 	}
 
+	//switch text to which program was most recently selected
 	const switchText = () => {
 		let x;
 		currentProgram === "select a program"
@@ -30,6 +46,7 @@ function ProgramManagement() {
 		return x
 	}
 
+	//switch which list is displayed
 	const switchList = () => {
 		if (currentProgram === "program1"){
 			setCurrList(p1);
@@ -113,6 +130,16 @@ function ProgramManagement() {
 
 		getPrograms();
 	}, []);
+	};
+
+	const handleDeleteProgram = async (id) => {
+        try {
+            await programsActions.deleteProgram(id);
+            setPrograms(programs.filter(program => program._id !== id)); // Remove program from state
+        } catch (error) {
+            console.error("Failed to delete program:", error);
+        }
+    };
 
     return (
 	<center>
@@ -150,6 +177,17 @@ function ProgramManagement() {
 				{list.map(txt => <p key={txt[1]} style={{color:'white'}}>{txt[0]}</p>)}
 				</div>
 				</div>}
+	{activeComponent === "Current" && <div>	
+									<h1 style={{color:'white'}}>Current Programs and Statistics</h1> 
+									<div style={{color:'white', maxHeight:350, width:550}} className="chart-box">
+									<BarChart
+									dataset={[{program:"yoga", num:6}, {program:"summer camp", num:16}, {program:"after school", num:8}, {program:"e", num:60}]}
+									xAxis={[{scaleType:"band", dataKey:'program'}]}
+									series={[{dataKey:"num"}]}
+  									width={500}
+  									height={300}/>
+									</div>
+								 </div>}
 	</div>
 	</center>
     );

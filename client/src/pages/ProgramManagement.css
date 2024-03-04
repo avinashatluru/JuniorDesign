@@ -1,0 +1,16 @@
+.list-container{
+    display: inline-block;
+    margin-right: 10%;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+}
+
+.marked-ones{
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+}
+
+.chart-box{
+    background-color: white;
+}
