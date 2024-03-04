@@ -1,5 +1,4 @@
 import React, {useCallback, useState, useEffect} from "react";
-import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { createProgram, deleteProgram } from "../actions/programs.js";
 
@@ -127,14 +126,7 @@ function ProgramManagement() {
 		getPrograms();
 	}, []);
 
-	const handleDeleteProgram = async (id) => {
-        try {
-            await programsActions.deleteProgram(id);
-            setPrograms(programs.filter(program => program._id !== id)); // Remove program from state
-        } catch (error) {
-            console.error("Failed to delete program:", error);
-        }
-    };
+
 
     return (
 	<center>
@@ -145,7 +137,7 @@ function ProgramManagement() {
 	<hr style={{color:'white'}}></hr>
 	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h2>
 	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("assign")}>View Programs</h2>
-	<h2 style={{color:'white', display:'inline'}} onClick={() => modifyActiveComponent("assign")}>Assign Attendees</h2>
+	<h2 style={{color:'white', display:'inline'}} onClick={() => modifyActiveComponent("Current")}>Assign Attendees</h2>
 	<br />
     <br />
 	
@@ -172,17 +164,7 @@ function ProgramManagement() {
 				{list.map(txt => <p key={txt[1]} style={{color:'white'}}>{txt[0]}</p>)}
 				</div>
 				</div>}
-	{activeComponent === "Current" && <div>	
-									<h1 style={{color:'white'}}>Current Programs and Statistics</h1> 
-									<div style={{color:'white', maxHeight:350, width:550}} className="chart-box">
-									<BarChart
-									dataset={[{program:"yoga", num:6}, {program:"summer camp", num:16}, {program:"after school", num:8}, {program:"e", num:60}]}
-									xAxis={[{scaleType:"band", dataKey:'program'}]}
-									series={[{dataKey:"num"}]}
-  									width={500}
-  									height={300}/>
-									</div>
-								 </div>}
+	
 	</div>
 	</center>
     );
