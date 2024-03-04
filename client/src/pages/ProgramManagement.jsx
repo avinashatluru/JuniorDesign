@@ -1,7 +1,7 @@
 import React, {useCallback, useState, useEffect} from "react";
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { createProgram } from "../actions/programs.js";
+import { createProgram, deleteProgram } from "../actions/programs.js";
 
 import './ProgramManagement.css'
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -9,12 +9,8 @@ import { BarChart } from '@mui/x-charts/BarChart';
 function ProgramManagement() {
 
     const nav = useNavigate();
-	const [programs, setPrograms] = useState([]);
-	const [newProgram, setNewProgram] = useState({ name: "", date: "", type: "", site: "" });
-	const [selectedAttendees, setSelectedAttendees] = useState([]);
 	const [currentProgram, setCurrentProgram] = useState("select a program")
     document.body.style = 'background: black';
-	const programss = [{label:"program1", value:"program1"}, {label:"program2", value:"program2"}]
 	let p1 = ["parta1", "parta2", "parta3", "parta4", "parta5", "parta6", "parta7", "parta8", "parta9", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
 	let p2 = ["partb1", "partb2", "partb3"]
 	const [currList, setCurrList] = useState([])
@@ -130,7 +126,6 @@ function ProgramManagement() {
 
 		getPrograms();
 	}, []);
-	};
 
 	const handleDeleteProgram = async (id) => {
         try {
@@ -192,6 +187,5 @@ function ProgramManagement() {
 	</center>
     );
 };
-
 
 export default ProgramManagement
