@@ -1,4 +1,5 @@
 import React, {useCallback, useState, useEffect} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { createProgram } from "../actions/programs.js";
 
@@ -6,7 +7,37 @@ import { createProgram } from "../actions/programs.js";
 function ProgramManagement() {
 
     const nav = useNavigate();
+	const [programs, setPrograms] = useState([]);
+	const [newProgram, setNewProgram] = useState({ name: "", date: "", type: "", site: "" });
+	const [selectedAttendees, setSelectedAttendees] = useState([]);
+	const [currentProgram, setCurrentProgram] = useState("select a program")
     document.body.style = 'background: black';
+	const programss = [{label:"program1", value:"program1"}, {label:"program2", value:"program2"}]
+	let p1 = ["parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
+	let p2 = ["partb1", "partb2", "partb3"]
+	const [currList, setCurrList] = useState([])
+
+	const handleSelect = (e) => {
+		setCurrentProgram(e.label)
+		switchList()
+	}
+
+	const switchText = () => {
+		let x;
+		currentProgram === "select a program"
+			?(x = "program")
+			:(x = currentProgram)
+		return x
+	}
+
+	const switchList = () => {
+		if (currentProgram === "program1"){
+			setCurrList(p1);
+		}
+		if (currentProgram === "program2"){
+			setCurrList(p2);
+		}
+	} 
 
     const toHome = () => {
 		nav("/")
@@ -123,5 +154,6 @@ function ProgramManagement() {
 	</center>
     );
 };
+
 
 export default ProgramManagement
