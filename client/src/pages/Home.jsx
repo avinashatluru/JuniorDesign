@@ -35,7 +35,7 @@ const Home = () => {
 	);
 	
 	useEffect(() => {
-		async function getRecords() {
+		async function getAttendees() {
 			const response = await fetch("http://localhost:5050/api/attendees/");
 			
 			if (!response.ok) {
@@ -45,11 +45,11 @@ const Home = () => {
 			}
 			
 			const data = await response.json();
-			const names = data.map(record => [`${record.firstName} ${record.lastName}`, record._id]);
+			const names = data.map(attendee => [`${attendee.firstName} ${attendee.lastName}`, attendee._id]);
 			setList(names);
 		}
 
-		getRecords();
+		getAttendees();
 	}, []);
 
 return (

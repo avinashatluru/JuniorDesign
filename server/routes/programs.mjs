@@ -6,11 +6,13 @@ import Program from '../schemas/program.mjs';
 // Create a new program
 router.post('/', async (req, res) => {
   try {
-    const { name, date } = req.body;
-    const newProgram = new Program({ name, date });
+    console.log('Request body:', req.body);
+    const { name, date, site} = req.body;
+    const newProgram = new Program({ name, date, site, attendees: [] });
     const savedProgram = await newProgram.save();
     res.json(savedProgram);
   } catch (error) {
+    console.error('Error creating program:', error.stack);
     res.status(500).json({ message: error.message });
   }
 });
@@ -29,10 +31,10 @@ router.get('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, date } = req.body;
+    const { name, date, site } = req.body;
     const updatedProgram = await Program.findByIdAndUpdate(
       id,
-      { name, date },
+      { name, date, site },
       { new: true }
     );
     res.json(updatedProgram);
@@ -47,6 +49,19 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     await Program.findByIdAndDelete(id);
     res.json({ message: 'Program deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const program = await Program.findById(id);
+    if (!program) {
+      return res.status(404).json({ message: 'Program not found' });
+    }
+    res.json(program);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
