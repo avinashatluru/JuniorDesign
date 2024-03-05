@@ -67,4 +67,28 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Update a program by ID to add attendees without duplicates
+router.put('/:id/add-attendees', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { attendeesToAdd } = req.body; // Expect an array of attendee IDs to add
+
+    const updatedProgram = await Program.findByIdAndUpdate(
+      id,
+      { $addToSet: { attendees: { $each: attendeesToAdd } } },
+      { new: true }
+    );
+
+    if (!updatedProgram) {
+      return res.status(404).json({ message: 'Program not found' });
+    }
+
+    res.json(updatedProgram);
+  } catch (error) {
+    console.error('Error updating program to add attendees:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 export default router;

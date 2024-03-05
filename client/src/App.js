@@ -11,6 +11,7 @@ import Add from "./pages/Add";
 import AddConfirm from "./pages/AddConfirm";
 import UserManagement from "./pages/UserManagement";
 import ProgramManagement from "./pages/ProgramManagement";
+import Attendance from "./pages/Attendance";
 
 const App = () => {
  return (
@@ -22,6 +23,7 @@ const App = () => {
        <Route path="/AddConfirm" element={<AddConfirm />}/>
        <Route path="/UserManagement" element={<UserManagement />}/>
        <Route path="/ProgramManagement" element={<ProgramManagement />}/>
+       <Route path="/Attendance" element={<Attendance />}/>
        <Route path="*" element={<Navigate to="/Login"replace={true}/>} />
      </Routes>
    </div>

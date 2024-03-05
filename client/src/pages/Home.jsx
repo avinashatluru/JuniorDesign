@@ -26,6 +26,9 @@ const Home = () => {
 	const toProgramM = () => (
 		nav("/ProgramManagement")
 	);
+	const toAttendance = () => (
+		nav("/Attendance")
+	);
 
 	const [activeComponent, setActiveComponent] = useState("projects");
 
@@ -57,6 +60,8 @@ return (
 		<button onClick={toLogin}>Logout</button>
 		<button onClick={toUserM}>Manage Users</button>
 		<button onClick={toProgramM}>Manage Programs</button>
+		<button onClick={toAttendance}>Take Attendance</button>
+
 	<center>
 	<div>
 		<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
