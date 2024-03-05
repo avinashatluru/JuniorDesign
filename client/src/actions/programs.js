@@ -10,6 +10,10 @@ const createProgram = (newProgram) => {
   return axios.post(baseUrl, newProgram);
 };
 
+const addAttendees = (programId, attendeesToAdd) => {
+  return axios.put(`${baseUrl}/${programId}/add-attendees`, { attendeesToAdd });
+};
+
 const deleteProgram = (id) => {
   return axios.delete(`${baseUrl}/${id}`);
 };
@@ -17,5 +21,6 @@ const deleteProgram = (id) => {
 export {
   getAllPrograms,
   createProgram,
-  deleteProgram
+  deleteProgram,
+  addAttendees
 };
