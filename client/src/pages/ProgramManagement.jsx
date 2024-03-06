@@ -136,8 +136,7 @@ function ProgramManagement() {
 	style={{width:50, height:50, display:'inline'}} alt="new"/>
 	<hr style={{color:'white'}}></hr>
 	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h2>
-	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("assign")}>View Programs</h2>
-	<h2 style={{color:'white', display:'inline'}} onClick={() => modifyActiveComponent("Current")}>Assign Attendees</h2>
+	<h2 style={{color:'white', display:'inline', marginRight:0}} onClick={() => modifyActiveComponent("assign")}>View Programs</h2>
 	<br />
     <br />
 	
@@ -158,12 +157,6 @@ function ProgramManagement() {
 					<button type="submit">Add Program</button>
 				</form>
 									</div>}
-    {activeComponent === "assign" && <div>	
-				<h1 style={{color:'white'}}>Programs</h1> 
-				<div style={{maxHeight:300, width:200, overflow:'auto'}}>
-				{list.map(txt => <p key={txt[1]} style={{color:'white'}}>{txt[0]}</p>)}
-				</div>
-				</div>}
 	
 	</div>
 	</center>
