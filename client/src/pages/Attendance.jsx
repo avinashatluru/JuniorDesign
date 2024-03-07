@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from "react-router-dom";
+import Select from "react-select"
 import { addAttendees } from "../actions/programs.js";
 
 function Attendance() {
+  const nav = useNavigate();
+  const [activeComponent, setActiveComponent] = useState("");
   const [programs, setPrograms] = useState([]);
   const [attendees, setAttendees] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedAttendees, setSelectedAttendees] = useState([]);
+  const [currentProgram, setCurrentProgram] = useState("select a program")
+  const toHome = () => {nav("/")};
 
   // Fetch programs
   useEffect(() => {
@@ -54,25 +60,78 @@ function Attendance() {
     }
   };
 
+  const modifyActiveComponent = useCallback(
+	  newActiveComponent => {setActiveComponent(newActiveComponent);},
+	  [setActiveComponent]
+	);
+
+  const handleSelectAttendance = (e) => {
+		setCurrentProgram(e.label);
+	};
+
+  const switchText = () => {
+		let x = currentProgram;
+		return x
+	};
+
+  const programsList = () => {
+		let x = [];
+		programs.forEach(program =>{
+      x.push({label:program.name, value:program.id})
+    });
+		return x
+	};
+
   return (
+    <center>
     <div>
-      <h2 style={{color:'white'}}>Select a Program</h2>
-      <select onChange={handleProgramSelect} value={selectedProgram}>
-        <option value="">Select a program</option>
-        {programs.map(program => (
-          <option key={program._id} value={program._id}>{program.name}</option>
-        ))}
-      </select>
+      <h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
+	    <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
+	    style={{width:50, height:50, display:'inline'}} alt="new"/>
+	    <hr style={{color:'white'}}></hr>
+      <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add to Program</h2>
+      <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h2>
 
-      <h2 style={{color:'white'}}>Select Attendees</h2>
-      <select multiple onChange={handleAttendeeSelect} value={selectedAttendees}>
-        {attendees.map(attendee => (
-          <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
-        ))}
-      </select>
+      {activeComponent === "Add" && 	<div>
+        <h2 style={{color:'white'}}>Select a Program</h2>
+        <select onChange={handleProgramSelect} value={selectedProgram}>
+          <option value="">Select a program</option>
+          {programs.map(program => (
+            <option key={program._id} value={program._id}>{program.name}</option>
+          ))}
+        </select>
+        <h2 style={{color:'white'}}>Select Attendees</h2>
+        <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
+          {attendees.map(attendee => (
+            <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
+          ))}
+        </select> <br/>
+        <button onClick={handleSubmit} className='AttendeesButton'>Add Selected Attendees to Program</button>
+			</div>}
 
-      <button onClick={handleSubmit}>Add Selected Attendees to Program</button>
+      {activeComponent === "Attend" && <div>	
+				<h1 style={{color:'white'}}>Select Program</h1> 
+        <Select style={{color:'black'}} options={programsList()} value={currentProgram} onChange={handleSelectAttendance}/><br/>
+				<h1 style={{color:'white'}}>Mark Attendance for {switchText()}</h1> 								
+				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
+       		{attendees.map(attendee => (
+       			<div key={attendee._id}>
+							<input value={attendee._id} type="checkbox"/>
+        				<span>{attendee.firstName} {attendee.lastName}</span>
+       			</div>))}
+   			</div> 
+									{/* <div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="marked-ones">
+										<h2>Marked Attendees</h2>
+										{marked.map((item, value) => (
+       									<div key={value}>
+        										<span>{item}</span>
+       										</div>))}
+									</div> */}
+				<br/>
+				<button type="submitAttendance">Mark Attendance</button>
+				</div>}
     </div>
+    </center>
   );
 }
 
