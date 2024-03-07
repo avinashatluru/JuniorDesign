@@ -1,6 +1,7 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { createProgram, deleteProgram } from "../actions/programs.js";
+import { createProgram, deleteProgram, getAllPrograms } from "../actions/programs.js";
+
 import './ProgramManagement.css'
 import { BarChart } from '@mui/x-charts/BarChart';
 
@@ -125,6 +126,34 @@ function ProgramManagement() {
 		getPrograms();
 	}, []);
 
+	const handleDelete = async (id) => {
+		try {
+			await deleteProgram(id);
+			alert('Program deleted successfully');
+			// Refresh the list of programs after deletion
+			fetchPrograms();
+		} catch (error) {
+			console.error('Error deleting program:', error.message);
+			alert('Failed to delete program');
+		}
+	};
+
+	const fetchPrograms = async () => {
+		try {
+			const response = await getAllPrograms();
+			const data = await response.data;
+			const names = data.map(program => [`${program.name}`, program._id]);
+			setList(names);
+		} catch (error) {
+			console.error('Failed to fetch programs:', error.message);
+			alert('Failed to fetch programs');
+		}
+	};
+	
+	useEffect(() => {
+		fetchPrograms();
+	}, []);
+		
 
 
     return (
@@ -135,7 +164,7 @@ function ProgramManagement() {
 	style={{width:50, height:50, display:'inline'}} alt="new"/>
 	<hr style={{color:'white'}}></hr>
 	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h2>
-	<h2 style={{color:'white', display:'inline', marginRight:0}} onClick={() => modifyActiveComponent("assign")}>View Programs</h2>
+	<h2 style={{color:'white', display:'inline', marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h2>
 	<br />
     <br />
 	
@@ -156,7 +185,23 @@ function ProgramManagement() {
 					<button type="submit">Add Program</button>
 				</form>
 									</div>}
-	
+									{activeComponent === "Add" && 
+                    <div>
+                        {/* Add Program Form... */}
+                    </div>
+                }
+
+	{activeComponent === "View" && <div>	
+					<h1 style={{color:'white'}}>Programs</h1> 
+					<div style={{maxHeight:300, width:200, overflow:'auto'}}>
+						{list.map(program => (
+							<div key={program[1]} style={{color:'white', display: 'flex', justifyContent: 'space-between'}}>
+								<span>{program[0]}</span>
+								<button onClick={() => handleDelete(program[1])} style={{color: 'red'}}>Delete</button>
+							</div>
+						))}
+					</div>
+					</div>}
 	</div>
 	</center>
     );
