@@ -12,7 +12,8 @@ function Attendance() {
   const [attendees, setAttendees] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedAttendees, setSelectedAttendees] = useState([]);
-  const [currentProgram, setCurrentProgram] = useState("select a program")
+  const [checked, setChecked] = useState([]);
+  const [currentProgram, setCurrentProgram] = useState("select a program");
   const toHome = () => {nav("/")};
 
   // Fetch programs
@@ -88,6 +89,7 @@ function Attendance() {
 		return x
 	};
 
+  //returns list of program names
   const programNames = () => {
 		let x = [];
 		programs.forEach(program =>{
@@ -96,6 +98,7 @@ function Attendance() {
 		return x
 	};
 
+  //returns list of integers for each program
   const attendanceData = () => {
 		let x = [];
 		programs.forEach(program =>{
@@ -103,6 +106,17 @@ function Attendance() {
     });
 		return x
 	};
+
+  //Places and removes attendees to/from checked based on whether or not thei checkbox is checked 
+	const handleCheck = (e) => {
+		var x = [...checked]
+		if(e.target.checked){
+			x = [...checked, e.target.value]
+		} else {
+			x.splice(checked.indexOf(e.target.value), 1)
+		}
+		setChecked(x)
+	}
 
   return (
     <center>
@@ -139,17 +153,17 @@ function Attendance() {
 				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
        		{attendees.map(attendee => (
        			<div key={attendee._id}>
-							<input value={attendee._id} type="checkbox"/>
+							<input value={attendee._id} type="checkbox" onChange={handleCheck}/>
         				<span>{attendee.firstName} {attendee.lastName}</span>
        			</div>))}
    			</div> 
-									{/* <div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="marked-ones">
-										<h2>Marked Attendees</h2>
-										{marked.map((item, value) => (
-       									<div key={value}>
-        										<span>{item}</span>
-       										</div>))}
-									</div> */}
+				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="marked-ones">
+					<h2>Marked Attendees</h2>
+					{checked.map((item, value) => (
+       			<div key={value}>
+        			<span>{item}</span>
+       			</div>))}
+				</div>
 				<br/>
 				<button type="submitAttendance">Mark Attendance</button>
 				</div>}
