@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import Select from "react-select"
 import { addAttendees } from "../actions/programs.js";
+import { Bar } from "react-chartjs-2";
+import Chart from "chart.js/auto"; 
 
 function Attendance() {
   const nav = useNavigate();
@@ -60,24 +62,44 @@ function Attendance() {
     }
   };
 
+  //modifies page based on which header is clicked
   const modifyActiveComponent = useCallback(
 	  newActiveComponent => {setActiveComponent(newActiveComponent);},
 	  [setActiveComponent]
 	);
-
+  
+  //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
 		setCurrentProgram(e.label);
 	};
 
+  //changes checklist header to currentProgram.name
   const switchText = () => {
 		let x = currentProgram;
 		return x
 	};
 
+  //returns a list in the form of {label:program.name, value:program.id} for each program
   const programsList = () => {
 		let x = [];
 		programs.forEach(program =>{
       x.push({label:program.name, value:program.id})
+    });
+		return x
+	};
+
+  const programNames = () => {
+		let x = [];
+		programs.forEach(program =>{
+      x.push(program.name)
+    });
+		return x
+	};
+
+  const attendanceData = () => {
+		let x = [];
+		programs.forEach(program =>{
+      x.push(15)
     });
 		return x
 	};
@@ -91,6 +113,7 @@ function Attendance() {
 	    <hr style={{color:'white'}}></hr>
       <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add to Program</h2>
       <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h2>
+      <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Stats")}>Stats</h2>
 
       {activeComponent === "Add" && 	<div>
         <h2 style={{color:'white'}}>Select a Program</h2>
@@ -129,6 +152,48 @@ function Attendance() {
 									</div> */}
 				<br/>
 				<button type="submitAttendance">Mark Attendance</button>
+				</div>}
+
+        {activeComponent === "Stats" && <div style={{backgroundColor:"white"}}>	
+        <h1>PARTICIPATION FOR THIS WEEK</h1>
+            <div style={{maxWidth: "650px"}}>
+                <Bar
+                    data={{
+                        // Name of the variables on x-axies for each bar
+                        labels: programNames(),
+                        datasets: [
+                            {
+                                // Label for bars
+                                label: "Number of Participants",
+                                // Data or value of your each variable
+                                data: attendanceData(),
+                                // Color of each bar
+                                backgroundColor: 
+                                    ["aqua"],
+                                // Border color of each bar
+                                borderColor: ["aqua"],
+                                borderWidth: 0.5,
+                            },
+                        ],
+                    }}
+                    // Height of graph
+                    height={400}
+                    options={{
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [
+                                {
+                                    ticks: {
+                                  // The y-axis value will start from zero
+                                        beginAtZero: true,
+                                    },
+                                },
+                            ],
+                        },
+                        legend: {labels: {fontSize: 15,},},
+                    }}
+                />
+            </div>
 				</div>}
     </div>
     </center>
