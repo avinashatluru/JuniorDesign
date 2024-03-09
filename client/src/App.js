@@ -12,6 +12,7 @@ import AddConfirm from "./pages/AddConfirm";
 import UserManagement from "./pages/UserManagement";
 import ProgramManagement from "./pages/ProgramManagement";
 import Attendance from "./pages/Attendance";
+import Remove from "./pages/Remove";
 
 const App = () => {
  return (
@@ -20,6 +21,7 @@ const App = () => {
        <Route path="/Login" element={<Login />}/>
        <Route exact path="/" element={<Home />}/>
        <Route path="/Add" element={<Add />}/>
+       <Route path="/Remove" element={<Remove />} />
        <Route path="/AddConfirm" element={<AddConfirm />}/>
        <Route path="/UserManagement" element={<UserManagement />}/>
        <Route path="/ProgramManagement" element={<ProgramManagement />}/>

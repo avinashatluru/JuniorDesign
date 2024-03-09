@@ -19,6 +19,10 @@ const Home = () => {
 		nav("/Add")
 	);
 
+	const toRemove = () => (
+		nav("/Remove")
+	);
+
 	const toUserM = () => (
 		nav("/UserManagement")
 	);
@@ -37,6 +41,8 @@ const Home = () => {
 	  [setActiveComponent]
 	);
 	
+
+
 	useEffect(() => {
 		async function getAttendees() {
 			const response = await fetch("http://localhost:5050/api/attendees/");
@@ -86,6 +92,10 @@ return (
 		{activeComponent === "Database" && 	<div>
 											<button onClick={toAdd}>Add Attendee</button>
 										   	</div>}
+		{activeComponent === "Database" && 	<div>
+											<button onClick={toRemove}>Remove Attendee</button>
+										   	</div>}
+
 	</div>
 	</center>
 	</div>
