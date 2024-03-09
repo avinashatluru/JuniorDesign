@@ -1,9 +1,7 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { createProgram, deleteProgram , getAllPrograms} from "../actions/programs.js";
-
+import { createProgram, deleteProgram, getAllPrograms } from "../actions/programs.js";
 import './ProgramManagement.css'
-import { BarChart } from '@mui/x-charts/BarChart';
 
 function ProgramManagement() {
 
