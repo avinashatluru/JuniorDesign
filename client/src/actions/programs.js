@@ -18,9 +18,18 @@ const deleteProgram = (id) => {
   return axios.delete(`${baseUrl}/${id}`);
 };
 
+const getAttendees = (programId) => {
+  return axios.get(`${baseUrl}/${programId}/Attendees`)
+}
+const getAttendeeNames = (programId) => {
+  return axios.get(`${baseUrl}/${programId}/getAttendees`)
+}
+
 export {
   getAllPrograms,
   createProgram,
   deleteProgram,
-  addAttendees
+  addAttendees,
+  getAttendees,
+  getAttendeeNames
 };

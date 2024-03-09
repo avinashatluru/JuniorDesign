@@ -2,6 +2,7 @@
 import express from 'express';
 const router = express.Router();
 import Program from '../schemas/program.mjs';
+import Attendee from '../schemas/attendee.mjs';
 
 // Create a new program
 router.post('/', async (req, res) => {
@@ -55,6 +56,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
+  
   try {
     const { id } = req.params;
     const program = await Program.findById(id);
@@ -89,6 +91,42 @@ router.put('/:id/add-attendees', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+router.get('/:id/Attendees', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const program = await Program.findById(id);
+    if (program) {
+        res.json(program.attendees);
+    } else {
+      res.status(404).send('Program not found');
+    }} catch (error) {
+      console.error('Error finding attendees for program', error);
+      res.status(500).json({ message: error.message })
+  }
+});
+
+
+router.get('/:id/getAttendees', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const program = await Program.findById(id);
+    if (program) {
+      // Fetch detailed attendee information for each ID
+      const attendeeDetails = await Attendee.find({
+        '_id': { $in: program.attendees }
+      });
+
+      res.json(attendeeDetails);
+    } else {
+      res.status(404).send('Program not found');
+    }
+  } catch (error) {
+    console.error('Error finding attendees for program', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 
 export default router;
