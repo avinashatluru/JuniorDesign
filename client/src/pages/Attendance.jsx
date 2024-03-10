@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import Select from "react-select"
-import { addAttendees } from "../actions/programs.js";
+import { addAttendees, getAttendeeNames  } from "../actions/programs.js";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 
@@ -14,6 +14,8 @@ function Attendance() {
   const [selectedAttendees, setSelectedAttendees] = useState([]);
   const [checked, setChecked] = useState([]);
   const [currentProgram, setCurrentProgram] = useState("select a program");
+  const [currentProgramId, setCurrentProgramId] = useState('');
+  const [currentAttendees, setCurrentAttendees] = useState([])
   const toHome = () => {nav("/")};
 
   // Fetch programs
@@ -35,6 +37,23 @@ function Attendance() {
     }
     fetchAttendees();
   }, []);
+
+  // Fetch attendees whenever the currentProgramId changes
+  useEffect(() => {
+    if (currentProgramId) {
+      const fetchAttendees = async () => {
+        try {
+          const response = await getAttendeeNames(currentProgramId);
+          setCurrentAttendees(response.data);
+        } catch (error) {
+          console.error('Failed to fetch attendees:', error.message);
+          alert('Failed to fetch attendees');
+        }
+      };
+
+      fetchAttendees();
+    }
+  }, [currentProgramId]);
 
   const handleProgramSelect = (e) => {
     setSelectedProgram(e.target.value);
@@ -71,40 +90,42 @@ function Attendance() {
   
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
-		setCurrentProgram(e.label);
+    const Selected = e.value
+		setCurrentProgram(Selected);
+    setCurrentProgramId(Selected._id);
 	};
 
   //changes checklist header to currentProgram.name
   const switchText = () => {
-		let x = currentProgram;
-		return x
+		let name = currentProgram.name;
+		return name
 	};
 
   //returns a list in the form of {label:program.name, value:program.id} for each program
   const programsList = () => {
-		let x = [];
+		let listOfPrograms = [];
 		programs.forEach(program =>{
-      x.push({label:program.name, value:program.id})
+      listOfPrograms.push({label:program.name, value:program})
     });
-		return x
+		return listOfPrograms
 	};
 
   //returns list of program names
   const programNames = () => {
-		let x = [];
+		let names = [];
 		programs.forEach(program =>{
-      x.push(program.name)
+      names.push(program.name)
     });
-		return x
+		return names
 	};
 
   //returns list of integers for each program
   const attendanceData = () => {
-		let x = [];
+		let participation = [];
 		programs.forEach(program =>{
-      x.push(15)
+      participation.push(15)
     });
-		return x
+		return participation
 	};
 
   //Places and removes attendees to/from checked based on whether or not thei checkbox is checked 
@@ -127,7 +148,6 @@ function Attendance() {
 	    <hr style={{color:'white'}}></hr>
       <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add to Program</h2>
       <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h2>
-      <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Stats")}>Stats</h2>
 
       {activeComponent === "Add" && 	<div>
         <h2 style={{color:'white'}}>Select a Program</h2>
@@ -151,7 +171,7 @@ function Attendance() {
         <Select style={{color:'black'}} options={programsList()} value={currentProgram} onChange={handleSelectAttendance}/><br/>
 				<h1 style={{color:'white'}}>Mark Attendance for {switchText()}</h1> 								
 				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
-       		{attendees.map(attendee => (
+       		{currentAttendees.map(attendee => (
        			<div key={attendee._id}>
 							<input value={attendee._id} type="checkbox" onChange={handleCheck}/>
         				<span>{attendee.firstName} {attendee.lastName}</span>
@@ -166,48 +186,6 @@ function Attendance() {
 				</div>
 				<br/>
 				<button type="submitAttendance">Mark Attendance</button>
-				</div>}
-
-        {activeComponent === "Stats" && <div style={{backgroundColor:"white"}}>	
-        <h1>PARTICIPATION FOR THIS WEEK</h1>
-            <div style={{maxWidth: "650px"}}>
-                <Bar
-                    data={{
-                        // Name of the variables on x-axies for each bar
-                        labels: programNames(),
-                        datasets: [
-                            {
-                                // Label for bars
-                                label: "Number of Participants",
-                                // Data or value of your each variable
-                                data: attendanceData(),
-                                // Color of each bar
-                                backgroundColor: 
-                                    ["aqua"],
-                                // Border color of each bar
-                                borderColor: ["aqua"],
-                                borderWidth: 0.5,
-                            },
-                        ],
-                    }}
-                    // Height of graph
-                    height={400}
-                    options={{
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [
-                                {
-                                    ticks: {
-                                  // The y-axis value will start from zero
-                                        beginAtZero: true,
-                                    },
-                                },
-                            ],
-                        },
-                        legend: {labels: {fontSize: 15,},},
-                    }}
-                />
-            </div>
 				</div>}
     </div>
     </center>
