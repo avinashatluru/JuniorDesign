@@ -13,6 +13,7 @@ import UserManagement from "./pages/UserManagement";
 import ProgramManagement from "./pages/ProgramManagement";
 import Attendance from "./pages/Attendance";
 import Remove from "./pages/Remove";
+import ViewAttendance from "./pages/ViewAttendance";
 
 const App = () => {
  return (
@@ -26,6 +27,7 @@ const App = () => {
        <Route path="/UserManagement" element={<UserManagement />}/>
        <Route path="/ProgramManagement" element={<ProgramManagement />}/>
        <Route path="/Attendance" element={<Attendance />}/>
+       <Route path="/ViewAttendance" element={<ViewAttendance />}/>
        <Route path="*" element={<Navigate to="/Login"replace={true}/>} />
      </Routes>
    </div>
