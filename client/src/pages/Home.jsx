@@ -33,6 +33,9 @@ const Home = () => {
 	const toAttendance = () => (
 		nav("/Attendance")
 	);
+	const toViewAttendance = () => (
+		nav("/ViewAttendance")
+	);
 
 	const [activeComponent, setActiveComponent] = useState("projects");
 
@@ -67,6 +70,7 @@ return (
 		<button onClick={toUserM}>Manage Users</button>
 		<button onClick={toProgramM}>Manage Programs</button>
 		<button onClick={toAttendance}>Take Attendance</button>
+		<button onClick={toViewAttendance}>View Attendance</button>
 
 	<center>
 	<div>
