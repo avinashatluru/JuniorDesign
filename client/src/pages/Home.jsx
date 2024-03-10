@@ -37,6 +37,10 @@ const Home = () => {
 		nav("/ViewAttendance")
 	);
 
+	const toExportToCsv = () => (
+		nav("/ExportToCsv")
+	);
+
 	const [activeComponent, setActiveComponent] = useState("projects");
 
 	const modifyActiveComponent = useCallback(
@@ -71,6 +75,7 @@ return (
 		<button onClick={toProgramM}>Manage Programs</button>
 		<button onClick={toAttendance}>Take Attendance</button>
 		<button onClick={toViewAttendance}>View Attendance</button>
+		<button onClick={toExportToCsv}>Export to Csv</button>
 
 	<center>
 	<div>
