@@ -17,14 +17,12 @@ If you get an error with either of those, you may not have installed depencies. 
 ## Version 0.3.0 
 
 **New Features**
-* Added ability for admins to add users
-* Added ability for admins to remove users
-* Added ability for admins create programs
-* Added ability for admins to assign attendees to programs programs
+* Added ability to export data as CSV files by program
+* Added ability to view particiaption by program
+* Added ability to view all attendees assigned to a program and mark attendance
+* Removed "User" term
 
 **Bug Fixes**
-* User addition now connect to backend
-* User removal now connected to backend
 * Program creation now connected to backend
 * Attendee assignment to program connect to backend 
 
