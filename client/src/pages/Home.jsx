@@ -75,7 +75,7 @@ return (
 		src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbSEttZC6mbQYJxWtzJLwcdDH7Jb_lP8i0eqLU7W7l&s" alt="kid"/>}
 		{activeComponent === "Roster" && <div>	
 											<h1 style={{color:'white'}}>ATTENDEES</h1> 
-											<div style={{maxHeight:300, width:200, overflow:'auto', color:"white"}}>
+											<div style={{maxHeight:300, width:200, color:"white"}}>
 												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{color: "white"}} onUserUpdate={getRecords} /*style={{color:'white'}}*//>)}
 											</div>
 										 </div>}
