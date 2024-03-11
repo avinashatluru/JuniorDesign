@@ -41,27 +41,33 @@ const Add = () => {
 		return true;
 	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
-		if (!validate()) {
-			setError('Please fill out all fields');
-			return;
-		}
+    if (!validate()) {
+        setError('Please fill out all fields');
+        return;
+    }
 
-		try {
-			// Call createProgram function with form data
-	
-			const response = await createUser(form);
-			// Handle success (e.g., show success message)
-			console.log('Attendee created successfully:', response.data);
-		} catch (error) {
-			// Handle error (e.g., display error message)
-			console.error('Error creating user', error.message);
-		}
-		setForm({ firstName: "", lastName: "", birthday: ""});
-		navigate("/AddConfirm");
-	}
+    const isConfirmed = window.confirm("Are you sure you want to add this attendee?");
+    if (!isConfirmed) {
+        return; // Stop the addition if the user cancels
+    }
+
+    try {
+        // Call createUser function with form data
+        const response = await createUser(form);
+        // Handle success (e.g., show success message)
+        console.log('Attendee created successfully:', response.data);
+        navigate("/AddConfirm"); // Navigate to confirmation page or show a confirmation message
+    } catch (error) {
+        // Handle error (e.g., display error message)
+        console.error('Error creating user', error.message);
+        setError(`Error creating user: ${error.message}`);
+    }
+    setForm({ firstName: "", lastName: "", birthday: ""}); // Reset form
+	navigate("/AddConfirm");
+};
 
 	return (
 		<div>
