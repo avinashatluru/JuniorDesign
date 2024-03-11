@@ -14,6 +14,7 @@ import ProgramManagement from "./pages/ProgramManagement";
 import Attendance from "./pages/Attendance";
 import Remove from "./pages/Remove";
 import ViewAttendance from "./pages/ViewAttendance";
+import ExportToCsv from "./pages/ExportToCsv";
 
 const App = () => {
  return (
@@ -28,6 +29,7 @@ const App = () => {
        <Route path="/ProgramManagement" element={<ProgramManagement />}/>
        <Route path="/Attendance" element={<Attendance />}/>
        <Route path="/ViewAttendance" element={<ViewAttendance />}/>
+       <Route path="/ExportToCsv" element={<ExportToCsv />}/>
        <Route path="*" element={<Navigate to="/Login"replace={true}/>} />
      </Routes>
    </div>

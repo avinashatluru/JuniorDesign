@@ -127,6 +127,4 @@ router.get('/:id/getAttendees', async (req, res) => {
   }
 });
 
-
-
 export default router;
