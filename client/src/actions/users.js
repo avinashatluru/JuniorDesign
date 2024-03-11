@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:5050/users';
+const baseUrl = 'http://localhost:5050/api/attendees';
 
 const getAllUsers = () => {
   return axios.get(baseUrl);
@@ -14,7 +14,7 @@ const deleteUser = (id) => {
   return axios.delete(`${baseUrl}/${id}`);
 };
 
-export default {
+export {
   getAllUsers,
   createUser,
   deleteUser

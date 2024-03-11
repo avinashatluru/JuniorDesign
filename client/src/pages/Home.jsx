@@ -20,12 +20,26 @@ const Home = () => {
 		nav("/Add")
 	);
 
+	const toRemove = () => (
+		nav("/Remove")
+	);
+
 	const toUserM = () => (
 		nav("/UserManagement")
 	);
 
 	const toProgramM = () => (
 		nav("/ProgramManagement")
+	);
+	const toAttendance = () => (
+		nav("/Attendance")
+	);
+	const toViewAttendance = () => (
+		nav("/ViewAttendance")
+	);
+
+	const toExportToCsv = () => (
+		nav("/ExportToCsv")
 	);
 
 	const [activeComponent, setActiveComponent] = useState("projects");
@@ -35,7 +49,7 @@ const Home = () => {
 	  [setActiveComponent]
 	);
 
-	async function getRecords() {
+	async function getAttendees() {
 		const response = await fetch("http://localhost:5050/api/attendees/");
 		
 		if (!response.ok) {
@@ -48,9 +62,9 @@ const Home = () => {
 		const names = data.map(record => [`${record.firstName} ${record.lastName}`, record._id, record.firstName, record.lastName, record.birthday]);
 		setList(names);
 	}
-	
+
 	useEffect(() => {
-		getRecords();
+		getAttendees();
 	}, []);
 
 return (
@@ -58,6 +72,10 @@ return (
 		<button onClick={toLogin}>Logout</button>
 		<button onClick={toUserM}>Manage Users</button>
 		<button onClick={toProgramM}>Manage Programs</button>
+		<button onClick={toAttendance}>Take Attendance</button>
+		<button onClick={toViewAttendance}>View Attendance</button>
+		<button onClick={toExportToCsv}>Export to Csv</button>
+
 	<center>
 	<div>
 		<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
@@ -76,12 +94,16 @@ return (
 		{activeComponent === "Roster" && <div>	
 											<h1 style={{color:'white'}}>ATTENDEES</h1> 
 											<div style={{maxHeight:300, width:200, color:"white"}}>
-												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{color: "white"}} onUserUpdate={getRecords} /*style={{color:'white'}}*//>)}
+												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{color: "white"}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
 											</div>
 										 </div>}
 		{activeComponent === "Database" && 	<div>
 											<button onClick={toAdd}>Add Attendee</button>
 										   	</div>}
+		{activeComponent === "Database" && 	<div>
+											<button onClick={toRemove}>Remove Attendee</button>
+										   	</div>}
+
 	</div>
 	</center>
 	</div>

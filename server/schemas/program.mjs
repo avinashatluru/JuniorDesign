@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
 const programSchema = new mongoose.Schema({
   name: {
@@ -8,7 +9,15 @@ const programSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true
-  }
+  },
+  site: {
+    type: String,
+    required: true
+  },
+  attendees: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Attendee'
+  }]
 });
 
 const Program = mongoose.model('Program', programSchema);

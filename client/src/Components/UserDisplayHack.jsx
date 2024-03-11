@@ -67,14 +67,14 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	}
 
 	const handleDeleteUser = async (e) => {
-		console.log("deleting user");
-	
 		await fetch(`http://localhost:5050/api/attendees/${data[1]}`, {
 			method: "DELETE"
 		}).catch(error => {
 			window.alert("I'm sorry, the database has returned an error from your attempt to delete user \"" + data[0] +"\" id: " + data[1] + ". Please report this with the following error message to the developers. " + error);
 			return;
 		});
+
+		console.log("Deleted Attendee \"" + data[0] + "\" id: " + data[1]);
 
 		setEditing(false);
 		onUserUpdate();
@@ -88,7 +88,7 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	
 	return (
 		<div>
-			<span onClick={handleClickUserName}><NameDisplay name={data[0]} style={{...style, "cursor": "pointer", "font-style": "italic"}}/></span>
+			<span onClick={handleClickUserName}><NameDisplay name={data[0]} style={{...style, "cursor": "pointer", "fontStyle": "italic"}}/></span>
 			{editing ? 
 				<div style={style}>
 					<form onSubmit={handleUpdateUser}>

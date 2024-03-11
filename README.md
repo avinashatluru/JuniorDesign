@@ -4,7 +4,13 @@ We are working closely with RATL to implement an Attendance Checker and Storage 
 
 As of this first semester, however, we are hoping to implement our first artifact of adding an attendee to the database. This means that we have a full-stack application that utilizes React on the frontend, Node.js & Express.js for the backend, and MongoDB for the database (MERN). Adding an attendee will actually add them to the database, though besides this main functionality that is where we stand right now. We are excited to add more features in the future!
 
-To run applictaion, change into the "client" directory and execute the command "npm start" in your terminal.
+# Setup Instructions #
+
+Install dependencies by running `npm install` in both the client & server directories.
+
+To run the user frontend webapp, create a terminal in the "client" directory and execute the command `npm start` in your terminal. To run the test server, create another terminal in the server directory & run `node server.mjs`.
+
+If you get an error with either of those, you may not have installed depencies. A pop-up error stating "localhost:3000 failed to fetch" or similar when trying to access the database on the client application means you aren't running the backend server.
 
 # Release Notes #
 

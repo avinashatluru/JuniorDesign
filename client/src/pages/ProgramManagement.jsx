@@ -1,32 +1,168 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select"
+import { createProgram, deleteProgram, getAllPrograms } from "../actions/programs.js";
+import './ProgramManagement.css'
 
-
-function UserManagement() {
+function ProgramManagement() {
 
     const nav = useNavigate();
+	const [currentProgram, setCurrentProgram] = useState("select a program")
     document.body.style = 'background: black';
+	let p1 = ["parta1", "parta2", "parta3", "parta4", "parta5", "parta6", "parta7", "parta8", "parta9", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
+	let p2 = ["partb1", "partb2", "partb3"]
+	const [currList, setCurrList] = useState([])
+	const [marked, setMarked] = useState([])
+
+	//Places all attendees whose box was checked into a new list on the side
+	const handleMark = (e) => {
+		var markedList = [...marked]
+		if(e.target.checked){
+			markedList = [...marked, e.target.value]
+		} else {
+			markedList.splice(marked.indexOf(e.target.value), 1)
+		}
+		setMarked(markedList)
+	}
+
+	//changes checklist based on selection for selct field
+	const handleSelect = (e) => {
+		setCurrentProgram(e.label)
+		switchList()
+	}
+
+	//switch text to which program was most recently selected
+	const switchText = () => {
+		let x;
+		currentProgram === "select a program"
+			?(x = "program")
+			:(x = currentProgram)
+		return x
+	}
+
+	//switch which list is displayed
+	const switchList = () => {
+		if (currentProgram === "program1"){
+			setCurrList(p1);
+		}
+		if (currentProgram === "program2"){
+			setCurrList(p2);
+		}
+	} 
 
     const toHome = () => {
 		nav("/")
 	};
 
-    const people = [{label:"jim", value:'e'}, {label:"tim", value:'e'}, {label:"bob", value:'e'},]
+	const handleChange = (e) => {
+		setForm({
+			...form,
+			[e.target.name]: e.target.value,
+		});
+	};
 
-    // const time = [{label:"1:00", value:"1am"}, {label:"2:00", value:"2am"}, {label:"3:00", value:"3am"},
-    // {label:"4:00", value:"4am"}, {label:"5:00", value:"5am"}, {label:"6:00", value:"6am"}, {label:"7:00", value:"7am"}, 
-    // {label:"8:00", value:"8am"}, {label:"9:00", value:"9am"}, {label:"10:00", value:"10am"}, {label:"11:00", value:"11am"},
-    // {label:"12:00", value:"12pm"}, {label:"13:00", value:"1pm"}, {label:"14:00", value:"2pm"}, {label:"15:00", value:"3pm"},
-    // {label:"16:00", value:"4pm"}, {label:"17:00", value:"5pm"}, {label:"18:00", value:"6pm"}, {label:"19:00", value:"7pm"},
-    // {label:"20:00", value:"8pm"}, {label:"21:00", value:"9pm"}, {label:"22:00", value:"10pm"}, {label:"23:00", value:"11pm"}, {label:"24:00", value:"12am"}]
-
+	const[form, setForm] = useState({
+		name: "",
+		site: "",
+		date: ""
+	});
     const [activeComponent, setActiveComponent] = useState("projects");
 
 	const modifyActiveComponent = useCallback(
 	  newActiveComponent => {setActiveComponent(newActiveComponent);},
 	  [setActiveComponent]
 	);
+
+	const validate = () => {
+		for (let key in form) {
+			if (form[key].trim().length === 0) {
+				return false;
+			}
+		}
+		return true;
+	};
+
+	const [error, setError] = useState('');
+	const [list, setList] = useState([]);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		if (!validate()) {
+			setError('Please fill out all fields');
+			return;
+		}
+
+		const isConfirmed = window.confirm("Are you sure you want to add this program?");
+		if (!isConfirmed) {
+			return; // If the user cancels, exit early
+		}
+
+		try {
+			// Call createProgram function with form data
+	
+			const response = await createProgram(form);
+			// Handle success (e.g., show success message)
+			console.log('Program created successfully:', response.data);
+		} catch (error) {
+			// Handle error (e.g., display error message)
+			console.error('Error creating Program', error.message);
+		}
+		setForm({ name: "", site: "", date: ""});
+		nav("/ProgramManagement");
+	}
+
+	useEffect(() => {
+		async function getPrograms() {
+			const response = await fetch("http://localhost:5050/api/program/");
+			
+			if (!response.ok) {
+				const message = `An error occurred: ${response.statusText}`;
+				window.alert(message);
+				return;
+			}
+			
+			const data = await response.json();
+			const names = data.map(program => [`${program.name}`, program._id]);
+			setList(names);
+		}
+
+		getPrograms();
+	}, []);
+
+	const handleDelete = async (id) => {
+		const isConfirmed = window.confirm("Are you sure you want to delete this program?");
+		if (!isConfirmed) {
+			return; // If the user cancels, exit early
+		}
+		
+		try {
+			await deleteProgram(id);
+			alert('Program deleted successfully');
+			// Refresh the list of programs after deletion
+			fetchPrograms();
+		} catch (error) {
+			console.error('Error deleting program:', error.message);
+			alert('Failed to delete program');
+		}
+	};
+
+	const fetchPrograms = async () => {
+		try {
+			const response = await getAllPrograms();
+			const data = await response.data;
+			const names = data.map(program => [`${program.name}`, program._id]);
+			setList(names);
+		} catch (error) {
+			console.error('Failed to fetch programs:', error.message);
+			alert('Failed to fetch programs');
+		}
+	};
+	
+	useEffect(() => {
+		fetchPrograms();
+	}, []);
+		
+
 
     return (
 	<center>
@@ -36,61 +172,47 @@ function UserManagement() {
 	style={{width:50, height:50, display:'inline'}} alt="new"/>
 	<hr style={{color:'white'}}></hr>
 	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h2>
-	<h2 style={{color:'white', display:'inline'}} onClick={() => modifyActiveComponent("assign")}>Assign Attendees</h2>
+	<h2 style={{color:'white', display:'inline', marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h2>
 	<br />
     <br />
+	
 	{activeComponent === "Add" && 	<div>
-										<label style={{color:'white', marginRight:15}}>Program Name:	</label>
-										<input name="Username" type="text" id="name" required /><br/>
-										<label style={{color:'white', marginRight:17}}>Date:</label>
-					                    <input name="birthDay" type="date"/><br/>
-                                        <label style={{color:'white', marginRight:17}}>Type of Program:</label>
-					                    <select name="program">
-						                    <option value="">Select a program</option>
-						                    <option value="After School">After School</option>
-						                    <option value="Summer Camp">Summer Camp</option>
-						                    <option value="Spiritual Developement">Spiritual Developement</option>
-						                    <option value="Summer Staff">Summer Staff</option>
-						                    <option value="Family Events">Family Events</option>
-					                    </select><br/>
-										{/* <label style={{color:'white', marginRight:17}}>Start Time:		</label>
-										<Select options={time}/><br/>
-										<label style={{color:'white', marginRight:17}}>End Time:		</label>
-										<Select options={time}/><br/>
-										<label style={{color:'white', marginRight:17}}>Max no. of participants:</label>
-					                    <input name="capacity" type="text"/><br/> */}
-                                        <label style={{color:'white', marginRight:17}}>Site:</label>
-					                    <select name="site">
-						                    <option value="">Select a site</option>
-					                        <option value="North Avenue">North Avenue</option>
-					                    </select><br/>
-                                        </div>}
-    {activeComponent === "assign" && <div>	
-										<h1 style={{color:'white'}}>Assign Attendees to Programs</h1> 
-										<div style={{maxHeight:300, width:400, overflow:'auto'}}>
-										<label style={{color:'white', marginRight:17}}>Select Attendees:</label>
-										<Select isMulti name="attendee" options={people}>
-                                        </Select>
-                                        <label style={{color:'white', marginRight:17}}>Select Program:</label>
-										<select class="program">
-                                            <option value="">Select a program</option>
-						                    <option value="After School">After School</option>
-						                    <option value="Summer Camp">Summer Camp</option>
-						                    <option value="Spiritual Developement">Spiritual Developement</option>
-						                    <option value="Summer Staff">Summer Staff</option>
-						                    <option value="Family Events">Family Events</option>
-										</select><br/>
-                                        <label style={{color:'white', marginRight:17}}>Site:</label>
-					                    <select name="site">
-						                    <option value="">Select a site</option>
-					                        <option value="North Avenue">North Avenue</option>
-					                    </select><br/>
-										<button type="submit">Remove</button>
-										</div>
-										</div>}
+				<form onSubmit={handleSubmit}>
+					<label style={{color:'white', marginRight:15}}>Program Name:</label>
+					<input name="name" type="text" value={form.name} onChange={handleChange} required /><br/>
+			
+					<label style={{color:'white', marginRight:17}}>Location:</label>
+					<input name="site" type="text" value={form.site} onChange={handleChange} required /><br/>
+
+					<label style={{color:'white', marginRight:17}}>Date:</label>
+					<input name="date" type="date" value={form.date} onChange={handleChange} required /><br/>
+
+
+					{error && <label id="Error" style={{color: 'red'}}>{error}</label>}
+
+					<button type="submit">Add Program</button>
+				</form>
+									</div>}
+									{activeComponent === "Add" && 
+                    <div>
+                        {/* Add Program Form... */}
+                    </div>
+                }
+
+	{activeComponent === "View" && <div>	
+					<h1 style={{color:'white'}}>Programs</h1> 
+					<div style={{maxHeight:300, width:200, overflow:'auto'}}>
+						{list.map(program => (
+							<div key={program[1]} style={{color:'white', display: 'flex', justifyContent: 'space-between'}}>
+								<span>{program[0]}</span>
+								<button onClick={() => handleDelete(program[1])} style={{color: 'red'}}>Delete</button>
+							</div>
+						))}
+					</div>
+					</div>}
 	</div>
 	</center>
     );
 };
 
-export default UserManagement
+export default ProgramManagement
