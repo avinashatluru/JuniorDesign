@@ -92,6 +92,11 @@ function ProgramManagement() {
 			return;
 		}
 
+		const isConfirmed = window.confirm("Are you sure you want to add this program?");
+		if (!isConfirmed) {
+			return; // If the user cancels, exit early
+		}
+
 		try {
 			// Call createProgram function with form data
 	
@@ -125,6 +130,11 @@ function ProgramManagement() {
 	}, []);
 
 	const handleDelete = async (id) => {
+		const isConfirmed = window.confirm("Are you sure you want to delete this program?");
+		if (!isConfirmed) {
+			return; // If the user cancels, exit early
+		}
+		
 		try {
 			await deleteProgram(id);
 			alert('Program deleted successfully');
