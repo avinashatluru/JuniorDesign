@@ -20,6 +20,7 @@ If you get an error with either of those, you may not have installed depencies. 
 * Added ability to export data as CSV files by program
 * Added ability to view particiaption by program
 * Added ability to view all attendees assigned to a program and mark attendance
+* added ability to edit and remove attendees
 * Removed "User" term
 
 **Bug Fixes**
