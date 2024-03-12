@@ -3,6 +3,7 @@ import express from 'express';
 const router = express.Router();
 import Program from '../schemas/program.mjs';
 import Attendee from '../schemas/attendee.mjs';
+import mongoose from 'mongoose';
 
 // Create a new program
 router.post('/', async (req, res) => {
@@ -123,6 +124,36 @@ router.get('/:id/getAttendees', async (req, res) => {
     }
   } catch (error) {
     console.error('Error finding attendees for program', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete('/:programId/removeAttendees', async (req, res) => {
+  try {
+    const { programId } = req.params;
+    const { attendeeIds } = req.body;
+
+    if (!Array.isArray(attendeeIds) || attendeeIds.length === 0) {
+      return res.status(400).json({ message: 'No attendee IDs provided for removal.' });
+    }
+
+    // Convert attendeeIds to MongoDB ObjectIDs if they are not already
+    const attendeeObjectIdArray = attendeeIds.map(id => new mongoose.Types.ObjectId(id));
+
+
+    const updatedProgram = await Program.findByIdAndUpdate(
+      programId,
+      { $pull: { attendees: { $in: attendeeObjectIdArray } } },
+      { new: true }
+    );
+
+    if (!updatedProgram) {
+      return res.status(404).json({ message: 'Program not found' });
+    }
+
+    res.json({ message: 'Attendees removed successfully', updatedProgram });
+  } catch (error) {
+    console.error('Error removing attendees from program:', error);
     res.status(500).json({ message: error.message });
   }
 });

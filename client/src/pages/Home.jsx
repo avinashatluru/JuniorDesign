@@ -1,5 +1,6 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import UserDisplayHack from "../Components/UserDisplayHack";
 
 const Home = () => {
 
@@ -47,24 +48,22 @@ const Home = () => {
 	  newActiveComponent => {setActiveComponent(newActiveComponent);},
 	  [setActiveComponent]
 	);
-	
 
+	async function getAttendees() {
+		const response = await fetch("http://localhost:5050/api/attendees/");
+		
+		if (!response.ok) {
+			const message = `An error occurred: ${response.statusText}`;
+			window.alert(message);
+			return;
+		}
+		
+		const data = await response.json();
+		const names = data.map(record => [`${record.firstName} ${record.lastName}`, record._id, record.firstName, record.lastName, record.birthday]);
+		setList(names);
+	}
 
 	useEffect(() => {
-		async function getAttendees() {
-			const response = await fetch("http://localhost:5050/api/attendees/");
-			
-			if (!response.ok) {
-				const message = `An error occurred: ${response.statusText}`;
-				window.alert(message);
-				return;
-			}
-			
-			const data = await response.json();
-			const names = data.map(attendee => [`${attendee.firstName} ${attendee.lastName}`, attendee._id]);
-			setList(names);
-		}
-
 		getAttendees();
 	}, []);
 
@@ -94,8 +93,8 @@ return (
 		src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbSEttZC6mbQYJxWtzJLwcdDH7Jb_lP8i0eqLU7W7l&s" alt="kid"/>}
 		{activeComponent === "Roster" && <div>	
 											<h1 style={{color:'white'}}>ATTENDEES</h1> 
-											<div style={{maxHeight:300, width:200, overflow:'auto'}}>
-											{list.map(txt => <p key={txt[1]} style={{color:'white'}}>{txt[0]}</p>)}
+											<div style={{maxHeight:300, width:200, color:"white"}}>
+												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{color: "white"}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
 											</div>
 										 </div>}
 		{activeComponent === "Database" && 	<div>

@@ -14,6 +14,22 @@ If you get an error with either of those, you may not have installed depencies. 
 
 # Release Notes #
 
+## Version 0.3.0 
+
+**New Features**
+* Added ability to export data as CSV files by program
+* Added ability to view particiaption by program
+* Added ability to view all attendees assigned to a program and mark attendance
+* added ability to edit and remove attendees
+* Removed "User" term
+
+**Bug Fixes**
+* Program creation now connected to backend
+* Attendee assignment to program connect to backend 
+
+**Known Issues**
+* None
+
 ## Version 0.2.0 
 
 **New Features**
