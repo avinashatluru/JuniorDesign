@@ -1,6 +1,8 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import UserDisplayHack from "../Components/UserDisplayHack";
+import AddUser from "../Components/AddUser";
+import Add from "./Add";
 
 const Home = () => {
 
@@ -97,9 +99,7 @@ return (
 												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{color: "white"}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
 											</div>
 										 </div>}
-		{activeComponent === "Database" && 	<div>
-											<button onClick={toAdd}>Add Attendee</button>
-										   	</div>}
+		{activeComponent === "Database" && 	<AddUser onUserAdd={getAttendees}/>}
 		{activeComponent === "Database" && 	<div>
 											<button onClick={toRemove}>Remove Attendee</button>
 										   	</div>}
