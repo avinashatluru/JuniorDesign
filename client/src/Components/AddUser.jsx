@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { createUser } from "../actions/users.js";
 
+//Component which replicates the functionality of the Add User Page
+// onUserAdd allows for user list refreshes on the home page
 const Add = ({onUserAdd}) => {
 
 	const [isConfirmScreen, setConfirmScreen] = useState(false);
