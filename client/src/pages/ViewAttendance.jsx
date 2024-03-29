@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllPrograms, getAttendees, getAttendeeNames } from "../actions/programs";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
+import { Select } from "@mui/material";
 
 function ViewAttendance() {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ function ViewAttendance() {
   const [currentProgramId, setCurrentProgramId] = useState('');
   const [attendees, setAttendees] = useState([]);
   const [programs, setPrograms] = useState([]);
+  const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"]
 
   // Fetch all programs on component mount
   useEffect(() => {
@@ -62,6 +64,10 @@ function ViewAttendance() {
 		return names
 	};
 
+  const makeOptions = (X) => {
+    return <option>X</option>
+  };
+
   //returns list of integers for each program
   const attendanceData = () => {
 		let participation = [];
@@ -82,10 +88,11 @@ function ViewAttendance() {
 	      <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
 	      style={{width:50, height:50, display:'inline'}} alt="new"/>
 	      <hr style={{color:'white'}}></hr>
-        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("List")}>Participation By Program</h2>
-        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Visual")}>Visualization</h2>
+        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h2>
+        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h2>
 
-      {activeComponent === "List" && <div>	
+      {activeComponent === "ListByProgram" && <div>	
+        <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
         <select onChange={handleProgramChange} value={currentProgramId}>
           <option value="">Select a program</option>
           {programs.map((program) => (
@@ -110,7 +117,17 @@ function ViewAttendance() {
         )}
 			</div>}
 
-      {activeComponent === "Visual" && <div style={{backgroundColor:"white"}}>	
+      {activeComponent === "ListByAge" && <div>	
+        <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>
+        <select>{ages.map((age) => (
+            <option key={age} value={age}>
+              {age}
+            </option>
+        ))}</select>
+			</div>}
+
+      {activeComponent === "VisualByProgram" && <div style={{backgroundColor:"white"}}>	
+      <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button>
         <h1>PARTICIPATION FOR THIS WEEK</h1>
             <div style={{maxWidth: "650px"}}>
                 <Bar
@@ -125,7 +142,7 @@ function ViewAttendance() {
                                 data: attendanceData(),
                                 // Color of each bar
                                 backgroundColor: 
-                                    ["aqua"],
+                                    ["aqua", "red", "green"],
                                 // Border color of each bar
                                 borderColor: ["aqua"],
                                 borderWidth: 0.5,
@@ -151,6 +168,50 @@ function ViewAttendance() {
                 />
             </div>
 				</div>}
+
+        {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white"}}>	
+        <button onClick={() => modifyActiveComponent("VisualByProgram")}>View by Program</button>
+        <h1>PARTICIPATION FOR THIS WEEK</h1>
+            <div style={{maxWidth: "650px"}}>
+                <Pie
+                    data={{
+                        // Name of the variables on x-axies for each bar
+                        labels: programNames(),
+                        datasets: [
+                            {
+                                // Label for bars
+                                label: "Number of Participants",
+                                // Data or value of your each variable
+                                data: attendanceData(),
+                                // Color of each bar
+                                backgroundColor: 
+                                    ["aqua", "red", "green"],
+                                // Border color of each bar
+                                borderColor: ["aqua"],
+                                borderWidth: 0.5,
+                            },
+                        ],
+                    }}
+                    // Height of graph
+                    height={400}
+                    options={{
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [
+                                {
+                                    ticks: {
+                                  // The y-axis value will start from zero
+                                        beginAtZero: true,
+                                    },
+                                },
+                            ],
+                        },
+                        legend: {labels: {fontSize: 15,},},
+                    }}
+                />
+            </div>
+				</div>}
+
       </div>
     </center>
   );
