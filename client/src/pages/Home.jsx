@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import UserDisplayHack from "../Components/UserDisplayHack";
 import AddUser from "../Components/AddUser";
 import Add from "./Add";
+import ProgramManagement from "../Components/ProgramManagement";
+import ViewAttendance from "../Components/ViewAttendance";
+import ManageAttendance from "../Components/ManageAttendance";
 
 const Home = () => {
 
@@ -73,9 +76,6 @@ return (
 	<div>
 		<button onClick={toLogin}>Logout</button>
 		<button onClick={toUserM}>Manage Users</button>
-		<button onClick={toProgramM}>Manage Programs</button>
-		<button onClick={toAttendance}>Take Attendance</button>
-		<button onClick={toViewAttendance}>View Attendance</button>
 		<button onClick={toExportToCsv}>Export to Csv</button>
 
 	<center>
@@ -87,9 +87,11 @@ return (
 		<hr style={{color:'white'}}></hr>
 		<br />
 	<div>
-		<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Home")}>Home</h2>
-		<h2 style={{color:'white', display:'inline'}} onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
-		<h2 style={{color:'white', display:'inline', marginLeft:260}} onClick={() => modifyActiveComponent("Database")}>Database</h2>
+		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Home")}>Home</h2>
+		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
+		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Attendance")}>Attendance</h2>
+		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Database")}>Database</h2>
+		
 		<br/>
 		{activeComponent === "Home" && <img style={{width:800, height:400}} 
 		src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbSEttZC6mbQYJxWtzJLwcdDH7Jb_lP8i0eqLU7W7l&s" alt="kid"/>}
@@ -99,10 +101,16 @@ return (
 												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{color: "white"}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
 											</div>
 										 </div>}
-		{activeComponent === "Database" && 	<AddUser onUserAdd={getAttendees}/>}
-		{activeComponent === "Database" && 	<div>
-											<button onClick={toRemove}>Remove Attendee</button>
-										   	</div>}
+		{activeComponent === "Attendance" && <>
+											<ManageAttendance/>
+											<ViewAttendance/>
+											</>}
+		{activeComponent === "Database" && 	<>
+											<AddUser onUserAdd={getAttendees}/>
+											<div>
+											<ProgramManagement/>
+										   	</div>
+											</>}
 
 	</div>
 	</center>
