@@ -154,7 +154,6 @@ function Attendance() {
 	};
 
   //Places and removes attendees to/from checked based on whether or not thei checkbox is checked 
-  //Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}` through e.target.value
 	const handleCheck = (e) => {
 		var x = [...checked]
 		if(e.target.checked) {
@@ -282,17 +281,13 @@ function Attendance() {
 				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
        		{currentAttendees.map(attendee => (
        			<div key={attendee._id}>
-							<input value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} type="checkbox" onChange={handleCheck}/>
+							<input value={attendee._id+";"+attendee.firstName + " " + attendee.lastName} type="checkbox" onChange={handleCheck}/>
         				<span>{attendee.firstName} {attendee.lastName}</span>
        			</div>))}
    			</div> 
 				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="marked-ones">
 					<h2>Marked Attendees</h2>
 					{checked.map((item, index) => ( 
-            /** 
-             * Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}`
-             * splitting ensures only the name is displayed
-            */
        			<div key={index}>
         			<span>{item.split(";")[1]}</span>
        			</div>))}
