@@ -100,10 +100,10 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 		
 						<label style={{color:'white', marginRight:17}}>Birthdate:</label>
 						<input name="birthday" type="date" value={form.birthday} onChange={handleChange} required /><br/>
-						<button type="submit">Submit Edit</button>
+						<button style={{margin: 5}} type="submit">Submit Edit</button>
 					</form>
 		
-					<button onClick={handleDeleteUser}>Delete Attendee</button>
+					<button style={{color: "red", margin: 5}} onClick={handleDeleteUser}>Delete Attendee</button>
 				</div> : null}
 		</div>
 	);
