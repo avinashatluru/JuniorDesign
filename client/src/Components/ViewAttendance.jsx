@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { getAllPrograms, getAttendees, getAttendeeNames } from "../actions/programs";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 
 function ViewAttendance() {
@@ -8,6 +8,7 @@ function ViewAttendance() {
   const [currentProgramId, setCurrentProgramId] = useState('');
   const [attendees, setAttendees] = useState([]);
   const [programs, setPrograms] = useState([]);
+  const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"]
 
   // Fetch all programs on component mount
   useEffect(() => {
@@ -73,10 +74,11 @@ function ViewAttendance() {
     <center>
       <div className="attendance-view-container">
 	      <hr style={{color:'white'}}></hr>
-        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("List")}>Participation By Program</h3>
-        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("Visual")}>Visualization</h3>
+        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
+        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
-      {activeComponent === "List" && <div>	
+        {activeComponent === "ListByProgram" && <div>	
+        <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
         <select onChange={handleProgramChange} value={currentProgramId}>
           <option value="">Select a program</option>
           {programs.map((program) => (
@@ -101,7 +103,16 @@ function ViewAttendance() {
         )}
 			</div>}
 
-      {activeComponent === "Visual" && <div style={{backgroundColor:"white"}}>	
+      {activeComponent === "ListByAge" && <div>	
+        <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>
+        <select>{ages.map((age) => (
+            <option key={age} value={age}>
+              {age}
+            </option>
+        ))}</select>
+			</div>}
+
+      {activeComponent === "VisualByProgram" && <div style={{backgroundColor:"white"}}>	
         <h1>PARTICIPATION FOR THIS WEEK</h1>
             <div style={{maxWidth: "650px"}}>
                 <Bar
@@ -142,6 +153,50 @@ function ViewAttendance() {
                 />
             </div>
 				</div>}
+
+        {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white"}}>	
+        <button onClick={() => modifyActiveComponent("VisualByProgram")}>View by Program</button>
+        <h1>PARTICIPATION FOR THIS WEEK</h1>
+            <div style={{maxWidth: "650px"}}>
+                <Pie
+                    data={{
+                        // Name of the variables on x-axies for each bar
+                        labels: programNames(),
+                        datasets: [
+                            {
+                                // Label for bars
+                                label: "Number of Participants",
+                                // Data or value of your each variable
+                                data: attendanceData(),
+                                // Color of each bar
+                                backgroundColor: 
+                                    ["aqua", "red", "green"],
+                                // Border color of each bar
+                                borderColor: ["aqua"],
+                                borderWidth: 0.5,
+                            },
+                        ],
+                    }}
+                    // Height of graph
+                    height={400}
+                    options={{
+                        maintainAspectRatio: false,
+                        scales: {
+                            yAxes: [
+                                {
+                                    ticks: {
+                                  // The y-axis value will start from zero
+                                        beginAtZero: true,
+                                    },
+                                },
+                            ],
+                        },
+                        legend: {labels: {fontSize: 15,},},
+                    }}
+                />
+            </div>
+				</div>}
+
       </div>
     </center>
   );
