@@ -1,6 +1,7 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import UserDisplayHack from "../Components/UserDisplayHack";
+import '../Styles/basic.css'
 
 const Home = () => {
 
