@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllPrograms, getAttendees, getAttendeeNames } from "../actions/programs";
+import { getAllUsers } from "../actions/users";
 import { Bar, Pie } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 import { Select } from "@mui/material";
@@ -12,6 +13,7 @@ function ViewAttendance() {
   const [attendees, setAttendees] = useState([]);
   const [programs, setPrograms] = useState([]);
   const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"]
+  const [ageDistribution, setAgeDistribution] = useState([]);
 
   // Fetch all programs on component mount
   useEffect(() => {
@@ -27,6 +29,7 @@ function ViewAttendance() {
 
     fetchPrograms();
   }, []);
+
 
   // Fetch attendees whenever the currentProgramId changes
   useEffect(() => {
@@ -64,10 +67,43 @@ function ViewAttendance() {
 		return names
 	};
 
-  const makeOptions = (X) => {
-    return <option>X</option>
+  const calculateAgeDistribution = (attendees) => {
+    const ageRanges = {
+      '0-4': 0,
+      '5-9': 0,
+      '10-14': 0,
+      '15-19': 0,
+      '20-24': 0,
+      // Add more ranges as needed
+    };
+
+    attendees.forEach(attendee => {
+      const age = calculateAge(new Date(attendee.birthday));
+      const range = `${Math.floor(age / 5) * 5}-${Math.floor(age / 5) * 5 + 4}`;
+      if (ageRanges[range] !== undefined) {
+        ageRanges[range]++;
+      } else {
+        ageRanges[range] = 1;
+      }
+    });
+
+    return Object.entries(ageRanges).sort((a, b) => a[0].localeCompare(b[0], undefined, {numeric: true, sensitivity: 'base'}));
   };
 
+  useEffect(() => {
+    if (currentProgramId) {
+      getAttendeeNames(currentProgramId).then(response => {
+        const attendees = response.data;
+        const ageRanges = calculateAgeDistribution(attendees);
+        console.log(ageRanges);
+        setAgeDistribution(ageRanges);
+      })
+      .catch(error => console.error('Failed to fetch attendees:', error.message));
+    }
+  }, [currentProgramId]);
+  
+
+  
   //returns list of integers for each program
   const attendanceData = () => {
 		let participation = [];
@@ -76,6 +112,26 @@ function ViewAttendance() {
     });
 		return participation
 	};
+  const calculateAge = (birthday) => {
+    const today = new Date();
+    let age = today.getFullYear() - birthday.getFullYear();
+    const m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+    }
+    return age;
+  };
+  // Bar chart data for age distribution
+  const ageChartData = {
+    labels: ageDistribution.map(item => item[0]), // Age ranges
+    datasets: [{
+      label: 'Number of Attendees',
+      data: ageDistribution.map(item => item[1]), // Counts of attendees in each age range
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1
+    }]
+  };
 
   const toHome = () => {
     navigate("/");
@@ -117,13 +173,30 @@ function ViewAttendance() {
         )}
 			</div>}
 
-      {activeComponent === "ListByAge" && <div>	
-        <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>
-        <select>{ages.map((age) => (
-            <option key={age} value={age}>
-              {age}
-            </option>
-        ))}</select>
+      {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white"}}>	
+      <select onChange={handleProgramChange} value={currentProgramId}>
+        <option value="">Select a program</option>
+        {programs.map((program) => (
+          <option key={program._id} value={program._id}>
+            {program.name}
+          </option>
+        ))}
+      </select>
+
+      {currentProgramId && (
+        <div style={{ width: '600px', height: '500px' }}>
+        <h2>Age Distribution of Attendees</h2>
+        <Bar data={ageChartData} options={{ 
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }} />
+      </div>
+      )}
 			</div>}
 
       {activeComponent === "VisualByProgram" && <div style={{backgroundColor:"white"}}>	
@@ -131,49 +204,6 @@ function ViewAttendance() {
         <h1>PARTICIPATION FOR THIS WEEK</h1>
             <div style={{maxWidth: "650px"}}>
                 <Bar
-                    data={{
-                        // Name of the variables on x-axies for each bar
-                        labels: programNames(),
-                        datasets: [
-                            {
-                                // Label for bars
-                                label: "Number of Participants",
-                                // Data or value of your each variable
-                                data: attendanceData(),
-                                // Color of each bar
-                                backgroundColor: 
-                                    ["aqua", "red", "green"],
-                                // Border color of each bar
-                                borderColor: ["aqua"],
-                                borderWidth: 0.5,
-                            },
-                        ],
-                    }}
-                    // Height of graph
-                    height={400}
-                    options={{
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [
-                                {
-                                    ticks: {
-                                  // The y-axis value will start from zero
-                                        beginAtZero: true,
-                                    },
-                                },
-                            ],
-                        },
-                        legend: {labels: {fontSize: 15,},},
-                    }}
-                />
-            </div>
-				</div>}
-
-        {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white"}}>	
-        <button onClick={() => modifyActiveComponent("VisualByProgram")}>View by Program</button>
-        <h1>PARTICIPATION FOR THIS WEEK</h1>
-            <div style={{maxWidth: "650px"}}>
-                <Pie
                     data={{
                         // Name of the variables on x-axies for each bar
                         labels: programNames(),
