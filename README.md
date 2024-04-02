@@ -19,7 +19,7 @@ If you get an error with either of those, you may not have installed depencies. 
 **New Features**
 * Consolidated UI for program management, attendee management, and attendance functions into Homepage
 * Added ability to view attendance data by age distribution
-* Added visibility for program per user
+* Added ability to view which programs were attended by attendees
 
 **Bug Fixes**
 * None
