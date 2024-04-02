@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getAllUsers, getPrograms } from '../actions/users.js'; // Adjust the import path as necessary
+import { useNavigate } from "react-router-dom";
 
 const UserManagement = () => {
 	const [users, setUsers] = useState([]);
 	const [selectedUserId, setSelectedUserId] = useState('');
 	const [programs, setPrograms] = useState([]);
+	const nav = useNavigate();
+	const toHome = () => {nav("/")};
   
 	useEffect(() => {
 	  getAllUsers()
@@ -34,8 +37,13 @@ const UserManagement = () => {
 	};
   
 	return (
+	<center>
 	  <div style={{ color: 'white' }}>
-		<h1>Manage Users</h1>
+	  <h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
+	    <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
+	    style={{width:50, height:50, display:'inline'}} alt="new"/>
+	    <hr style={{color:'white'}}></hr>
+		<h1>Select User to Show Their Details</h1>
 		<select onChange={handleUserSelect} value={selectedUserId}>
 		  <option value="">Select a user...</option>
 		  {users.map(user => (
@@ -62,6 +70,7 @@ const UserManagement = () => {
 		  </>
 		)}
 	  </div>
+	  </center>
 	);
   };
 
