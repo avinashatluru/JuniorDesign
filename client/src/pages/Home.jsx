@@ -75,7 +75,7 @@ const Home = () => {
 return (
 	<div>
 		<button onClick={toLogin}>Logout</button>
-		<button onClick={toUserM}>Manage Users</button>
+		<button onClick={toUserM}>Attendee Details</button>
 		<button onClick={toExportToCsv}>Export to Csv</button>
 
 	<center>
