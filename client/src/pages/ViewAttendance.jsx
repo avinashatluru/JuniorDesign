@@ -13,6 +13,9 @@ function ViewAttendance() {
   const [programs, setPrograms] = useState([]);
   const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"]
 
+  Chart.defaults.color = "#FFFFFF";
+  Chart.defaults.borderColor = "rgba(0, 0, 0, 0.6)"
+
   // Fetch all programs on component mount
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -126,7 +129,7 @@ function ViewAttendance() {
         ))}</select>
 			</div>}
 
-      {activeComponent === "VisualByProgram" && <div style={{backgroundColor:"white"}}>	
+      {activeComponent === "VisualByProgram" && <div >	
       <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button>
         <h1>PARTICIPATION FOR THIS WEEK</h1>
             <div style={{maxWidth: "650px"}}>
