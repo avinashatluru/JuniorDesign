@@ -11,6 +11,9 @@ function ViewAttendance() {
   const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"];
   const [ageDistribution, setAgeDistribution] = useState([]);
 
+  Chart.defaults.color = "#FFFFFF";
+  Chart.defaults.borderColor = "rgba(0, 0, 0, 0.6)"
+  
   // Fetch all programs on component mount
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -121,18 +124,18 @@ function ViewAttendance() {
     datasets: [{
       label: 'Number of Attendees',
       data: ageDistribution.map(item => item[1]), // Counts of attendees in each age range
-      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      backgroundColor: 'rgba(54, 162, 235, 0.5)',
       borderColor: 'rgba(54, 162, 235, 1)',
-      borderWidth: 1
+      borderWidth: 3
     }]
   };
 
   return (
     <center>
       <div className="attendance-view-container">
-	      <hr style={{color:'white'}}></hr>
-        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
-        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
+	      <hr/>
+        <h3 style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
+        <h3 style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
         {activeComponent === "ListByProgram" && <div>	
         <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
@@ -147,8 +150,8 @@ function ViewAttendance() {
 
         {currentProgramId && (
           <>
-            <h3 style={{ color: 'white'}}>Attendees:</h3>
-            <ul style={{ color: 'white' }}>
+            <h3>Attendees:</h3>
+            <ul>
                 {attendees.length > 0 ? (
                     attendees.map((attendee, index) => (
                       <li key={index}>{attendee.firstName} {attendee.lastName}</li>
@@ -169,9 +172,9 @@ function ViewAttendance() {
         ))}</select>
 			</div>}
 
-      {activeComponent === "VisualByProgram" && <div style={{backgroundColor:"white"}}>	
+      {activeComponent === "VisualByProgram" && <div>	
       <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button>
-        <h1>PARTICIPATION FOR THIS WEEK</h1>
+        <h4>Participation for this Week</h4>
             <div style={{maxWidth: "650px"}}>
                 <Bar
                     data={{
@@ -185,10 +188,10 @@ function ViewAttendance() {
                                 data: attendanceData(),
                                 // Color of each bar
                                 backgroundColor: 
-                                    ["aqua"],
+                                    ["aqua", "red", "green"],
                                 // Border color of each bar
-                                borderColor: ["aqua"],
-                                borderWidth: 0.5,
+                                borderColor: ["white"],
+                                borderWidth: 2,
                             },
                         ],
                     }}
@@ -212,7 +215,7 @@ function ViewAttendance() {
             </div>
 				</div>}
 
-        {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white", height:"700px"}}>	
+        {activeComponent === "VisualByAge" && <div style={{height:"700px"}}>	
         <button onClick={() => modifyActiveComponent("VisualByProgram")}>View by Program</button><br/>
         <select onChange={handleProgramChange} value={currentProgramId}>
         <option value="">Select a program</option>
@@ -224,7 +227,7 @@ function ViewAttendance() {
       </select>
 
       {currentProgramId && (
-        <div style={{ width: '600px', height: '500px' }}>
+        <div style={{ maxWidth: '650px', height: '500px' }}>
         <h2>Age Distribution of Attendees</h2>
         <Bar data={ageChartData} options={{ 
           scales: {

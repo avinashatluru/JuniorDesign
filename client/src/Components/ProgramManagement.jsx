@@ -1,11 +1,11 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { createProgram, deleteProgram, getAllPrograms } from "../actions/programs.js";
-import './ProgramManagement.css'
+import "../Styles/basic.css"
+import '../Styles/ProgramManagement.css'
 
 function ProgramManagement() {
 
 	const [currentProgram, setCurrentProgram] = useState("select a program")
-    document.body.style = 'background: black';
 	let p1 = ["parta1", "parta2", "parta3", "parta4", "parta5", "parta6", "parta7", "parta8", "parta9", "parta1", "parta2", "parta3", "parta1", "parta2", "parta3"]
 	let p2 = ["partb1", "partb2", "partb3"]
 	const [currList, setCurrList] = useState([])
@@ -160,21 +160,21 @@ function ProgramManagement() {
     return (
 	<center>
 	<div>
-	<hr style={{color:'white'}}></hr>
-	<h3 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h3>
-	<h3 style={{color:'white', display:'inline', marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h3>
+	<hr/>
+	<h3 style={{marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h3>
+	<h3 style={{marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h3>
 	<br />
     <br />
 	
 	{activeComponent === "Add" && 	<div>
 				<form onSubmit={handleSubmit}>
-					<label style={{color:'white', marginRight:15}}>Program Name:</label>
+					<label style={{marginRight:15}}>Program Name:</label>
 					<input name="name" type="text" value={form.name} onChange={handleChange} required /><br/>
 			
-					<label style={{color:'white', marginRight:17}}>Location:</label>
+					<label style={{marginRight:17}}>Location:</label>
 					<input name="site" type="text" value={form.site} onChange={handleChange} required /><br/>
 
-					<label style={{color:'white', marginRight:17}}>Date:</label>
+					<label style={{marginRight:17}}>Date:</label>
 					<input name="date" type="date" value={form.date} onChange={handleChange} required /><br/>
 
 
@@ -190,12 +190,12 @@ function ProgramManagement() {
                 }
 
 	{activeComponent === "View" && <div>	
-					<h3 style={{color:'white'}}>Programs</h3> 
+					<h3>Programs</h3> 
 					<div style={{maxHeight:300, width:200, overflow:'auto'}}>
 						{list.map(program => (
-							<div key={program[1]} style={{color:'white', display: 'flex', justifyContent: 'space-between'}}>
+							<div key={program[1]} style={{display: 'flex', justifyContent: 'space-between'}}>
 								<span>{program[0]}</span>
-								<button onClick={() => handleDelete(program[1])} style={{color: 'red'}}>Delete</button>
+								<button onClick={() => handleDelete(program[1])} className="delete">Delete</button>
 							</div>
 						))}
 					</div>
