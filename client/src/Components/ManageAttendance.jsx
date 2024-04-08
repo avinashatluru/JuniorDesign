@@ -5,8 +5,7 @@ import { addAttendees, getAttendeeNames  } from "../actions/programs.js";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 
-function Attendance() {
-  const nav = useNavigate();
+function ManageAttendance() {
   const [activeComponent, setActiveComponent] = useState("");
   const [programs, setPrograms] = useState([]);
   const [attendees, setAttendees] = useState([]);
@@ -16,7 +15,6 @@ function Attendance() {
   const [currentProgram, setCurrentProgram] = useState("select a program");
   const [currentProgramId, setCurrentProgramId] = useState('');
   const [currentAttendees, setCurrentAttendees] = useState([])
-  const toHome = () => {nav("/")};
 
   // Fetch programs
   useEffect(() => {
@@ -109,9 +107,9 @@ function Attendance() {
 
   //modifies page based on which header is clicked
   const modifyActiveComponent = useCallback(
-	  newActiveComponent => {setActiveComponent(newActiveComponent);},
-	  [setActiveComponent]
-	);
+		newActiveComponent => {console.log(activeComponent, newActiveComponent); if (newActiveComponent === activeComponent) {setActiveComponent("");} else {setActiveComponent(newActiveComponent);}},
+		[setActiveComponent]
+	  );
   
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
@@ -231,23 +229,20 @@ function Attendance() {
   return (
     <center>
     <div>
-      <h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
-	    <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
-	    style={{width:50, height:50, display:'inline'}} alt="new"/>
 	    <hr style={{color:'white'}}></hr>
-      <h2 style={{color:'white', display:'inline', marginRight:180}} onClick={() => modifyActiveComponent("Add")}>Add to Program</h2>
-      <h2 style={{color:'white', display:'inline', marginRight:110}} onClick={() => modifyActiveComponent("Remove")}>Remove from Program</h2>
-      <h2 style={{color:'white', display:'inline', marginRight:110}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h2>
+      <h3 style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
+      <h3 style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
+      <h3 style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
 
       {activeComponent === "Add" && 	<div>
-        <h2 style={{color:'white'}}>Select a Program</h2>
+        <h3 style={{color:'white'}}>Select a Program</h3>
         <select onChange={handleProgramSelect} value={selectedProgram}>
           <option value="">Select a program</option>
           {programs.map(program => (
             <option key={program._id} value={program._id}>{program.name}</option>
           ))}
         </select>
-        <h2 style={{color:'white'}}>Select Attendees To Add</h2>
+        <h3 style={{color:'white'}}>Select Attendees To Add</h3>
         <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
           {attendees.map(attendee => (
             <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
@@ -258,14 +253,14 @@ function Attendance() {
 
       {activeComponent === "Remove" && (
           <div>
-            <h2 style={{color:'white'}}>Select a Program</h2>
+            <h3 style={{color:'white'}}>Select a Program</h3>
             <select onChange={handleProgramSelect} value={selectedProgram}>
               <option value="">Select a program</option>
               {programs.map(program => (
                 <option key={program._id} value={program._id}>{program.name}</option>
               ))}
             </select>
-            <h2 style={{color:'white'}}>Select Attendees to Remove</h2>
+            <h3 style={{color:'white'}}>Select Attendees to Remove</h3>
             <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
               {currentAttendees.map(attendee => (
                 <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
@@ -276,9 +271,9 @@ function Attendance() {
         )}
 
       {activeComponent === "Attend" && <div>	
-				<h1 style={{color:'white'}}>Select Program</h1> 
+				<h3 style={{color:'white'}}>Select Program</h3> 
         <Select style={{color:'black'}} options={programsList()} value={currentProgram} onChange={handleSelectAttendance}/><br/>
-				<h1 style={{color:'white'}}>Mark Attendance for {switchText()}</h1> 								
+				<h3 style={{color:'white'}}>Mark Attendance for {switchText()}</h3> 								
 				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="list-container">
        		{currentAttendees.map(attendee => (
        			<div key={attendee._id}>
@@ -287,7 +282,7 @@ function Attendance() {
        			</div>))}
    			</div> 
 				<div style={{color:'white', maxHeight:200, width:200, overflow:'auto'}} className="marked-ones">
-					<h2>Marked Attendees</h2>
+					<h3>Marked Attendees</h3>
 					{checked.map((item, index) => ( 
             /** 
              * Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}`
@@ -305,4 +300,4 @@ function Attendance() {
   );
 }
 
-export default Attendance;
+export default ManageAttendance;

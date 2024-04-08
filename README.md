@@ -14,6 +14,19 @@ If you get an error with either of those, you may not have installed depencies. 
 
 # Release Notes #
 
+## Version 0.4.0 
+
+**New Features**
+* Consolidated UI for program management, attendee management, and attendance functions into Homepage
+* Added ability to view attendance data by age distribution
+* Added ability to view which programs were attended by attendees
+
+**Bug Fixes**
+* None
+
+**Known Issues**
+* None
+
 ## Version 0.3.0 
 
 **New Features**

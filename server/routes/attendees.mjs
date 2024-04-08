@@ -2,6 +2,7 @@
 import express from 'express';
 const router = express.Router();
 import Attendee from '../schemas/attendee.mjs';
+import Program from '../schemas/program.mjs';
 
 // Create a new attendee
 router.post('/', async (req, res) => {
@@ -65,5 +66,22 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+//Get the programs a certain attendeeID is in.
+router.get('/:id/programs', async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Find all programs where the attendees array contains the attendeeId
+    const programs = await Program.find({ attendees: id });
+    if (programs.length === 0) {
+      return res.status(404).json({ message: 'No programs found for this attendee.' });
+    }
+    res.json(programs);
+  } catch (error) {
+    console.error('Error finding programs for attendee:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 export default router;

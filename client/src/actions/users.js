@@ -13,9 +13,14 @@ const createUser = (newUser) => {
 const deleteUser = (id) => {
   return axios.delete(`${baseUrl}/${id}`);
 };
+const getPrograms = (id) => {
+  const url = (`${baseUrl}/${id}/programs`);
+  return axios.get(url);
+}
 
 export {
   getAllUsers,
   createUser,
-  deleteUser
+  deleteUser,
+  getPrograms
 };

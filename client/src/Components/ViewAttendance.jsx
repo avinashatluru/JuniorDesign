@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import { getAllPrograms, getAttendees, getAttendeeNames } from "../actions/programs";
-import { getAllUsers } from "../actions/users";
 import { Bar, Pie } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
-import { Select } from "@mui/material";
 
 function ViewAttendance() {
-  const navigate = useNavigate();
   const [activeComponent, setActiveComponent] = useState("");
   const [currentProgramId, setCurrentProgramId] = useState('');
   const [attendees, setAttendees] = useState([]);
   const [programs, setPrograms] = useState([]);
-  const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"]
+  const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"];
   const [ageDistribution, setAgeDistribution] = useState([]);
 
   // Fetch all programs on component mount
@@ -29,7 +25,6 @@ function ViewAttendance() {
 
     fetchPrograms();
   }, []);
-
 
   // Fetch attendees whenever the currentProgramId changes
   useEffect(() => {
@@ -67,6 +62,15 @@ function ViewAttendance() {
 		return names
 	};
 
+  //returns list of integers for each program
+  const attendanceData = () => {
+		let participation = [];
+		programs.forEach(program =>{
+      participation.push(program.attendees.length)
+    });
+		return participation
+	};
+
   const calculateAgeDistribution = (attendees) => {
     const ageRanges = {
       '0-4': 0,
@@ -101,17 +105,7 @@ function ViewAttendance() {
       .catch(error => console.error('Failed to fetch attendees:', error.message));
     }
   }, [currentProgramId]);
-  
 
-  
-  //returns list of integers for each program
-  const attendanceData = () => {
-		let participation = [];
-		programs.forEach(program =>{
-      participation.push(program.attendees.length)
-    });
-		return participation
-	};
   const calculateAge = (birthday) => {
     const today = new Date();
     let age = today.getFullYear() - birthday.getFullYear();
@@ -133,21 +127,14 @@ function ViewAttendance() {
     }]
   };
 
-  const toHome = () => {
-    navigate("/");
-  };
-
   return (
     <center>
       <div className="attendance-view-container">
-        <h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
-	      <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
-	      style={{width:50, height:50, display:'inline'}} alt="new"/>
 	      <hr style={{color:'white'}}></hr>
-        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h2>
-        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h2>
+        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
+        <h3 style={{color:'white', display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
-      {activeComponent === "ListByProgram" && <div>	
+        {activeComponent === "ListByProgram" && <div>	
         <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
         <select onChange={handleProgramChange} value={currentProgramId}>
           <option value="">Select a program</option>
@@ -173,30 +160,13 @@ function ViewAttendance() {
         )}
 			</div>}
 
-      {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white"}}>	
-      <select onChange={handleProgramChange} value={currentProgramId}>
-        <option value="">Select a program</option>
-        {programs.map((program) => (
-          <option key={program._id} value={program._id}>
-            {program.name}
-          </option>
-        ))}
-      </select>
-
-      {currentProgramId && (
-        <div style={{ width: '600px', height: '500px' }}>
-        <h2>Age Distribution of Attendees</h2>
-        <Bar data={ageChartData} options={{ 
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          },
-          responsive: true,
-          maintainAspectRatio: false
-        }} />
-      </div>
-      )}
+      {activeComponent === "ListByAge" && <div>	
+        <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>
+        <select>{ages.map((age) => (
+            <option key={age} value={age}>
+              {age}
+            </option>
+        ))}</select>
 			</div>}
 
       {activeComponent === "VisualByProgram" && <div style={{backgroundColor:"white"}}>	
@@ -215,7 +185,7 @@ function ViewAttendance() {
                                 data: attendanceData(),
                                 // Color of each bar
                                 backgroundColor: 
-                                    ["aqua", "red", "green"],
+                                    ["aqua"],
                                 // Border color of each bar
                                 borderColor: ["aqua"],
                                 borderWidth: 0.5,
@@ -240,6 +210,33 @@ function ViewAttendance() {
                     }}
                 />
             </div>
+				</div>}
+
+        {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white", height:"700px"}}>	
+        <button onClick={() => modifyActiveComponent("VisualByProgram")}>View by Program</button><br/>
+        <select onChange={handleProgramChange} value={currentProgramId}>
+        <option value="">Select a program</option>
+        {programs.map((program) => (
+          <option key={program._id} value={program._id}>
+            {program.name}
+          </option>
+        ))}
+      </select>
+
+      {currentProgramId && (
+        <div style={{ width: '600px', height: '500px' }}>
+        <h2>Age Distribution of Attendees</h2>
+        <Bar data={ageChartData} options={{ 
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }} />
+      </div>
+      )}
 				</div>}
 
       </div>
