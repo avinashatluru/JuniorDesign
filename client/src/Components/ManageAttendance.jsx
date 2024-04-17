@@ -106,10 +106,10 @@ function ManageAttendance() {
   };
 
   //modifies page based on which header is clicked
-  const modifyActiveComponent = useCallback(
-		newActiveComponent => {console.log(activeComponent, newActiveComponent); if (newActiveComponent === activeComponent) {setActiveComponent("");} else {setActiveComponent(newActiveComponent);}},
-		[setActiveComponent]
-	  );
+  const modifyActiveComponent =(newActiveComponent) => {
+    if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
+      else {setActiveComponent(newActiveComponent); console.log(activeComponent)}
+    };
   
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
@@ -230,19 +230,21 @@ function ManageAttendance() {
     <center>
     <div>
 	    <hr/>
-      <h3 style={{marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
-      <h3 style={{marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
-      <h3 style={{marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
+      <h3 className={`${activeComponent==="Add"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
+      <h3 className={`${activeComponent==="Remove"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
+      <h3 className={`${activeComponent==="Attend"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
+
+      {activeComponent === "None" && <div/>}
 
       {activeComponent === "Add" && 	<div>
-        <h3>Select a Program</h3>
+        <h4>Select a Program</h4>
         <select onChange={handleProgramSelect} value={selectedProgram}>
           <option value="">Select a program</option>
           {programs.map(program => (
             <option key={program._id} value={program._id}>{program.name}</option>
           ))}
         </select>
-        <h3>Select Attendees To Add</h3>
+        <h4>Select Attendees To Add</h4>
         <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
           {attendees.map(attendee => (
             <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
@@ -272,8 +274,8 @@ function ManageAttendance() {
 
       {activeComponent === "Attend" && <div>	
 				<h3>Select Program</h3> 
-        <Select style={{color:'black'}} options={programsList()} value={currentProgram} onChange={handleSelectAttendance}/><br/>
-				<h3>Mark Attendance for {switchText()}</h3> 								
+        <Select style={{color:'white'}} options={programsList()} value={currentProgram} onChange={handleSelectAttendance}/><br/>
+				<h3>Mark Attendance for <span className='active'>{switchText()}</span></h3> 								
 				<div style={{maxHeight:200, width:200, overflow:'auto'}} className="list-container">
        		{currentAttendees.map(attendee => (
        			<div key={attendee._id}>

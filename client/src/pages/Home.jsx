@@ -88,10 +88,10 @@ return (
 		<hr/>
 		<br/>
 	<div>
-		<h2 onClick={() => modifyActiveComponent("Home")}>Home</h2>
-		<h2 onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
-		<h2 onClick={() => modifyActiveComponent("Attendance")}>Attendance</h2>
-		<h2 onClick={() => modifyActiveComponent("Database")}>Database</h2>
+		<h2 className={`${activeComponent=="Home"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Home")}>Home</h2>
+		<h2 className={`${activeComponent=="Roster"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
+		<h2 className={`${activeComponent=="Attendance"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Attendance")}>Attendance</h2>
+		<h2 className={`${activeComponent=="Database"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Database")}>Database</h2>
 		
 		<br/>
 		{activeComponent === "Home" && <img style={{width:800, height:400}} 

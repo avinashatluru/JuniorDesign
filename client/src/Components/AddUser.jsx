@@ -65,7 +65,7 @@ const Add = ({onUserAdd}) => {
 	return (
 		<div>
 			<center>
-				<h3 style={{color: "white"}}>Add Attendee</h3>
+				<h3>Add Attendee</h3>
 				{!isConfirmScreen &&
 					<form onSubmit={handleSubmit}>
 						<label style={{marginRight:15}}>First Name:</label>

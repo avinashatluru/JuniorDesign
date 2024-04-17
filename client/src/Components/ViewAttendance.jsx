@@ -46,10 +46,11 @@ function ViewAttendance() {
     }
   }, [currentProgramId]);
 
-  const modifyActiveComponent = useCallback(
-	  newActiveComponent => {setActiveComponent(newActiveComponent);},
-	  [setActiveComponent]
-	);
+  //modifies page based on which header is clicked
+	const modifyActiveComponent =(newActiveComponent) => {
+		if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
+		  else {setActiveComponent(newActiveComponent); console.log(activeComponent)}
+		};
 
   const handleProgramChange = (event) => {
     const selectedProgramId = event.target.value;
@@ -134,8 +135,8 @@ function ViewAttendance() {
     <center>
       <div className="attendance-view-container">
 	      <hr/>
-        <h3 style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
-        <h3 style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
+        <h3 className={`${activeComponent=="ListByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
+        <h3 className={`${activeComponent=="VisualByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
         {activeComponent === "ListByProgram" && <div>	
         <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
@@ -228,7 +229,7 @@ function ViewAttendance() {
 
       {currentProgramId && (
         <div style={{ maxWidth: '650px', height: '500px' }}>
-        <h2>Age Distribution of Attendees</h2>
+        <h3>Age Distribution of Attendees</h3>
         <Bar data={ageChartData} options={{ 
           scales: {
             y: {

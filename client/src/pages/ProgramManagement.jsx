@@ -30,7 +30,7 @@ function ProgramManagement() {
 		switchList()
 	}
 
-	//switch text to which program was most recently selected
+	//switch text to which program was most recently active
 	const switchText = () => {
 		let x;
 		currentProgram === "select a program"

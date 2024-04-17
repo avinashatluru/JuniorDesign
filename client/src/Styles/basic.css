@@ -26,7 +26,6 @@ h2 {
 }
 
 h3 {
-	border-radius: 5%;
 	display: inline;
 }
 
@@ -53,10 +52,34 @@ input {
 
 .selectable {
 	cursor: pointer;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none;
 }
 
 .selected {
 	color: #330f0f;
 	text-decoration: underline;
+}
+
+p.selected {
+	font-size: large;
+}
+
+.clickable {
+	cursor: pointer;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none;
+}
+
+.active {
+	color: #330f0f;
+	text-decoration: underline;
+}
+
+p.active {
 	font-size: large;
 }

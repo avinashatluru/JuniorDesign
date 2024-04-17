@@ -61,10 +61,11 @@ function ProgramManagement() {
 	});
     const [activeComponent, setActiveComponent] = useState("projects");
 
-	const modifyActiveComponent = useCallback(
-	  newActiveComponent => {setActiveComponent(newActiveComponent);},
-	  [setActiveComponent]
-	);
+	//modifies page based on which header is clicked
+	const modifyActiveComponent =(newActiveComponent) => {
+		if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
+		  else {setActiveComponent(newActiveComponent); console.log(activeComponent)}
+		};
 
 	const validate = () => {
 		for (let key in form) {
@@ -161,8 +162,8 @@ function ProgramManagement() {
 	<center>
 	<div>
 	<hr/>
-	<h3 style={{marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h3>
-	<h3 style={{marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h3>
+	<h3 className={`${activeComponent=="Add"? "clickable active" : "clickable"}`} style={{marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h3>
+	<h3 className={`${activeComponent=="View"? "clickable active" : "clickable"}`} style={{marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h3>
 	<br />
     <br />
 	
@@ -189,8 +190,7 @@ function ProgramManagement() {
                     </div>
                 }
 
-	{activeComponent === "View" && <div>	
-					<h3>Programs</h3> 
+	{activeComponent === "View" && <div>
 					<div style={{maxHeight:300, width:200, overflow:'auto'}}>
 						{list.map(program => (
 							<div key={program[1]} style={{display: 'flex', justifyContent: 'space-between'}}>
