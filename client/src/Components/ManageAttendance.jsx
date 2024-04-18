@@ -237,14 +237,14 @@ function ManageAttendance() {
       {activeComponent === "None" && <div/>}
 
       {activeComponent === "Add" && 	<div>
-        <h4>Select a Program</h4>
+        <h4 style={{display: "block"}}>Select a Program</h4>
         <select onChange={handleProgramSelect} value={selectedProgram}>
           <option value="">Select a program</option>
           {programs.map(program => (
             <option key={program._id} value={program._id}>{program.name}</option>
           ))}
         </select>
-        <h4>Select Attendees To Add</h4>
+        <h4 style={{display: "block"}}>Select Attendees To Add</h4>
         <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
           {attendees.map(attendee => (
             <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
@@ -255,14 +255,14 @@ function ManageAttendance() {
 
       {activeComponent === "Remove" && (
           <div>
-            <h3>Select a Program</h3>
+            <h4 style={{display: "block"}}>Select a Program</h4>
             <select onChange={handleProgramSelect} value={selectedProgram}>
               <option value="">Select a program</option>
               {programs.map(program => (
                 <option key={program._id} value={program._id}>{program.name}</option>
               ))}
             </select>
-            <h3>Select Attendees to Remove</h3>
+            <h4 style={{display: "block"}}>Select Attendees to Remove</h4>
             <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
               {currentAttendees.map(attendee => (
                 <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
@@ -273,8 +273,13 @@ function ManageAttendance() {
         )}
 
       {activeComponent === "Attend" && <div>	
-				<h3>Select Program</h3> 
-        <Select style={{color:'white'}} options={programsList()} value={currentProgram} onChange={handleSelectAttendance}/><br/>
+				<h4>Select Program</h4> 
+        <select onChange={handleProgramSelect} value={selectedProgram}>
+              <option value="">Select a program</option>
+              {programs.map(program => (
+                <option key={program._id} value={program._id}>{program.name}</option>
+              ))}
+            </select><br/>
 				<h3>Mark Attendance for <span className='active'>{switchText()}</span></h3> 								
 				<div style={{maxHeight:200, width:200, overflow:'auto'}} className="list-container">
        		{currentAttendees.map(attendee => (

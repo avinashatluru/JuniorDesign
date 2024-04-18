@@ -1,4 +1,5 @@
 import React,{useState, useCallback, useEffect} from "react";
+import { getAllPrograms } from "../actions/programs";
 import UserDisplayHack from "../Components/UserDisplayHack";
 import "../Styles/basic.css"
 
@@ -6,7 +7,23 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 	const [multiSelectEnabled, setMultiSelect] = useState(false);
 	const [attendees, setAttendees] = useState([]);
 	const [checked, setChecked] = useState([]);
-	const [selectedAttendees, setSelectedAttendees] = useState([]);
+	const [programs, setPrograms] = useState([]);
+	const [currentProgramId, setCurrentProgramId] = useState('');
+
+	// Fetch all programs on component mount
+	useEffect(() => {
+		const fetchPrograms = async () => {
+		  try {
+			const response = await getAllPrograms();
+			setPrograms(response.data);
+		  } catch (error) {
+			console.error('Failed to fetch programs:', error.message);
+			alert('Failed to fetch programs');
+		  }
+		};
+	
+		fetchPrograms();
+	  }, []);
 
 	//Places and removes attendees to/from checked based on whether or not thei checkbox is checked 
   //Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}` through e.target.value
@@ -34,6 +51,13 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 	setChecked([]);
   }
 
+  const handleProgramSelect = (e) => {
+    const selectedProgramId = e.target.value;
+    setCurrentProgramId(selectedProgramId);
+  
+    
+    }
+
 	return (
 		<div className="container horizontal" id="rosterContainer">
 			<div style={{width: "33%"}}><p>Placeholdeer for filtering UI</p></div>
@@ -54,7 +78,12 @@ const AttendeeDisplay = ({list, onUpdate}) => {
        			<div key={index}>
         			<span>{item.split(";")[1]}</span>
        			</div>))}
-				<div className="container vertical"><p style={{color: "red"}}>Put program selection here dummy!</p>
+				<div className="container vertical"><select onChange={handleProgramSelect} value={currentProgramId}>
+					<option value="">Select a program</option>
+					{programs.map(program => (
+						<option key={program._id} value={program._id}>{program.name}</option>
+					))}
+					</select>
 				<input type="button" value={"Add to Program"}/><input type="button" value={"Remove from Program"}/><input style={{color: "red"}} type="button" value={"Clear Selection"} onClick={clearMultiSelection}/></div></> : null}
 			</div>
 		</div>
