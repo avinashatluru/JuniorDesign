@@ -82,15 +82,15 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	
 	const NameDisplay = ({name, style}) => {
 		return (
-			<p className={`${editing ? "clickable active" : "clickable"}`} style={style}> {name} </p>
+			<p onClick={handleClickUserName} className={`${editing ? "clickable active" : "clickable"}`} style={style}> {name} </p>
 		)
 	}
 	
 	return (
-		<div>
-			<span onClick={handleClickUserName}><NameDisplay name={data[0]} style={{...style, "fontStyle": "italic"}}/></span>
+		<>
+			<NameDisplay name={data[0]} style={{display: "inline", "fontStyle": "italic"}}/>
 			{editing ? 
-				<div style={style}>
+				<div>
 					<form onSubmit={handleUpdateUser}>
 						<label style={{marginRight:15}}>First Name:</label>
 						<input name="firstName" type="text" value={form.firstName} onChange={handleChange} required /><br/>
@@ -105,6 +105,6 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 		
 					<button className="delete" onClick={handleDeleteUser}>Delete Attendee</button>
 				</div> : null}
-		</div>
+		</>
 	);
 }
