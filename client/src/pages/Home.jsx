@@ -98,7 +98,7 @@ return (
 		<button onClick={toExportToCsv}>Export to CSV</button> */}
 		 <Stack direction="row" spacing={2} style={{ margin: 20 }}>
                 <Button variant="outlined" onClick={toLogin}  sx={{ color: 'white', border: 'none',  fontFamily: '"Times New Roman", serif' , fontweight: 'bold', fontsize: '3rem'}}>Logout</Button>
-                <Button variant="outlined" onClick={toUserM} sx={{ color: 'white', border: 'none' ,fontFamily: '"Times New Roman", serif' , fontweight: "bold"}}>Manage Users</Button>
+                {/*<Button variant="outlined" onClick={toUserM} sx={{ color: 'white', border: 'none' ,fontFamily: '"Times New Roman", serif' , fontweight: "bold"}}>Manage Users</Button>*/}
                 <Button variant="outlined" onClick={toExportToCsv} sx={{ color: 'white', border: 'none' , fontFamily: '"Times New Roman", serif' , fontweight: "bold"}}>Export to CSV</Button>
         </Stack>
 
