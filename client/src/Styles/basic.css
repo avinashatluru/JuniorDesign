@@ -87,6 +87,7 @@ input {
 .customButton:active {
     background-color: #330f0f; /* Deep Red */
     border-color: white;
+}
 
 p.selected {
 	font-size: large;
