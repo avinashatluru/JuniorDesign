@@ -103,15 +103,15 @@ return (
 	<div>
 		<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
 		<img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
-		style={{width:50, height:50, display:'inline', marginRight:100}} alt="new"/>
+		style={{width:50, height:50, display:'inline'}} alt="new"/>
 	</div>
-		<hr style={{color:'white'}}></hr>
-		<br />
+		<hr/>
+		<br/>
 	<div>
-		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Home")}>Home</h2>
-		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
-		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Attendance")}>Attendance</h2>
-		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Database")}>Database</h2>
+		<h2 className={`${activeComponent=="Home"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Home")}>Home</h2>
+		<h2 className={`${activeComponent=="Roster"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
+		<h2 className={`${activeComponent=="Attendance"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Attendance")}>Attendance</h2>
+		<h2 className={`${activeComponent=="Database"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Database")}>Database</h2>
 		
 		<br/>
 
@@ -136,8 +136,8 @@ return (
                 )}
 		{activeComponent === "Roster" && <div>	
 											<h1 style={{color:'white'}}>ATTENDEES</h1> 
-											<div style={{maxHeight:300, width:200, color:"white"}}>
-												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{color: "white"}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
+											<div style={{maxHeight:300, width:200}}>
+												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
 											</div>
 										 </div>}
 		{activeComponent === "Attendance" && <>

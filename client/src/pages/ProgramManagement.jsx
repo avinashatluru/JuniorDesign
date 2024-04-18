@@ -30,7 +30,7 @@ function ProgramManagement() {
 		switchList()
 	}
 
-	//switch text to which program was most recently selected
+	//switch text to which program was most recently active
 	const switchText = () => {
 		let x;
 		currentProgram === "select a program"
@@ -167,10 +167,10 @@ function ProgramManagement() {
     return (
 	<center>
 	<div>
-	<h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
+	<h1 onClick={toHome} style={{fontSize:65, display:'inline'}}>RATL</h1> 
 	<img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
 	style={{width:50, height:50, display:'inline'}} alt="new"/>
-	<hr style={{color:'white'}}></hr>
+	<hr/>
 	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h2>
 	<h2 style={{color:'white', display:'inline', marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h2>
 	<br />
@@ -178,13 +178,13 @@ function ProgramManagement() {
 	
 	{activeComponent === "Add" && 	<div>
 				<form onSubmit={handleSubmit}>
-					<label style={{color:'white', marginRight:15}}>Program Name:</label>
+					<label style={{marginRight:15}}>Program Name:</label>
 					<input name="name" type="text" value={form.name} onChange={handleChange} required /><br/>
 			
-					<label style={{color:'white', marginRight:17}}>Location:</label>
+					<label style={{marginRight:17}}>Location:</label>
 					<input name="site" type="text" value={form.site} onChange={handleChange} required /><br/>
 
-					<label style={{color:'white', marginRight:17}}>Date:</label>
+					<label style={{marginRight:17}}>Date:</label>
 					<input name="date" type="date" value={form.date} onChange={handleChange} required /><br/>
 
 
@@ -203,7 +203,7 @@ function ProgramManagement() {
 					<h1 style={{color:'white'}}>Programs</h1> 
 					<div style={{maxHeight:300, width:200, overflow:'auto'}}>
 						{list.map(program => (
-							<div key={program[1]} style={{color:'white', display: 'flex', justifyContent: 'space-between'}}>
+							<div key={program[1]} style={{display: 'flex', justifyContent: 'space-between'}}>
 								<span>{program[0]}</span>
 								<button onClick={() => handleDelete(program[1])} style={{color: 'red'}}>Delete</button>
 							</div>

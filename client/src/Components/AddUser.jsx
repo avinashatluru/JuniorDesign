@@ -65,16 +65,16 @@ const Add = ({onUserAdd}) => {
 	return (
 		<div>
 			<center>
-				<h3 style={{color: "white"}}>Add Attendee</h3>
+				<h3>Add Attendee</h3>
 				{!isConfirmScreen &&
 					<form onSubmit={handleSubmit}>
-						<label style={{color:'white', marginRight:15}}>First Name:</label>
+						<label style={{marginRight:15}}>First Name:</label>
 						<input name="firstName" type="text" value={form.firstName} onChange={handleChange} required /><br/>
 
-						<label style={{color:'white', marginRight:17}}>Last Name:</label>
+						<label style={{marginRight:17}}>Last Name:</label>
 						<input name="lastName" type="text" value={form.lastName} onChange={handleChange} required /><br/>
 
-						<label style={{color:'white', marginRight:17}}>Birthdate:</label>
+						<label style={{marginRight:17}}>Birthdate:</label>
 						<input name="birthday" type="date" value={form.birthday} onChange={handleChange} required /><br/>
 
 						{/* <label style={{color:'white', marginRight:17}}>Program:</label>
@@ -99,7 +99,7 @@ const Add = ({onUserAdd}) => {
 					</form>}
 				{isConfirmScreen &&
 					<div>
-						<p id="confirm" style={{color:'white'}}> New Attendee was Successfully Added </p>
+						<p id="confirm"> New Attendee was Successfully Added </p>
 						<button onClick={addAnother}>Add Another Attendee</button>
 					</div>}
 			</center>

@@ -20,8 +20,13 @@
 	background-color: rgb(105, 105, 105);
 }
 
+h2 {
+	margin: 20pt;
+	display: inline;
+}
+
 h3 {
-	border-radius: 5%;
+	display: inline;
 }
 
 button {
@@ -47,12 +52,17 @@ input {
 
 .selectable {
 	cursor: pointer;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none;
 }
 
 .selected {
 	color: #330f0f;
 	text-decoration: underline;
 }
+
 
 .customButton {
     padding: 10px 20px;
@@ -77,4 +87,25 @@ input {
 .customButton:active {
     background-color: #330f0f; /* Deep Red */
     border-color: white;
+
+p.selected {
+	font-size: large;
+}
+
+.clickable {
+	cursor: pointer;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none;
+}
+
+.active {
+	color: #330f0f;
+	text-decoration: underline;
+}
+
+p.active {
+	font-size: large;
+
 }

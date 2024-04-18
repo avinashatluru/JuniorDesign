@@ -6,7 +6,7 @@ const Remove = () => {
     document.body.style = 'background: black;';
     const navigate = useNavigate();
     const [attendees, setAttendees] = useState([]);
-    const [selectedAttendee, setSelectedAttendee] = useState('');
+    const [activeAttendee, setSelectedAttendee] = useState('');
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -60,14 +60,14 @@ const Remove = () => {
             <br />
             <div>
             {error && <div style={{color: 'red'}}>{error}</div>}
-            <select value={selectedAttendee} onChange={e => setSelectedAttendee(e.target.value)} 
+            <select value={activeAttendee} onChange={e => setSelectedAttendee(e.target.value)} 
                 style={{ display: 'block', fontSize: '1.2em', padding: '10px', marginBottom: '20px' }}>
                 <option value="">Select an attendee to remove</option>
                 {attendees.map(attendee => (
                 <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
                 ))}
             </select>
-                <button onClick={() => selectedAttendee && confirmAndDeleteAttendee(selectedAttendee)}
+                <button onClick={() => activeAttendee && confirmAndDeleteAttendee(activeAttendee)}
                 style={{ padding: '10px 20px', fontSize: '1em' }}> Remove Selected Attendee </button>
             </div>
         </center>
