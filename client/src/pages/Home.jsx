@@ -6,6 +6,8 @@ import Add from "./Add";
 import ProgramManagement from "../Components/ProgramManagement";
 import ViewAttendance from "../Components/ViewAttendance";
 import ManageAttendance from "../Components/ManageAttendance";
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 const Home = () => {
 
@@ -47,7 +49,7 @@ const Home = () => {
 		nav("/ExportToCsv")
 	);
 
-	const [activeComponent, setActiveComponent] = useState("projects");
+	const [activeComponent, setActiveComponent] = useState("project");
 
 	const modifyActiveComponent = useCallback(
 	  newActiveComponent => {setActiveComponent(newActiveComponent);},
@@ -71,12 +73,32 @@ const Home = () => {
 	useEffect(() => {
 		getAttendees();
 	}, []);
+	const homeImages = [
+       {url:"/Anna.jpg", name: "Anna Jackson", title: "Executive Director"},
+	   {url:"/Hayley.png", name: "Hayley McFall", title: "Program Director"},
+	   {url:"Catreece.png",name: "Catreece Diggs", title: "Women's Program Coordinator"},
+	   {url: "Missy.jpg", name:"Missy MaCray", title: "Site Coordinator"},
+	   {url: "Jamari.jpg", name: "Jamari Watts", title: "Program Stuff"},
+	   {url: "Eli.jpg", name: "Eli Hargrove", title: "Program Stuff"},
+	   {url: "ShaMani.png", name:"ShaMani Pratcher", title: "Program Stuff"},
+	   {url: "Mickensie.png", name:"Mickensie Neely", title: "Program Stuff"},
+	   {url: "Zemelak.png", name:"Missy Zemelak", title: "Program Stuff"},
+	   {url:"Savannah.png", name:"Savannah Blanco", title: "Program Stuff"}
 
+    ];
+	const handleImageError = (error, imageUrl) => {
+        console.error(`Error loading image: ${imageUrl}`, error);
+    };
 return (
 	<div>
-		<button onClick={toLogin}>Logout</button>
-		<button onClick={toUserM}>Attendee Details</button>
-		<button onClick={toExportToCsv}>Export to Csv</button>
+		{/* <button onClick={toLogin}>Logout</button>
+		<button onClick={toUserM}>Manage Users</button>
+		<button onClick={toExportToCsv}>Export to CSV</button> */}
+		 <Stack direction="row" spacing={2} style={{ margin: 20 }}>
+                <Button variant="outlined" onClick={toLogin}  sx={{ color: 'white', border: 'none',  fontFamily: '"Times New Roman", serif' , fontweight: 'bold', fontsize: '3rem'}}>Logout</Button>
+                <Button variant="outlined" onClick={toUserM} sx={{ color: 'white', border: 'none' ,fontFamily: '"Times New Roman", serif' , fontweight: "bold"}}>Manage Users</Button>
+                <Button variant="outlined" onClick={toExportToCsv} sx={{ color: 'white', border: 'none' , fontFamily: '"Times New Roman", serif' , fontweight: "bold"}}>Export to CSV</Button>
+        </Stack>
 
 	<center>
 	<div>
@@ -93,8 +115,23 @@ return (
 		<h2 style={{color:'white', display:'inline', margin:20}} onClick={() => modifyActiveComponent("Database")}>Database</h2>
 		
 		<br/>
-		{activeComponent === "Home" && <img style={{width:800, height:400}} 
-		src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbSEttZC6mbQYJxWtzJLwcdDH7Jb_lP8i0eqLU7W7l&s" alt="kid"/>}
+
+	 {activeComponent === "Home" && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '60px' }}> {/* Adjust the gap between images here */}
+                        {homeImages.map((image, index) => (
+                            <div key={index} style={{ textAlign: 'center' }}>
+                                <img
+                                    src={image.url}
+                                    alt={`Home Image ${index + 1}`}
+                                    style={{ width: '250px', height: '170px', objectFit: 'cover' }}
+                                    onError={(error) => handleImageError(error, image.url)}
+                                />
+                                <p style={{ color: 'white' }}>{image.name}</p>
+                                <p style={{ color: 'white' }}>{image.title}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
 		{activeComponent === "Roster" && <div>	
 											<h1 style={{color:'white'}}>ATTENDEES</h1> 
 											<div style={{maxHeight:300, width:200, color:"white"}}>
