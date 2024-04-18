@@ -60,7 +60,19 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 
 	return (
 		<div className="container horizontal" id="rosterContainer">
-			<div style={{width: "33%"}}><p>Placeholdeer for filtering UI</p></div>
+			<div style={{width: "33%"}}>
+				<div className="container vertical">
+					<h4>Filters</h4>
+					<div><p>Filter by:</p>
+						<select>
+							<option>Program</option>
+							<option>Age Range</option>
+							<option>Name</option>
+						</select>
+					</div>
+					
+				</div>
+			</div>
 			<div style={{width: "33%"}}>
 				<h1>ATTENDEES</h1> 
 				<div className="container vertical">
