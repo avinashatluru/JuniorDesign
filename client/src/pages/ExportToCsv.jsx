@@ -91,6 +91,7 @@ function ExportToCsv() {
     navigate("/");
   };
 
+  // Render method showing the UI of the component.
   return (
     <center>
       <div className="export-csv-container">
