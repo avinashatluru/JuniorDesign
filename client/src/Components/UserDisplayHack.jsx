@@ -24,7 +24,7 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 		});
 	};
 	
-	const handleClickUserName = () => {
+	const handleClickUserName = (e) => {
 		if (!editing) {
 			setEditing(true);
 			setStartValue();
@@ -82,28 +82,28 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	
 	const NameDisplay = ({name, style}) => {
 		return (
-			<p style={style}> {name} </p>
+			<p className={`${editing ? "selectable selected" : "selectable"}`} style={style}> {name} </p>
 		)
 	}
 	
 	return (
 		<div>
-			<span onClick={handleClickUserName}><NameDisplay name={data[0]} style={{...style, "cursor": "pointer", "fontStyle": "italic"}}/></span>
+			<span onClick={handleClickUserName}><NameDisplay name={data[0]} style={{...style, "fontStyle": "italic"}}/></span>
 			{editing ? 
 				<div style={style}>
 					<form onSubmit={handleUpdateUser}>
-						<label style={{color:'white', marginRight:15}}>First Name:</label>
+						<label style={{marginRight:15}}>First Name:</label>
 						<input name="firstName" type="text" value={form.firstName} onChange={handleChange} required /><br/>
 		
-						<label style={{color:'white', marginRight:17}}>Last Name:</label>
+						<label style={{marginRight:17}}>Last Name:</label>
 						<input name="lastName" type="text" value={form.lastName} onChange={handleChange} required /><br/>
 		
-						<label style={{color:'white', marginRight:17}}>Birthdate:</label>
+						<label style={{marginRight:17}}>Birthdate:</label>
 						<input name="birthday" type="date" value={form.birthday} onChange={handleChange} required /><br/>
 						<button style={{margin: 5}} type="submit">Submit Edit</button>
 					</form>
 		
-					<button style={{color: "red", margin: 5}} onClick={handleDeleteUser}>Delete Attendee</button>
+					<button className="delete" onClick={handleDeleteUser}>Delete Attendee</button>
 				</div> : null}
 		</div>
 	);

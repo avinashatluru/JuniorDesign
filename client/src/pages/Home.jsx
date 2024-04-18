@@ -8,6 +8,8 @@ import ViewAttendance from "../Components/ViewAttendance";
 import ManageAttendance from "../Components/ManageAttendance";
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import '../Styles/basic.css'
+
 
 const Home = () => {
 

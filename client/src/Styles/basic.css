@@ -1,0 +1,55 @@
+/** Basic styling for the whole application. No more marking everything as style={{color: white}} */
+
+/**
+	Palette hsla( 0,0%,100% ,1)
+
+	background grey: #696969
+	Text: white
+
+	These next 3 do not contrast with each other, they're for contrast with the background
+	Having 3 is just a nice flourish
+
+	RATL Brown: #201d1e / hsl(345 6% 12% / 1)
+	Oxford Blue: #161c33
+	Deep Red: #330f0f
+
+ */
+
+* {
+	color: white;
+	background-color: rgb(105, 105, 105);
+}
+
+h3 {
+	border-radius: 5%;
+}
+
+button {
+	box-sizing: border-box;
+	font-family: inherit;
+	padding: 0%;
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background-color: hsl(345 6% 12% / 1);
+	margin: 1pt;
+}
+
+button.delete {
+	background-color: red;
+}
+
+input {
+	margin: 1pt;
+	background-color: #161c33;
+}
+
+.selectable {
+	cursor: pointer;
+}
+
+.selected {
+	color: #330f0f;
+	text-decoration: underline;
+}
