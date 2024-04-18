@@ -63,7 +63,7 @@ function Attendance() {
       // If the "Select a program" option is chosen, clear the currentAttendees
       setCurrentAttendees([]);
     } else {
-      // Otherwise, fetch and display the attendees for the selected program
+      // Otherwise, fetch and display the attendees for the active program
       fetchAttendeesForProgram(selectedProgramId);
     }
   };

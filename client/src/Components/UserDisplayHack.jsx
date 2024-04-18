@@ -82,7 +82,7 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	
 	const NameDisplay = ({name, style}) => {
 		return (
-			<p className={`${editing ? "selectable selected" : "selectable"}`} style={style}> {name} </p>
+			<p className={`${editing ? "clickable active" : "clickable"}`} style={style}> {name} </p>
 		)
 	}
 	

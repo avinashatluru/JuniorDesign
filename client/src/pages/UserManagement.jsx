@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const UserManagement = () => {
 	const [users, setUsers] = useState([]);
-	const [selectedUserId, setSelectedUserId] = useState('');
+	const [activeUserId, setSelectedUserId] = useState('');
 	const [programs, setPrograms] = useState([]);
 	const nav = useNavigate();
 	const toHome = () => {nav("/")};
@@ -18,19 +18,19 @@ const UserManagement = () => {
 	}, []);
   
 	useEffect(() => {
-	  if (selectedUserId) {
-		getPrograms(selectedUserId)
+	  if (activeUserId) {
+		getPrograms(activeUserId)
 		  .then(response => {
 			setPrograms(response.data);
 		  })
 		  .catch(error => {
-			console.error('No programs for selected user:', error);
+			console.error('No programs for active user:', error);
 			setPrograms([]);
 		  });
 	  } else {
-		setPrograms([]); // Clear programs if no user is selected
+		setPrograms([]); // Clear programs if no user is active
 	  }
-	}, [selectedUserId]);
+	}, [activeUserId]);
   
 	const handleUserSelect = (event) => {
 	  setSelectedUserId(event.target.value);
@@ -44,7 +44,7 @@ const UserManagement = () => {
 	    style={{width:50, height:50, display:'inline'}} alt="new"/>
 	    <hr style={{color:'white'}}></hr>
 		<h1>Select User to Show Their Details</h1>
-		<select onChange={handleUserSelect} value={selectedUserId}>
+		<select onChange={handleUserSelect} value={activeUserId}>
 		  <option value="">Select a user...</option>
 		  {users.map(user => (
 			<option key={user._id} value={user._id}>
@@ -53,7 +53,7 @@ const UserManagement = () => {
 		  ))}
 		</select>
   
-		{selectedUserId && (
+		{activeUserId && (
 		  <>
 			<h2>Programs</h2>
 			<ul>
