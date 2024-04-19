@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
+import { getPrograms } from "../actions/users";
 
 /**
  * Hack UI to allow for the editing & deletion of users from the 
  */
 export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
+
+	const [programs, setPrograms] = useState([]);
 
 	const [form, setForm] = useState({
 		firstName: "",
@@ -28,6 +31,15 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 		if (!editing) {
 			setEditing(true);
 			setStartValue();
+
+			getPrograms(data[1])
+			.then(response => {
+			  setPrograms(response.data);
+			})
+			.catch(error => {
+			  console.error('No programs for active user:', error);
+			  setPrograms([]);
+			});
 		} else {
 			//Handle Undoing or caching edits
 			setEditing(false);
@@ -82,15 +94,15 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	
 	const NameDisplay = ({name, style}) => {
 		return (
-			<p className={`${editing ? "clickable active" : "clickable"}`} style={style}> {name} </p>
+			<p onClick={handleClickUserName} className={`${editing ? "clickable active" : "clickable"}`} style={style}> {name} </p>
 		)
 	}
 	
 	return (
-		<div>
-			<span onClick={handleClickUserName}><NameDisplay name={data[0]} style={{...style, "fontStyle": "italic"}}/></span>
+		<>
+			<NameDisplay name={data[0]} style={{display: "inline", "fontStyle": "italic"}}/>
 			{editing ? 
-				<div style={style}>
+				<div>
 					<form onSubmit={handleUpdateUser}>
 						<label style={{marginRight:15}}>First Name:</label>
 						<input name="firstName" type="text" value={form.firstName} onChange={handleChange} required /><br/>
@@ -102,9 +114,24 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 						<input name="birthday" type="date" value={form.birthday} onChange={handleChange} required /><br/>
 						<button style={{margin: 5}} type="submit">Submit Edit</button>
 					</form>
-		
+					
+					<div>
+						<p>Programs</p>
+						<ul>
+						{programs.length > 0 ? (
+							programs.map(program => (
+							<li key={program._id}>
+								{program.name} - {new Date(program.date).toLocaleDateString()}
+							</li>
+							))
+						) : (
+							<p>No programs found for this user.</p>
+						)}
+						</ul>
+					</div>
+
 					<button className="delete" onClick={handleDeleteUser}>Delete Attendee</button>
 				</div> : null}
-		</div>
+		</>
 	);
 }

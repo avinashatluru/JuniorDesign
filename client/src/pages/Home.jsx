@@ -1,6 +1,6 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import UserDisplayHack from "../Components/UserDisplayHack";
+import AttendeeDisplay from "../Components/AttendeeDisplay";
 import AddUser from "../Components/AddUser";
 import Add from "./Add";
 import ProgramManagement from "../Components/ProgramManagement";
@@ -98,6 +98,7 @@ return (
             <button onClick={toUserM} className="customButton">Manage Users</button>
             <button onClick={toExportToCsv} className="customButton">Export to CSV</button>
         </div>
+
     <center>
     <div>
         <h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
@@ -118,6 +119,7 @@ return (
                 <div>
                     <h2  style={{ color: 'white', textAlign: 'center', marginTop: '50px', fontSize: '36px' }}>Greetings, the RATL family!</h2>
                     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '60px', marginTop: '50px'}}> {/* Adjust the gap between images here */}
+
                         {homeImages.map((image, index) => (
                             <div key={index} style={{ textAlign: 'center' }}>
                                 <img
@@ -133,6 +135,7 @@ return (
                     </div>
                 </div>
                 )}
+
         {activeComponent === "Roster" && <div>  
                                             <h1 style={{color:'white'}}>ATTENDEES</h1> 
                                             <div style={{maxHeight:300, width:200}}>
@@ -153,6 +156,7 @@ return (
     </div>
     </center>
     </div>
+
 );
 };
 
