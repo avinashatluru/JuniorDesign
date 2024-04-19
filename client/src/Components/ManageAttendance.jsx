@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
-import Select from "react-select"
+import Select, { NonceProvider } from "react-select"
 import { addAttendees, getAttendeeNames  } from "../actions/programs.js";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
@@ -225,6 +225,44 @@ function ManageAttendance() {
       alert(`There was a problem removing attendees: ${error.message}`);
     }
   };
+  const selectStyles = {
+    container: (provided) => ({
+        ...provided,
+        width: '40%',
+        marginBottom: '20px',
+    }),
+    control: (provided) => ({
+        ...provided,
+        padding: '4px 8px',
+        minHeight: '30px',
+        borderRadius: '5px',
+        backgroundColor: 'rgb(105, 105, 105)',
+        borderColor: '#ffffff',
+        borderWidth: '2px',
+        color: 'white',
+        boxShadow: 'none', // Removes any existing shadows
+        '&:hover': {
+            borderColor: '#ffffff' // Border color on hover
+        }
+    }),
+    valueContainer: (provided) => ({
+        ...provided,
+        padding: '0px 6px',
+        color: 'white'
+    }),
+    singleValue: (provided) => ({
+        ...provided,
+        color: 'white'
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        backgroundColor: state.isSelected ? 'rgb(153, 153, 153)' : 'rgb(105, 105, 105)',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: 'rgb(153, 153, 153)', // Darker grey on hover
+        }
+    }),
+};
 
   return (
     <center>
@@ -236,8 +274,10 @@ function ManageAttendance() {
 
       {activeComponent === "None" && <div/>}
 
-      {activeComponent === "Add" && 	<div>
-        <h4>Select a Program</h4>
+
+      {/* {activeComponent === "Add" && 	<div>
+        <h3 style={{color:'white'}}>Select a Program</h3>
+
         <select onChange={handleProgramSelect} value={selectedProgram}>
           <option value="">Select a program</option>
           {programs.map(program => (
@@ -251,39 +291,157 @@ function ManageAttendance() {
           ))}
         </select> <br/>
         <button onClick={handleSubmit} className='AttendeesButton'>Add Selected Attendees to Program</button>
-			</div>}
+			</div>} */}
+            {activeComponent === "Add" && (
+                <div style={{ color: 'white', padding: '20px', backgroundColor: 'rgb(105, 105, 105)' }}>
+                    <h3 style = {{fontFamily: '"Times New Roman", serif' }}>Select a Program</h3>
+                    <select 
+                        onChange={handleProgramSelect} 
+                        value={selectedProgram} 
+                        style={{
+                            width: '40%',
+                            marginBottom: '20px',
+                            padding: '10px',
+                            borderRadius: '5px',
+                            backgroundColor: 'rgb(105, 105, 105)',
+                            color: 'white',
+                            border: '2px solid #ffffff',
+                            outline: 'none'
+                        }}>
+                        <option value="">Select a program</option>
+                        {programs.map(program => (
+                            <option key={program._id} value={program._id}>{program.name}</option>
+                        ))}
+                    </select>
+
+                    <h3>Select Attendees To Add</h3>
+                    <select 
+                        multiple={true} 
+                        onChange={handleAttendeeSelect} 
+                        value={selectedAttendees}
+                        className='AttendeesList'
+                        style={{
+                            width: '40%',
+                            height: '150px',
+                            padding: '10px',
+                            borderRadius: '1px',
+                            backgroundColor: 'rgb(105, 105, 105)',
+                            color: 'white',
+                            border: '2px solid #ffffff',
+                            outline: 'none'
+                        }}>
+                        {attendees.map(attendee => (
+                            <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
+                        ))}
+                    </select>
+                    <br/>
+                    <button 
+                        onClick={handleSubmit} 
+                        className='AttendeesButton'
+                        style={{
+                            marginTop: '20px',
+                            padding: '10px 20px',
+                            borderRadius: '5px',
+                            backgroundColor: 'black',
+                            color: 'white',
+                            border: 'none',
+                            cursor: 'pointer'
+                        }}>Add Selected Attendees to Program</button>
+                </div>
+            )}
 
       {activeComponent === "Remove" && (
-          <div>
-            <h3>Select a Program</h3>
-            <select onChange={handleProgramSelect} value={selectedProgram}>
+
+          <div style={{ color: 'white', padding: '20px', backgroundColor: 'rgb(105, 105, 105)' }}>
+            <h3 >Select a Program</h3>
+            <select onChange={handleProgramSelect} value={selectedProgram} style={{
+                width: '40%',
+                marginBottom: '20px',
+                padding: '10px',
+                borderRadius: '5px',
+                backgroundColor: 'rgb(105, 105, 105)',
+                color: 'white',
+                border: '2px solid #ffffff',
+                outline: 'none'
+            }}>
+
               <option value="">Select a program</option>
               {programs.map(program => (
                 <option key={program._id} value={program._id}>{program.name}</option>
               ))}
             </select>
-            <h3>Select Attendees to Remove</h3>
-            <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
+
+            <h3 style={{color:'white'}}>Select Attendees to Remove</h3>
+            <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList' style={{
+                width: '40%',
+                height: '150px',
+                padding: '10px',
+                borderRadius: '5px',
+                backgroundColor: 'rgb(105, 105, 105)',
+                color: 'white',
+                border: '2px solid #ffffff',
+                outline: 'none'
+            }}>
+
               {currentAttendees.map(attendee => (
                 <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
               ))}
             </select> <br/>
-            <button onClick={handleRemove} className='AttendeesButton'>Remove Selected Attendees from Program</button>
+            <button onClick={handleRemove} className='AttendeesButton'style={{
+                marginTop: '20px',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                backgroundColor: 'black',
+                color: 'white',
+                border: 'none',
+                cursor: 'pointer'
+            }}>Remove Selected Attendees from Program</button>
           </div>
         )}
 
+
+
       {activeComponent === "Attend" && <div>	
-				<h3>Select Program</h3> 
-        <Select style={{color:'white'}} options={programsList()} value={currentProgram} onChange={handleSelectAttendance}/><br/>
-				<h3>Mark Attendance for <span className='active'>{switchText()}</span></h3> 								
-				<div style={{maxHeight:200, width:200, overflow:'auto'}} className="list-container">
+
+        <div style=  {{ color: 'white', padding: '20px', backgroundColor: 'rgb(105, 105, 105)' }} >
+				<h3 style={{
+                 width: '40%',
+                 padding: '10px',
+                 borderRadius: '5px',
+                 backgroundColor: 'rgb(105, 105, 105)',
+                 color: 'white',
+                 border: 'none',
+                 outline: 'none'
+            }}>Select Program</h3> 
+        <Select options={programsList()} value={currentProgram} onChange={handleSelectAttendance} styles={selectStyles} ></Select><br/>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems:'flex-start',padding: '21px', gap:'0px' }}>
+        <div style={{
+                color: 'white',
+                width: '30%',
+                overflow: 'auto',
+                backgroundColor: 'rgb(105,105,105)',
+                padding: '10px',
+                borderRadius: '5px',
+            }} className="list-container">
+				<h3 style={{color:'white'}}>Mark Attendance for {switchText()}</h3> 								
+				
+
        		{currentAttendees.map(attendee => (
        			<div key={attendee._id}>
 							<input value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} type="checkbox" onChange={handleCheck}/>
         				<span>{attendee.firstName} {attendee.lastName}</span>
        			</div>))}
    			</div> 
-				<div style={{maxHeight:200, width:200, overflow:'auto'}} className="marked-ones">
+
+				<div style={{
+            color: 'white', 
+            width: '30%', 
+            overflow: 'auto',
+            backgroundColor: 'rgb(105,105,105)',
+            padding: '10px',
+            borderRadius: '5px',
+        }} className="marked-ones">
+
 					<h3>Marked Attendees</h3>
 					{checked.map((item, index) => ( 
             /** 
@@ -294,8 +452,18 @@ function ManageAttendance() {
         			<span>{item.split(";")[1]}</span>
        			</div>))}
 				</div>
+        </div>
 				<br/>
-				<button type="submitAttendance">Mark Attendance</button>
+				<button type="submitAttendance" style={{
+                marginTop: '20px',
+                padding: '10px 20px',
+                borderRadius: '5px',
+                backgroundColor: 'black',
+                color: 'white',
+                border: 'none',
+                cursor: 'pointer'
+            }}>Mark Attendance</button>
+        </div>
 				</div>}
     </div>
     </center>

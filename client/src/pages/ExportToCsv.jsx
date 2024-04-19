@@ -8,6 +8,7 @@ function ExportToCsv() {
   const [attendees, setAttendees] = useState([]);
   const [programs, setPrograms] = useState([]);
 
+  // Effect hook to fetch all programs when the component mounts.
   useEffect(() => {
     const fetchPrograms = async () => {
       try {
@@ -22,6 +23,7 @@ function ExportToCsv() {
     fetchPrograms();
   }, []);
 
+  // Effect hook to fetch attendees when the currentProgramId changes.
   useEffect(() => {
     if (currentProgramId) {
       const fetchAttendees = async () => {
@@ -38,10 +40,12 @@ function ExportToCsv() {
     }
   }, [currentProgramId]);
 
+  // Event handler to update the current program ID from user selection.
   const handleProgramChange = (event) => {
     setCurrentProgramId(event.target.value);
   };
 
+  // Function to generate a CSV file from program data
   function exportProgramDataToCSV(programData, attendees) {
     let csvContent = "data:text/csv;charset=utf-8,";
     csvContent += "Program Name,Program Date,Program Site,Attendee Names,Attendee Birthdays\n";
@@ -60,7 +64,7 @@ function ExportToCsv() {
     document.body.removeChild(link); // Clean up
   }
 
-
+  // Event handler to initiate the data export process.
   const handleExport = async () => {
     if (!currentProgramId) {
       alert("Please select a program to export.");
