@@ -114,61 +114,61 @@ function ManageAttendance() {
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
     const Selected = e.value
-		setCurrentProgram(Selected);
+    setCurrentProgram(Selected);
     setCurrentProgramId(Selected._id);
-	};
+  };
 
   //changes checklist header to currentProgram.name
   const switchText = () => {
-		let name = currentProgram.name;
-		return name
-	};
+    let name = currentProgram.name;
+    return name
+  };
 
   //returns a list in the form of {label:program.name, value:program.id} for each program
   const programsList = () => {
-		let listOfPrograms = [];
-		programs.forEach(program =>{
+    let listOfPrograms = [];
+    programs.forEach(program =>{
       listOfPrograms.push({label:program.name, value:program})
     });
-		return listOfPrograms
-	};
+    return listOfPrograms
+  };
 
   //returns list of program names
   const programNames = () => {
-		let names = [];
-		programs.forEach(program =>{
+    let names = [];
+    programs.forEach(program =>{
       names.push(program.name)
     });
-		return names
-	};
+    return names
+  };
 
   //returns list of integers for each program
   const attendanceData = () => {
-		let participation = [];
-		programs.forEach(program =>{
+    let participation = [];
+    programs.forEach(program =>{
       participation.push(15)
     });
-		return participation
-	};
+    return participation
+  };
 
   //Places and removes attendees to/from checked based on whether or not thei checkbox is checked 
   //Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}` through e.target.value
-	const handleCheck = (e) => {
-		var x = [...checked]
-		if(e.target.checked) {
-			x = [...checked, e.target.value]
+  const handleCheck = (e) => {
+    var x = [...checked]
+    if(e.target.checked) {
+      x = [...checked, e.target.value]
 
       //Dirty hack to sort attendees based on ID
       x = x.sort((a, b) => {
           let str1 = a.split(";")[0];
           let str2 = b.split(";")[0];
           return (str1 < str2 ) ? -1 : ( str1 > str2 ? 1 : 0 )})
-		} else {
+    } else {
       //Selectively delete the unselected attendees
-			x.splice(checked.indexOf(e.target.value), 1)
-		}
-		setChecked(x)
-	}
+      x.splice(checked.indexOf(e.target.value), 1)
+    }
+    setChecked(x)
+  }
 
   const removeAttendees = async (programId, attendeeIds) => {
     try {
@@ -267,13 +267,87 @@ function ManageAttendance() {
   return (
     <center>
     <div>
-	    <hr/>
+      <hr/>
       <h3 className={`${activeComponent==="Add"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
       <h3 className={`${activeComponent==="Remove"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
       <h3 className={`${activeComponent==="Attend"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
 
       {activeComponent === "None" && <div/>}
 
+
+      {activeComponent === "Add" && (
+    <div className="add-section">
+        <h3 className="select-program-heading">Select a Program</h3>
+        <select className="program-select" onChange={handleProgramSelect} value={selectedProgram}>
+            <option value="">Select a program</option>
+            {programs.map(program => (
+                <option key={program._id} value={program._id}>{program.name}</option>
+            ))}
+        </select>
+
+        <h3 className="select-attendees-heading">Select Attendees To Add</h3>
+        <select className="attendees-select" multiple={true} onChange={handleAttendeeSelect} value={selectedAttendees}>
+            {attendees.map(attendee => (
+                <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
+            ))}
+        </select>
+        <br/>
+        <button className="add-attendees-button" onClick={handleSubmit}>Add Selected Attendees to Program</button>
+    </div>
+)}
+
+
+{activeComponent === "Remove" && (
+    <div className="remove-section">
+        <h3 className="select-program-heading">Select a Program</h3>
+        <select className="program-select" onChange={handleProgramSelect} value={selectedProgram}>
+            <option value="">Select a program</option>
+            {programs.map(program => (
+                <option key={program._id} value={program._id}>{program.name}</option>
+            ))}
+        </select>
+
+        <h3 className="select-attendees-heading">Select Attendees to Remove</h3>
+        <select multiple={true} className="attendees-select" onChange={handleAttendeeSelect} value={selectedAttendees}>
+            {currentAttendees.map(attendee => (
+                <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
+            ))}
+        </select>
+        <br/>
+        <button className="remove-attendees-button" onClick={handleRemove}>
+            Remove Selected Attendees from Program
+        </button>
+    </div>
+)}
+
+{activeComponent === "Attend" && (
+    <div className="attend-section">
+        <div>
+            <h3 className="select-program-heading">Select Program</h3>
+            <Select options={programsList()} value={currentProgram} onChange={handleSelectAttendance} styles={selectStyles} />
+            <br/>
+            <div className="flex-container">
+                <div className="list-container">
+                    <h3>Mark Attendance for {switchText()}</h3>
+                    {currentAttendees.map(attendee => (
+                        <div key={attendee._id}>
+                            <input type="checkbox" value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} onChange={handleCheck}/>
+                            <span>{attendee.firstName} {attendee.lastName}</span>
+                        </div>
+                    ))}
+                </div>
+                <div className="marked-ones">
+                    <h3>Marked Attendees</h3>
+                    {checked.map((item, index) => (
+                        <div key={index}>
+                            <span>{item.split(";")[1]}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <br/>
+            <button type="submitAttendance" className="submit-button">Mark Attendance</button>
+=======
       {activeComponent === "Add" && 	<div>
         <h4 style={{display: "block"}}>Select a Program</h4>
         <select onChange={handleProgramSelect} value={selectedProgram}>
@@ -418,11 +492,16 @@ function ManageAttendance() {
                 border: 'none',
                 cursor: 'pointer'
             }}>Mark Attendance</button>
+
         </div>
-				</div>}
+    </div>
+)}
+
     </div>
     </center>
   );
 }
 
 export default ManageAttendance;
+
+
