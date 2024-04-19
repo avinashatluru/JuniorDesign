@@ -5,6 +5,8 @@ import { getAllUsers } from "../actions/users";
 import { Bar, Pie } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 import { Select } from "@mui/material";
+import '../Styles/basic.css'; // Ensure the path is correct
+
 
 function ViewAttendance() {
   const navigate = useNavigate();
@@ -142,7 +144,7 @@ function ViewAttendance() {
 
   return (
     <center>
-      <div className="attendance-view-container">
+      <div >
         <h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
 	      <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
 	      style={{width:50, height:50, display:'inline'}} alt="new"/>
@@ -152,7 +154,7 @@ function ViewAttendance() {
 
       {activeComponent === "ListByProgram" && <div>	
         <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
-        <select onChange={handleProgramChange} value={currentProgramId}>
+        <select onChange={handleProgramChange} value={currentProgramId} >
           <option value="">Select a program</option>
           {programs.map((program) => (
             <option key={program._id} value={program._id}>
@@ -177,7 +179,7 @@ function ViewAttendance() {
 			</div>}
 
       {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white"}}>	
-      <select onChange={handleProgramChange} value={currentProgramId}>
+      <select onChange={handleProgramChange} value={currentProgramId} >
         <option value="">Select a program</option>
         {programs.map((program) => (
           <option key={program._id} value={program._id}>
