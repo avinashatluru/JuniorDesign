@@ -7,6 +7,7 @@ import ProgramManagement from "../Components/ProgramManagement";
 import ViewAttendance from "../Components/ViewAttendance";
 import ManageAttendance from "../Components/ManageAttendance";
 import UserDisplayHack from "../Components/UserDisplayHack";
+
 import '../Styles/basic.css'
 
 const Home = () => {
@@ -108,7 +109,7 @@ return (
     </div>
         <hr/>
         <br/>
-    <div>
+    <div >
         <h2 className={`${activeComponent=="Home"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Home")}>Home</h2>
         <h2 className={`${activeComponent=="Roster"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
         <h2 className={`${activeComponent=="Attendance"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Attendance")}>Attendance</h2>
@@ -137,12 +138,16 @@ return (
                 </div>
                 )}
 
-        {activeComponent === "Roster" && <div>  
-                                            <h1 style={{color:'white'}}>ATTENDEES</h1> 
-                                            <div style={{maxHeight:300, width:200}}>
-                                                {list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
-                                            </div>
-                                         </div>}
+        {activeComponent === "Roster" && 
+            <div className="roster-container">
+                <h1 style={{color: 'white'}}>ATTENDEES</h1> 
+                <div>
+                    {list.map(txt => 
+                        <UserDisplayHack key={txt[1]} data={txt} className="user-display-hack" onUserUpdate={getAttendees} />)
+                    }
+                </div>
+            </div>
+        }
         {activeComponent === "Attendance" && <>
                                             <ManageAttendance/>
                                             <ViewAttendance/>
