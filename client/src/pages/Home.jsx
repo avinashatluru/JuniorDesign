@@ -6,8 +6,6 @@ import Add from "./Add";
 import ProgramManagement from "../Components/ProgramManagement";
 import ViewAttendance from "../Components/ViewAttendance";
 import ManageAttendance from "../Components/ManageAttendance";
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import '../Styles/basic.css'
 
 
@@ -51,7 +49,7 @@ const Home = () => {
 		nav("/ExportToCsv")
 	);
 
-	const [activeComponent, setActiveComponent] = useState("project");
+	const [activeComponent, setActiveComponent] = useState("Home");
 
 	const modifyActiveComponent = useCallback(
 	  newActiveComponent => {setActiveComponent(newActiveComponent);},
@@ -96,12 +94,11 @@ return (
 		{/* <button onClick={toLogin}>Logout</button>
 		<button onClick={toUserM}>Manage Users</button>
 		<button onClick={toExportToCsv}>Export to CSV</button> */}
-		 <Stack direction="row" spacing={2} style={{ margin: 20 }}>
-                <Button variant="outlined" onClick={toLogin}  sx={{ color: 'white', border: 'none',  fontFamily: '"Times New Roman", serif' , fontweight: 'bold', fontsize: '3rem'}}>Logout</Button>
-                <Button variant="outlined" onClick={toUserM} sx={{ color: 'white', border: 'none' ,fontFamily: '"Times New Roman", serif' , fontweight: "bold"}}>Manage Users</Button>
-                <Button variant="outlined" onClick={toExportToCsv} sx={{ color: 'white', border: 'none' , fontFamily: '"Times New Roman", serif' , fontweight: "bold"}}>Export to CSV</Button>
-        </Stack>
-
+		 <div style={{ padding: '20px' }}>
+            <button onClick={toLogin} className="customButton">Logout</button>
+            <button onClick={toUserM} className="customButton">Manage Users</button>
+            <button onClick={toExportToCsv} className="customButton">Export to CSV</button>
+        </div>
 	<center>
 	<div>
 		<h1 style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
@@ -118,6 +115,8 @@ return (
 		
 		<br/>
 	 {activeComponent === "Home" && (
+				<div>
+					<h2 style={{ color: 'white', textAlign: 'center', marginTop: '40px', fontSize: '36px' }}>Greetings, the RATL family!</h2>
                     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '60px' }}> {/* Adjust the gap between images here */}
                         {homeImages.map((image, index) => (
                             <div key={index} style={{ textAlign: 'center' }}>
@@ -132,6 +131,7 @@ return (
                             </div>
                         ))}
                     </div>
+				</div>
                 )}
 		{activeComponent === "Roster" && <div>
 											<AttendeeDisplay list={list} onUpdate={getAttendees} /*style={{color:'white'}}*//>

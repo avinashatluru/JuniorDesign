@@ -67,6 +67,32 @@ input {
 	text-decoration: underline;
 }
 
+
+.customButton {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color:rgb(105, 105, 105) ; /* RATL Brown */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.customButton:hover, .customButton:focus {
+    background-color: black; /* Oxford Blue */
+    border-color: #201d1e;
+}
+
+.customButton:active {
+    background-color: #330f0f; /* Deep Red */
+    border-color: white;
+}
+
 p.selected {
 	font-size: large;
 }
@@ -86,6 +112,7 @@ p.selected {
 
 p.active {
 	font-size: large;
+
 }
 
 .container {
