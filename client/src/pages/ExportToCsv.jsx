@@ -50,10 +50,14 @@ function ExportToCsv() {
     let csvContent = "data:text/csv;charset=utf-8,";
     csvContent += "Program Name,Program Date,Program Site,Attendee Names,Attendee Birthdays\n";
 
-    const attendeeNames = attendees.map(a => a.firstName + ' ' + a.lastName).join('; ');
-    const attendeeBirthdays = attendees.map(a => a.birthday.split('T')[0]).join('; ');
+    const escapeCsvValue = (val) => `"${val.replace(/"/g, '""')}"`;
 
-    csvContent += `${programData.name},${new Date(programData.date).toISOString().split('T')[0]},${programData.site},"${attendeeNames}","${attendeeBirthdays}"\n`;
+    attendees.forEach(attendee => {
+      const attendeeName = escapeCsvValue(`${attendee.firstName} ${attendee.lastName}`);
+      const attendeeBirthday = escapeCsvValue(attendee.birthday.split('T')[0]);
+
+      csvContent += `${escapeCsvValue(programData.name)},${escapeCsvValue(new Date(programData.date).toISOString().split('T')[0])},${escapeCsvValue(programData.site)},${attendeeName},${attendeeBirthday}\n`;
+    });
 
     var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
@@ -63,6 +67,7 @@ function ExportToCsv() {
     link.click();
     document.body.removeChild(link); // Clean up
   }
+
 
   // Event handler to initiate the data export process.
   const handleExport = async () => {
