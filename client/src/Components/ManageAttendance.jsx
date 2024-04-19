@@ -57,6 +57,12 @@ function ManageAttendance() {
   const handleProgramSelect = (e) => {
     const selectedProgramId = e.target.value;
     setSelectedProgram(selectedProgramId);
+    let programsById = {};
+    programs.forEach( (p) => {
+      programsById[p._id] = p;
+    });
+    setCurrentProgram(programsById[selectedProgramId]);
+    setCurrentProgramId(selectedProgramId);
   
     if (!selectedProgramId) {
       // If the "Select a program" option is chosen, clear the currentAttendees
@@ -107,10 +113,10 @@ function ManageAttendance() {
   };
 
   //modifies page based on which header is clicked
-  const modifyActiveComponent = useCallback(
-		newActiveComponent => {console.log(activeComponent, newActiveComponent); if (newActiveComponent === activeComponent) {setActiveComponent("");} else {setActiveComponent(newActiveComponent);}},
-		[setActiveComponent]
-	  );
+  const modifyActiveComponent = (newActiveComponent) => {
+    if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
+      else {setActiveComponent(newActiveComponent); console.log(activeComponent)}
+    };
   
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
@@ -267,9 +273,9 @@ function ManageAttendance() {
     <center>
     <div className="manage-attendance-container">
 	    <hr ></hr>
-      <h3 className={`clickable ${activeComponent === "Add" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
-      <h3 className={`clickable ${activeComponent === "Remove" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
-      <h3 className={`clickable ${activeComponent === "Attend" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
+      <h3 className={`clickable ${activeComponent === "Add" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
+      <h3 className={`clickable ${activeComponent === "Remove" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
+      <h3 className={`clickable ${activeComponent === "Attend" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
 
       {/* {activeComponent === "Add" && 	<div>
         <h3 style={{color:'white'}}>Select a Program</h3>
@@ -349,18 +355,17 @@ function ManageAttendance() {
     <div className="manage-attendance-section">
         <h3>Select Program</h3>
         <div className="attendance-select-container">
-            <Select 
-                options={programsList()} 
-                value={currentProgram} 
-                onChange={handleSelectAttendance} 
-                styles={selectStyles} 
-                isSearchable={false}
-            />
+          <select className="program-select" onChange={handleProgramSelect} value={selectedProgram}>
+              <option value="">Select a program</option>
+              {programs.map(program => (
+                  <option key={program._id} value={program._id}>{program.name}</option>
+              ))}
+          </select>
         </div>
         
         <div className="attendance-flex-container">
             <div className="attendance-list-container">
-                <h3>Mark Attendance for {switchText()}</h3>
+                <h3>Mark Attendance for <span className="active">{switchText()}</span></h3>
                 {currentAttendees.map(attendee => (
                     <div key={attendee._id} className="attendance-item">
                         <input type="checkbox" className="attendance-checkbox" value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} onChange={handleCheck}/>
@@ -370,7 +375,7 @@ function ManageAttendance() {
             </div>
 
             <div className="marked-ones">
-                <h3>Marked Attendees</h3>
+                <h3>Selected Attendees</h3>
                 {checked.map((item, index) => (
                     <div key={index} className="attendance-item">
                         <span>{item.split(";")[1]}</span>
