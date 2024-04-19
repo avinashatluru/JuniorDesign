@@ -289,7 +289,7 @@ function ManageAttendance() {
        			</div>))}
    			</div> 
 				<div style={{overflow:'auto'}} className="marked-ones">
-					<h3>Marked Attendees</h3>
+					<h3>Selected Attendees</h3>
 					{checked.map((item, index) => ( 
             /** 
              * Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}`

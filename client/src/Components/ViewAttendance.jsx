@@ -147,7 +147,7 @@ function ViewAttendance() {
               {program.name}
             </option>
           ))}
-        </select>
+        </select><br/>
 
         {currentProgramId && (
           <>
@@ -174,7 +174,7 @@ function ViewAttendance() {
 			</div>}
 
       {activeComponent === "VisualByProgram" && <div>	
-      <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button>
+      <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button><br/>
         <h4>Participation for this Week</h4>
             <div style={{maxWidth: "650px"}}>
                 <Bar
