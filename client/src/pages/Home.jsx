@@ -6,6 +6,7 @@ import Add from "./Add";
 import ProgramManagement from "../Components/ProgramManagement";
 import ViewAttendance from "../Components/ViewAttendance";
 import ManageAttendance from "../Components/ManageAttendance";
+import UserDisplayHack from "../Components/UserDisplayHack";
 import '../Styles/basic.css'
 
 const Home = () => {
