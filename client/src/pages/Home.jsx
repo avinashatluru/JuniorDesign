@@ -1,6 +1,6 @@
 import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import UserDisplayHack from "../Components/UserDisplayHack";
+import AttendeeDisplay from "../Components/AttendeeDisplay";
 import AddUser from "../Components/AddUser";
 import Add from "./Add";
 import ProgramManagement from "../Components/ProgramManagement";
@@ -108,13 +108,12 @@ return (
 		<hr/>
 		<br/>
 	<div>
-		<h2 className={`${activeComponent=="Home"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Home")}>Home</h2>
+		{/*<h2 className={`${activeComponent=="Home"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Home")}>Home</h2>*/}
 		<h2 className={`${activeComponent=="Roster"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Roster")}>Roster</h2>
 		<h2 className={`${activeComponent=="Attendance"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Attendance")}>Attendance</h2>
 		<h2 className={`${activeComponent=="Database"? "clickable active" : "clickable"}`} onClick={() => modifyActiveComponent("Database")}>Database</h2>
 		
 		<br/>
-
 	 {activeComponent === "Home" && (
 				<div>
 					<h2 style={{ color: 'white', textAlign: 'center', marginTop: '40px', fontSize: '36px' }}>Greetings, the RATL family!</h2>
@@ -134,11 +133,8 @@ return (
                     </div>
 				</div>
                 )}
-		{activeComponent === "Roster" && <div>	
-											<h1 style={{color:'white'}}>ATTENDEES</h1> 
-											<div style={{maxHeight:300, width:200}}>
-												{list.map(txt => <UserDisplayHack key={txt[1]} data={txt} style={{}} onUserUpdate={getAttendees} /*style={{color:'white'}}*//>)}
-											</div>
+		{activeComponent === "Roster" && <div>
+											<AttendeeDisplay list={list} onUpdate={getAttendees} /*style={{color:'white'}}*//>
 										 </div>}
 		{activeComponent === "Attendance" && <>
 											<ManageAttendance/>

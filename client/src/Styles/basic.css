@@ -29,6 +29,10 @@ h3 {
 	display: inline;
 }
 
+h4 {
+	display: inline-block;
+}
+
 button {
 	box-sizing: border-box;
 	font-family: inherit;
@@ -109,4 +113,24 @@ p.selected {
 p.active {
 	font-size: large;
 
+}
+
+.container {
+	display: flex;
+}
+
+.horizontal {
+	flex-flow: row nowrap;
+}
+
+.vertical {
+	flex-flow: column nowrap;
+}
+
+.horizontal div {
+	flex: 1 1 auto;
+}
+
+.hide {
+	display: none;
 }
