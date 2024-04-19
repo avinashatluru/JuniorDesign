@@ -1,57 +1,53 @@
 /** Basic styling for the whole application. No more marking everything as style={{color: white}} */
 
 /**
-	Palette hsla( 0,0%,100% ,1)
-
-	background grey: #696969
-	Text: white
-
-	These next 3 do not contrast with each other, they're for contrast with the background
-	Having 3 is just a nice flourish
-
-	RATL Brown: #201d1e / hsl(345 6% 12% / 1)
-	Oxford Blue: #161c33
-	Deep Red: #330f0f
-
+    Palette hsla( 0,0%,100% ,1)
+    background grey: #696969
+    Text: white
+    These next 3 do not contrast with each other, they're for contrast with the background
+    Having 3 is just a nice flourish
+    RATL Brown: #201d1e / hsl(345 6% 12% / 1)
+    Oxford Blue: #161c33
+    Deep Red: #330f0f
  */
 
-* {
-	color: white;
-	background-color: rgb(105, 105, 105);
+ * {
+    color: white;
+    background-color: rgb(105, 105, 105);
 }
 
 h2 {
-	margin: 20pt;
-	display: inline;
+    margin: 50pt;
+    display: inline;
 }
 
 h3 {
-	display: inline;
+    display: inline;
 }
 
 button {
-	box-sizing: border-box;
-	font-family: inherit;
-	padding: 0%;
+    box-sizing: border-box;
+    font-family: inherit;
+    padding: 0%;
 
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	background-color: hsl(345 6% 12% / 1);
-	margin: 1pt;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(345 6% 12% / 1);
+    margin: 1pt;
 }
 
 button.delete {
-	background-color: red;
+    background-color: red;
 }
 
 input {
-	margin: 1pt;
-	background-color: #161c33;
+    margin: 1pt;
+    background-color: black;
 }
 
 .selectable {
-	cursor: pointer;
+    cursor: pointer;
 
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
@@ -59,10 +55,9 @@ input {
 }
 
 .selected {
-	color: #330f0f;
-	text-decoration: underline;
+    color: black;
+    text-decoration: underline;
 }
-
 
 .customButton {
     padding: 10px 20px;
@@ -87,13 +82,14 @@ input {
 .customButton:active {
     background-color: #330f0f; /* Deep Red */
     border-color: white;
+}
 
 p.selected {
-	font-size: large;
+    font-size: large;
 }
 
 .clickable {
-	cursor: pointer;
+    cursor: pointer;
 
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
@@ -101,11 +97,160 @@ p.selected {
 }
 
 .active {
-	color: #330f0f;
-	text-decoration: underline;
+    color: black;
+    text-decoration: underline;
 }
 
 p.active {
-	font-size: large;
+    font-size: large;
 
 }
+.add-section .select-program-heading, .add-section .select-attendees-heading {
+    display: block; 
+    width: 40%; 
+}
+
+.add-section .program-select, .add-section .attendees-select {
+    display: block; 
+    width: 40%; 
+}
+
+.add-section .add-attendees-button {
+    display: block; 
+    width: auto; 
+}
+.add-section {
+    color: white;
+    padding: 20px;
+    background-color: rgb(105, 105, 105);
+}
+
+.select-program-heading {
+    font-family: 'Times New Roman', serif;
+}
+
+.program-select,
+.attendees-select {
+    width: 40%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(105, 105, 105);
+    color: white;
+    border: 2px solid #ffffff;
+    outline: none;
+}
+
+.attendees-select {
+    height: 150px;
+    border-radius: 1px; /* Specific to this select element */
+}
+
+.add-attendees-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-section .select-program-heading, .remove-section .select-attendees-heading {
+    display: block; 
+    width: 40%; 
+    margin-bottom: 10px; 
+}
+
+.remove-section .program-select, .remove-section .attendees-select {
+    display: block; 
+    width: 40%; 
+}
+
+.remove-section .remove-attendees-button {
+    display: block;
+    width: auto; 
+    margin-top: 20px; 
+}
+.remove-section {
+    color: white;
+    padding: 20px;
+    background-color: rgb(105, 105, 105);
+}
+
+.remove-section .select-program-heading,
+.remove-section .select-attendees-heading {
+    margin-bottom: 20px;
+}
+
+.remove-section .program-select,
+.remove-section .attendees-select {
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(105, 105, 105);
+    color: white;
+    border: 2px solid #ffffff;
+    outline: none;
+}
+
+.remove-section .attendees-select {
+    height: 150px;
+}
+
+.remove-section .remove-attendees-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.attend-section {
+    color: white;
+    padding: 20px;
+    background-color: rgb(105, 105, 105);
+}
+
+.attend-section .select-program-heading,
+.attend-section .list-container h3,
+.attend-section .marked-ones h3 {
+    width: 40%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(105, 105, 105);
+    border: none;
+    outline: none;
+}
+
+.attend-section .flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 21px;
+    gap: 0px;
+}
+
+.attend-section .list-container,
+.attend-section .marked-ones {
+    color: white;
+    width: 30%;
+    overflow: auto;
+    background-color: rgb(105, 105, 105);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.attend-section .submit-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
