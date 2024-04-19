@@ -1,17 +1,6 @@
-/** Basic styling for the whole application. No more marking everything as style={{color: white}} */
+/** Basic styling for the whole application. */
 
-/**
-    Palette hsla( 0,0%,100% ,1)
-    background grey: #696969
-    Text: white
-    These next 3 do not contrast with each other, they're for contrast with the background
-    Having 3 is just a nice flourish
-    RATL Brown: #201d1e / hsl(345 6% 12% / 1)
-    Oxford Blue: #161c33
-    Deep Red: #330f0f
- */
-
- * {
+* {
     color: white;
     background-color: rgb(105, 105, 105);
 }
@@ -22,23 +11,25 @@ h2 {
 }
 
 h3 {
-    display: inline;
-}
-
-h4 {
-	display: inline-block;
+    display: block;
 }
 
 button {
     box-sizing: border-box;
     font-family: inherit;
-    padding: 0%;
-
+    padding:  10px 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: hsl(345 6% 12% / 1);
-    margin: 1pt;
+    background-color: #333;
+    margin: 20px 5px 5px 5px;
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effects */
+    border: 2px solid #ffffff; /* White border, 2px thick */
+    border-radius: 5px; 
+}
+button:hover {
+    background-color:  rgb(88, 75, 75); /* Lighter on hover */
 }
 
 button.delete {
@@ -46,237 +37,85 @@ button.delete {
 }
 
 input {
-    margin: 1pt;
-    background-color: black;
+    padding: 8px 12px; 
+    margin: 5pt; 
+    background-color: #333; 
+    color: white; 
+    border: 2px solid #555; 
+    border-radius: 4px; 
+    outline: none; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
 }
 
-.selectable {
+input:focus {
+    border-color: #06AED5; /* A brighter border color for focus */
+    box-shadow: 0 0 8px 0 rgba(6, 174, 213, 0.5); /* Subtle glow effect when focused */
+}
+
+.selectable, .clickable, button {
     cursor: pointer;
-
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none;
 }
 
-.selected {
+.selected, .active {
     color: black;
     text-decoration: underline;
 }
 
-.customButton {
-    padding: 10px 20px;
-    margin: 5px;
-    background-color:rgb(105, 105, 105) ; /* RATL Brown */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-family: 'Arial', sans-serif;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.customButton:hover, .customButton:focus {
-    background-color: black; /* Oxford Blue */
-    border-color: #201d1e;
-}
-
-.customButton:active {
-    background-color: #330f0f; /* Deep Red */
-    border-color: white;
-}
-
-p.selected {
+p.selected, p.active {
     font-size: large;
 }
-
-.clickable {
-    cursor: pointer;
-
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none;
-}
-
-.active {
-    color: black;
-    text-decoration: underline;
-}
-
-p.active {
-    font-size: large;
-
-}
-.add-section .select-program-heading, .add-section .select-attendees-heading {
-    display: block; 
+/* Universal select style */
+select {
     width: 40%; 
-}
-
-.add-section .program-select, .add-section .attendees-select {
-    display: block; 
-    width: 40%; 
-}
-
-.add-section .add-attendees-button {
-    display: block; 
-    width: auto; 
-}
-.add-section {
-    color: white;
-    padding: 20px;
-    background-color: rgb(105, 105, 105);
-}
-
-.select-program-heading {
-    font-family: 'Times New Roman', serif;
-}
-
-.program-select,
-.attendees-select {
-    width: 40%;
-    margin-bottom: 20px;
     padding: 10px;
     border-radius: 5px;
-    background-color: rgb(105, 105, 105);
+    background-color:   rgb(105, 105, 105); 
+    color: white; 
+    border: 2px solid white; 
+    cursor: pointer; 
+
+    appearance: none; 
+}
+
+
+/** Shared styles for sections with forms for adding or removing attendees */
+/** Additional styles specific to the ManageAttendance component **/
+
+.manage-attendance-container {
+    text-align: center;
     color: white;
-    border: 2px solid #ffffff;
-    outline: none;
-}
-
-.attendees-select {
-    height: 150px;
-    border-radius: 1px; /* Specific to this select element */
-}
-
-.add-attendees-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.remove-section .select-program-heading, .remove-section .select-attendees-heading {
-    display: block; 
-    width: 40%; 
-    margin-bottom: 10px; 
-}
-
-.remove-section .program-select, .remove-section .attendees-select {
-    display: block; 
-    width: 40%; 
-}
-
-.remove-section .remove-attendees-button {
-    display: block;
-    width: auto; 
-    margin-top: 20px; 
-}
-.remove-section {
-    color: white;
-    padding: 20px;
-    background-color: rgb(105, 105, 105);
 }
 
 
-.remove-section .select-program-heading,
-.remove-section .select-attendees-heading {
-    margin-bottom: 20px;
-}
 
-.remove-section .program-select,
-.remove-section .attendees-select {
-    width: 40%;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: rgb(105, 105, 105);
-    color: white;
-    border: 2px solid #ffffff;
-    outline: none;
-}
-
-.remove-section .attendees-select {
-    height: 150px;
-}
-
-.remove-section .remove-attendees-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.attend-section {
-    color: white;
-    padding: 20px;
-    background-color: rgb(105, 105, 105);
-}
-
-.attend-section .select-program-heading,
-.attend-section .list-container h3,
-.attend-section .marked-ones h3 {
-    width: 40%;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: rgb(105, 105, 105);
-    border: none;
-    outline: none;
-}
-
-.attend-section .flex-container {
+.attendance-select-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 21px;
-    gap: 0px;
+    margin-bottom: 20px;
 }
 
-.attend-section .list-container,
-.attend-section .marked-ones {
-    color: white;
-    width: 30%;
+.attendance-list-container, .marked-ones {
+    width: 48%;
     overflow: auto;
     background-color: rgb(105, 105, 105);
     padding: 10px;
     border-radius: 5px;
-}
-
-.attend-section .submit-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
+    margin: 10px 0;
 }
 
 
-=======
-.container {
-	display: flex;
+.attendance-flex-container {
+    display: flex;
+    justify-content: space-between;
 }
 
-.horizontal {
-	flex-flow: row nowrap;
+.attendance-item {
+    margin: 5px 0;
 }
 
-.vertical {
-	flex-flow: column nowrap;
+.attendance-checkbox {
+    margin-right: 10px;
 }
-
-.horizontal div {
-	flex: 1 1 auto;
-}
-
-.hide {
-	display: none;
-}
-
