@@ -100,7 +100,8 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	
 	return (
 		<>
-			<NameDisplay name={data[0]} style={{display: "inline", "fontStyle": "italic"}}/>
+			<NameDisplay name={data[0]} style={{display: "flex", "fontStyle": "italic", justifyContent: 'center', 
+      alignItems: 'center' }}/>
 			{editing ? 
 				<div>
 					<form onSubmit={handleUpdateUser}>
