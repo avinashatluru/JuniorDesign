@@ -248,12 +248,12 @@ function Attendance() {
           ))}
         </select>
         <h2 style={{color:'white'}}>Select Attendees To Add</h2>
-        <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
+        <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} >
           {attendees.map(attendee => (
             <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
           ))}
         </select> <br/>
-        <button onClick={handleSubmit} className='AttendeesButton'>Add Selected Attendees to Program</button>
+        <button onClick={handleSubmit} >Add Selected Attendees to Program</button>
 			</div>}
 
       {activeComponent === "Remove" && (
@@ -266,7 +266,7 @@ function Attendance() {
               ))}
             </select>
             <h2 style={{color:'white'}}>Select Attendees to Remove</h2>
-            <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
+            <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} >
               {currentAttendees.map(attendee => (
                 <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
               ))}

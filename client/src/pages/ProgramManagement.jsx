@@ -2,9 +2,7 @@ import React, {useCallback, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { createProgram, deleteProgram, getAllPrograms } from "../actions/programs.js";
 import './ProgramManagement.css'
-
 function ProgramManagement() {
-
     const nav = useNavigate();
 	const [currentProgram, setCurrentProgram] = useState("select a program")
     document.body.style = 'background: black';
@@ -12,7 +10,6 @@ function ProgramManagement() {
 	let p2 = ["partb1", "partb2", "partb3"]
 	const [currList, setCurrList] = useState([])
 	const [marked, setMarked] = useState([])
-
 	//Places all attendees whose box was checked into a new list on the side
 	const handleMark = (e) => {
 		var markedList = [...marked]
@@ -23,14 +20,13 @@ function ProgramManagement() {
 		}
 		setMarked(markedList)
 	}
-
 	//changes checklist based on selection for selct field
 	const handleSelect = (e) => {
 		setCurrentProgram(e.label)
 		switchList()
 	}
 
-	//switch text to which program was most recently active
+	//switch text to which program was most recently selected
 	const switchText = () => {
 		let x;
 		currentProgram === "select a program"
@@ -38,7 +34,6 @@ function ProgramManagement() {
 			:(x = currentProgram)
 		return x
 	}
-
 	//switch which list is displayed
 	const switchList = () => {
 		if (currentProgram === "program1"){
@@ -48,30 +43,25 @@ function ProgramManagement() {
 			setCurrList(p2);
 		}
 	} 
-
     const toHome = () => {
 		nav("/")
 	};
-
 	const handleChange = (e) => {
 		setForm({
 			...form,
 			[e.target.name]: e.target.value,
 		});
 	};
-
 	const[form, setForm] = useState({
 		name: "",
 		site: "",
 		date: ""
 	});
     const [activeComponent, setActiveComponent] = useState("projects");
-
 	const modifyActiveComponent = useCallback(
 	  newActiveComponent => {setActiveComponent(newActiveComponent);},
 	  [setActiveComponent]
 	);
-
 	const validate = () => {
 		for (let key in form) {
 			if (form[key].trim().length === 0) {
@@ -80,23 +70,18 @@ function ProgramManagement() {
 		}
 		return true;
 	};
-
 	const [error, setError] = useState('');
 	const [list, setList] = useState([]);
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
 		if (!validate()) {
 			setError('Please fill out all fields');
 			return;
 		}
-
 		const isConfirmed = window.confirm("Are you sure you want to add this program?");
 		if (!isConfirmed) {
 			return; // If the user cancels, exit early
 		}
-
 		try {
 			// Call createProgram function with form data
 	
@@ -110,7 +95,6 @@ function ProgramManagement() {
 		setForm({ name: "", site: "", date: ""});
 		nav("/ProgramManagement");
 	}
-
 	useEffect(() => {
 		async function getPrograms() {
 			const response = await fetch("http://localhost:5050/api/program/");
@@ -125,10 +109,8 @@ function ProgramManagement() {
 			const names = data.map(program => [`${program.name}`, program._id]);
 			setList(names);
 		}
-
 		getPrograms();
 	}, []);
-
 	const handleDelete = async (id) => {
 		const isConfirmed = window.confirm("Are you sure you want to delete this program?");
 		if (!isConfirmed) {
@@ -145,7 +127,6 @@ function ProgramManagement() {
 			alert('Failed to delete program');
 		}
 	};
-
 	const fetchPrograms = async () => {
 		try {
 			const response = await getAllPrograms();
@@ -162,8 +143,6 @@ function ProgramManagement() {
 		fetchPrograms();
 	}, []);
 		
-
-
     return (
 	<center>
 	<div>
@@ -171,10 +150,11 @@ function ProgramManagement() {
 	<img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
 	style={{width:50, height:50, display:'inline'}} alt="new"/>
 	<hr/>
-	<h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h2>
-	<h2 style={{color:'white', display:'inline', marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h2>
-	<br />
-    <br />
+	<div style={{ display: 'inline-block', marginRight: 10 }}> {/* Container for alignment */}
+                <h2 style={{ color: 'white', display: 'inline', marginRight: 30 }} onClick={() => modifyActiveComponent("Add")}>Add Program</h2>
+                <h2 style={{ color: 'white', display: 'inline' }} onClick={() => modifyActiveComponent("View")}>View Programs</h2>
+    </div>	
+
 	
 	{activeComponent === "Add" && 	<div>
 				<form onSubmit={handleSubmit}>
@@ -183,22 +163,13 @@ function ProgramManagement() {
 			
 					<label style={{marginRight:17}}>Location:</label>
 					<input name="site" type="text" value={form.site} onChange={handleChange} required /><br/>
-
 					<label style={{marginRight:17}}>Date:</label>
 					<input name="date" type="date" value={form.date} onChange={handleChange} required /><br/>
-
-
 					{error && <label id="Error" style={{color: 'red'}}>{error}</label>}
-
 					<button type="submit">Add Program</button>
 				</form>
 									</div>}
-									{activeComponent === "Add" && 
-                    <div>
-                        {/* Add Program Form... */}
-                    </div>
-                }
-
+					
 	{activeComponent === "View" && <div>	
 					<h1 style={{color:'white'}}>Programs</h1> 
 					<div style={{maxHeight:300, width:200, overflow:'auto'}}>
@@ -214,5 +185,4 @@ function ProgramManagement() {
 	</center>
     );
 };
-
 export default ProgramManagement

@@ -162,38 +162,46 @@ function ProgramManagement() {
 	<center>
 	<div>
 	<hr/>
-	<h3 className={`${activeComponent=="Add"? "clickable active" : "clickable"}`} style={{marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h3>
-	<h3 className={`${activeComponent=="View"? "clickable active" : "clickable"}`} style={{marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h3>
+	<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+	<h3 className={`${activeComponent==="Add"? "clickable active" : "clickable"}`} style={{marginRight:260}} onClick={() => modifyActiveComponent("Add")}>Add Program</h3>
+	<h3 className={`${activeComponent==="View"? "clickable active" : "clickable"}`} style={{marginRight:0}} onClick={() => modifyActiveComponent("View")}>View Programs</h3>
+	</div>
 	<br />
     <br />
 	
-	{activeComponent === "Add" && 	<div>
-				<form onSubmit={handleSubmit}>
+	{activeComponent === "Add" && 	<div >
+		    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+				<form onSubmit={handleSubmit} >
+				
 					<label style={{marginRight:15}}>Program Name:</label>
 					<input name="name" type="text" value={form.name} onChange={handleChange} required /><br/>
 			
+				
 					<label style={{marginRight:17}}>Location:</label>
 					<input name="site" type="text" value={form.site} onChange={handleChange} required /><br/>
-
+			
+			
 					<label style={{marginRight:17}}>Date:</label>
 					<input name="date" type="date" value={form.date} onChange={handleChange} required /><br/>
-
+		
 
 					{error && <label id="Error" style={{color: 'red'}}>{error}</label>}
 
 					<button type="submit">Add Program</button>
 				</form>
-									</div>}
-									{activeComponent === "Add" && 
-                    <div>
-                        {/* Add Program Form... */}
+				</div>
+									
                     </div>
                 }
 
+
+
 	{activeComponent === "View" && <div>
-					<div style={{maxHeight:300, width:200, overflow:'auto'}}>
+					<div style={{maxHeight:200, width:200, overflow:'auto'}}>
 						{list.map(program => (
-							<div key={program[1]} style={{display: 'flex', justifyContent: 'space-between'}}>
+							<div key={program[1]} style={{display: 'flex', justifyContent: 'space-between',   alignItems: 'center', // This ensures vertical alignment
+							lineHeight: '1.5' }}>
 								<span>{program[0]}</span>
 								<button onClick={() => handleDelete(program[1])} className="delete">Delete</button>
 							</div>

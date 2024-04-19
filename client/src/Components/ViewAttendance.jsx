@@ -98,6 +98,16 @@ function ViewAttendance() {
     return Object.entries(ageRanges).sort((a, b) => a[0].localeCompare(b[0], undefined, {numeric: true, sensitivity: 'base'}));
   };
 
+  const calculateAge = (birthday) => {
+    const today = new Date();
+    let age = today.getFullYear() - birthday.getFullYear();
+    const m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
   useEffect(() => {
     if (currentProgramId) {
       getAttendeeNames(currentProgramId).then(response => {
@@ -109,16 +119,7 @@ function ViewAttendance() {
       .catch(error => console.error('Failed to fetch attendees:', error.message));
     }
   }, [currentProgramId]);
-
-  const calculateAge = (birthday) => {
-    const today = new Date();
-    let age = today.getFullYear() - birthday.getFullYear();
-    const m = today.getMonth() - birthday.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-      age--;
-    }
-    return age;
-  };
+  
   // Bar chart data for age distribution
   const ageChartData = {
     labels: ageDistribution.map(item => item[0]), // Age ranges
@@ -149,20 +150,36 @@ function ViewAttendance() {
           ))}
         </select><br/>
 
-        {currentProgramId && (
-          <>
-            <h3>Attendees:</h3>
-            <ul>
+            {currentProgramId && (
+              <>
+                <h3 style={{ color: 'white'}}>Attendees:</h3>
                 {attendees.length > 0 ? (
-                    attendees.map((attendee, index) => (
-                      <li key={index}>{attendee.firstName} {attendee.lastName}</li>
-                    ))) : 
-                    (<li>No attendees to display</li>)
-                }
-            </ul>
-          </>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style={{ color: 'white', borderBottom: '1px solid white' }}>First Name</th>
+                          <th style={{ color: 'white', borderBottom: '1px solid white' }}>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {attendees.map((attendee, index) => (
+                          <tr key={index}>
+                            <td style={{ color: 'white' }}>{attendee.firstName}</td>
+                            <td style={{ color: 'white' }}>{attendee.lastName}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p style={{ color: 'white' }}>No attendees to display</p>
+                )}
+              </>
+            )}
+          </div>
         )}
-			</div>}
+
 
       {activeComponent === "ListByAge" && <div>	
         <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>

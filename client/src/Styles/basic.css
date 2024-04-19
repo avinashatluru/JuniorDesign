@@ -1,109 +1,136 @@
-/** Basic styling for the whole application. No more marking everything as style={{color: white}} */
-
-/**
-	Palette hsla( 0,0%,100% ,1)
-
-	background grey: #696969
-	Text: white
-
-	These next 3 do not contrast with each other, they're for contrast with the background
-	Having 3 is just a nice flourish
-
-	RATL Brown: #201d1e / hsl(345 6% 12% / 1)
-	Oxford Blue: #161c33
-	Deep Red: #330f0f
-
- */
+/** Basic styling for the whole application. */
 
 * {
-	color: white;
-	background-color: rgb(105, 105, 105);
+    color: white;
+    background-color: rgb(105, 105, 105);
 }
 
 h2 {
-	margin: 20pt;
-	display: inline;
+    margin: 50pt;
+    display: inline;
 }
 
 h3 {
-	display: inline;
-}
-
-h4 {
-	display: inline-block;
+    display: block;
 }
 
 button {
-	box-sizing: border-box;
-	font-family: inherit;
-	padding: 0%;
-
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	background-color: hsl(345 6% 12% / 1);
-	margin: 1pt;
+    box-sizing: border-box;
+    font-family: inherit;
+    padding:  10px 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    margin: 20px 5px 5px 5px;
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effects */
+    border: 2px solid #ffffff; /* White border, 2px thick */
+    border-radius: 5px; 
+}
+button:hover {
+    background-color:  rgb(88, 75, 75); /* Lighter on hover */
 }
 
 button.delete {
-	background-color: red;
+    background-color: red;
 }
 
 input {
-	margin: 1pt;
-	background-color: #161c33;
+    padding: 8px 12px; 
+    margin: 5pt; 
+    background-color: #333; 
+    color: white; 
+    border: 2px solid #555; 
+    border-radius: 4px; 
+    outline: none; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; 
 }
 
-.selectable {
-	cursor: pointer;
-
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none;
+input:focus {
+    border-color: #06AED5; /* A brighter border color for focus */
+    box-shadow: 0 0 8px 0 rgba(6, 174, 213, 0.5); /* Subtle glow effect when focused */
 }
 
-.selected {
-	color: #330f0f;
-	text-decoration: underline;
+.selectable, .clickable, button {
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none;
 }
 
-p.selected {
-	font-size: large;
+.selected, .active {
+    color: black;
+    text-decoration: underline;
 }
 
-.clickable {
-	cursor: pointer;
+p.selected, p.active {
+    font-size: large;
+}
+/* Universal select style */
+select {
+    width: 40%; 
+    padding: 10px;
+    border-radius: 5px;
+    background-color:   rgb(105, 105, 105); 
+    color: white; 
+    border: 2px solid white; 
+    cursor: pointer; 
 
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none;
+    appearance: none; 
 }
 
-.active {
-	color: #330f0f;
-	text-decoration: underline;
+
+/** Shared styles for sections with forms for adding or removing attendees */
+/** Additional styles specific to the ManageAttendance component **/
+
+.manage-attendance-container {
+    text-align: center;
+    color: white;
 }
 
-p.active {
-	font-size: large;
+
+
+.attendance-select-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-.container {
-	display: flex;
+.attendance-list-container, .marked-ones {
+    width: 48%;
+    overflow: auto;
+    background-color: rgb(105, 105, 105);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
 }
 
-.horizontal {
-	flex-flow: row nowrap;
+
+.attendance-flex-container {
+    display: flex;
+    justify-content: space-between;
 }
 
-.vertical {
-	flex-flow: column nowrap;
+.attendance-item {
+    margin: 5px 0;
 }
 
-.horizontal div {
-	flex: 1 1 auto;
+.attendance-checkbox {
+    margin-right: 10px;
 }
-
-.hide {
-	display: none;
+table {
+    width: 40%; /* tables width */
+    border-collapse: collapse; /* Collapses the border */
+}
+th, td {
+    text-align: left; /* Align text to the left */
+    padding: 8px; /* Add padding */
+    border-bottom: 1px solid #120f0f; /* Bottom border for separation */
+    border-left: 1px solid #120f0f; /* Border on the left side */
+    border-right: 1px solid #120f0f; /* Border on the right side */
+}
+th {
+    background-color: #333; /* Darker background for headers */
+    color: white; /* Light text color for contrast */
 }

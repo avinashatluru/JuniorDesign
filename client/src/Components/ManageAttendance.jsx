@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
-import Select from "react-select"
+import Select, { NonceProvider } from "react-select"
 import { addAttendees, getAttendeeNames  } from "../actions/programs.js";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
+import '../Styles/basic.css'; // Ensure the path is correct
 
 function ManageAttendance() {
   const [activeComponent, setActiveComponent] = useState("");
@@ -16,7 +17,7 @@ function ManageAttendance() {
   const [currentProgramId, setCurrentProgramId] = useState('');
   const [currentAttendees, setCurrentAttendees] = useState([])
 
-  // Fetch programs
+  // Fetch programsa
   useEffect(() => {
     async function fetchPrograms() {
       const response = await fetch('http://localhost:5050/api/program');
@@ -106,10 +107,10 @@ function ManageAttendance() {
   };
 
   //modifies page based on which header is clicked
-  const modifyActiveComponent =(newActiveComponent) => {
-    if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
-      else {setActiveComponent(newActiveComponent); console.log(activeComponent)}
-    };
+  const modifyActiveComponent = useCallback(
+		newActiveComponent => {console.log(activeComponent, newActiveComponent); if (newActiveComponent === activeComponent) {setActiveComponent("");} else {setActiveComponent(newActiveComponent);}},
+		[setActiveComponent]
+	  );
   
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
@@ -225,50 +226,121 @@ function ManageAttendance() {
       alert(`There was a problem removing attendees: ${error.message}`);
     }
   };
+  const selectStyles = {
+    container: (provided) => ({
+        ...provided,
+        width: '40%',
+        marginBottom: '20px',
+    }),
+    control: (provided) => ({
+        ...provided,
+        padding: '10px',
+        borderRadius: '5px',
+        backgroundColor: 'rgb(105, 105, 105)',
+        borderColor: '#ffffff',
+        borderWidth: '2px',
+        color: 'white',
+        boxShadow: 'none', // Removes any existing shadows
+        '&:hover': {
+            borderColor: '#ffffff' // Border color on hover
+        }
+    }),
+    valueContainer: (provided) => ({
+        ...provided,
+        color: 'white'
+    }),
+    singleValue: (provided) => ({
+        ...provided,
+        color: 'white'
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        backgroundColor: state.isSelected ? 'rgb(153, 153, 153)' : 'rgb(105, 105, 105)',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: 'rgb(153, 153, 153)', // Darker grey on hover
+        }
+    }),
+};
 
   return (
     <center>
-    <div>
-	    <hr/>
-      <h3 className={`${activeComponent==="Add"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
-      <h3 className={`${activeComponent==="Remove"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
-      <h3 className={`${activeComponent==="Attend"? "clickable active" : "clickable"}`} style={{marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
+    <div className="manage-attendance-container">
+	    <hr ></hr>
+      <h3 className={`clickable ${activeComponent === "Add" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
+      <h3 className={`clickable ${activeComponent === "Remove" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
+      <h3 className={`clickable ${activeComponent === "Attend" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
 
-      {activeComponent === "None" && <div/>}
-
-      {activeComponent === "Add" && 	<div>
-        <h4 style={{display: "block"}}>Select a Program</h4>
+      {/* {activeComponent === "Add" && 	<div>
+        <h3 style={{color:'white'}}>Select a Program</h3>
         <select onChange={handleProgramSelect} value={selectedProgram}>
           <option value="">Select a program</option>
           {programs.map(program => (
             <option key={program._id} value={program._id}>{program.name}</option>
           ))}
         </select>
-        <h4 style={{display: "block"}}>Select Attendees To Add</h4>
+        <h3 style={{color:'white'}}>Select Attendees To Add</h3>
         <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
           {attendees.map(attendee => (
             <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
           ))}
         </select> <br/>
         <button onClick={handleSubmit} className='AttendeesButton'>Add Selected Attendees to Program</button>
-			</div>}
+			</div>} */}
+           {activeComponent === "Add" && (
+    <div className="manage-attendance-section">
+        <h3 style={{
+            fontFamily: '"Times New Roman", serif'
+        }}>Select a Program</h3>
+
+        <select
+            onChange={handleProgramSelect}
+            value={selectedProgram}
+            className="manage-attendance-select"
+        >
+            <option value="">Select a program</option>
+            {programs.map(program => (
+                <option key={program._id} value={program._id}>{program.name}</option>
+            ))}
+        </select>
+
+        <h3>Select Attendees To Add</h3>
+
+        <select
+            multiple={true}
+            onChange={handleAttendeeSelect}
+            value={selectedAttendees}
+            className="manage-attendance-multiple-select manage-attendance-select"
+        >
+            {attendees.map(attendee => (
+                <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
+            ))}
+        </select>
+        <br/>
+        <button
+            onClick={handleSubmit}
+            className="manage-attendance-button"
+        >Add Selected Attendees to Program</button>
+    </div>
+)}
+
 
       {activeComponent === "Remove" && (
-          <div>
-            <h4 style={{display: "block"}}>Select a Program</h4>
-            <select onChange={handleProgramSelect} value={selectedProgram}>
+          <div className="manage-attendance-section">
+            <h3 >Select a Program</h3>
+            <select onChange={handleProgramSelect} value={selectedProgram} className="manage-attendance-select">
               <option value="">Select a program</option>
               {programs.map(program => (
                 <option key={program._id} value={program._id}>{program.name}</option>
               ))}
             </select>
-            <h4 style={{display: "block"}}>Select Attendees to Remove</h4>
-            <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
+            <h3 style={{color:'white'}}>Select Attendees to Remove</h3>
+            <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className="manage-attendance-multiple-select manage-attendance-select">
               {currentAttendees.map(attendee => (
                 <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
               ))}
             </select> <br/>
-            <button onClick={handleRemove} className='AttendeesButton'>Remove Selected Attendees from Program</button>
+            <button onClick={handleRemove} className="manage-attendance-button">Remove Selected Attendees from Program</button>
           </div>
         )}
 
@@ -302,9 +374,9 @@ function ManageAttendance() {
 				<br/>
 				<button type="submitAttendance">Mark Attendance</button>
 				</div>}
+
     </div>
     </center>
   );
 }
-
 export default ManageAttendance;
