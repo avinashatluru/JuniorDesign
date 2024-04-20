@@ -54,21 +54,32 @@ const UserManagement = () => {
 		</select>
   
 		{activeUserId && (
-		  <>
-			<h2>Programs</h2>
-			<ul>
-			  {programs.length > 0 ? (
-				programs.map(program => (
-				  <li key={program._id}>
-					{program.name} - {new Date(program.date).toLocaleDateString()}
-				  </li>
-				))
-			  ) : (
+				<>
+				<div className="table-container"></div>
+				<h2>Programs</h2>
+				{programs.length > 0 ? (
+				<table>
+					<thead>
+					<tr>
+						<th>Program Name</th>
+						<th>Date</th>
+					</tr>
+					</thead>
+					<tbody>
+					{programs.map(program => (
+						<tr key={program._id}>
+						<td>{program.name}</td>
+						<td>{new Date(program.date).toLocaleDateString()}</td>
+						</tr>
+					))}
+					</tbody>
+				</table>
+				) : (
 				<p>No programs found for this user.</p>
-			  )}
-			</ul>
-		  </>
-		)}
+				)}
+			</>
+			)}
+
 	  </div>
 	  </center>
 	);
