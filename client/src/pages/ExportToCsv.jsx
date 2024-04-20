@@ -74,10 +74,10 @@ function ExportToCsv() {
   return (
     <center>
       <div className="export-csv-container">
-        <h1 onClick={toHome} style={{color: 'white', fontSize: 65, display: 'inline'}}>RATL</h1>
-        <hr style={{color: 'white'}}></hr>
+        <h1 onClick={toHome} style={{ color: 'white', fontSize: 65, display: 'inline' }}>RATL</h1>
+        <hr style={{ color: 'white' }}></hr>
         <div>
-          <select onChange={handleProgramChange} value={currentProgramId} style={{margin: '20px', padding: '10px'}}>
+          <select onChange={handleProgramChange} value={currentProgramId} style={{ margin: '20px', padding: '10px' }}>
             <option value="">Select a program</option>
             {programs.map((program) => (
               <option key={program._id} value={program._id}>
@@ -85,12 +85,13 @@ function ExportToCsv() {
               </option>
             ))}
           </select>
-          <button onClick={handleExport} style={{margin: '20px', padding: '10px'}}>Export to CSV</button>
-          {displayCsvContent && <pre>{displayCsvContent}</pre>}
+          <button onClick={handleExport} style={{ margin: '20px', padding: '10px' }}>Export to CSV</button>
+          {displayCsvContent && <pre style={{ fontSize: '16px', lineHeight: '1.5', whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>{displayCsvContent}</pre>}
         </div>
       </div>
     </center>
   );
+
 }
 
 export default ExportToCsv;
