@@ -178,7 +178,7 @@ function ViewAttendance() {
               </>
             )}
           </div>
-        )}
+        }
 
 
       {activeComponent === "ListByAge" && <div>	
