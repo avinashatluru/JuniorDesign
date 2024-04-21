@@ -4,6 +4,7 @@ import cors from 'cors';
 import {connectDB}  from './db/conn.mjs';
 import attendees from './routes/attendees.mjs';
 import programs from './routes/programs.mjs';
+import attendance from './schemas/attendance.mjs';
 
 const app = express();
 connectDB();
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use('/api/attendees', attendees);
 app.use('/api/program', programs);
+app.use('/api/attendance', attendance)
 
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
