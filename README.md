@@ -67,9 +67,11 @@ Not applicable
 ## Run Instructions
 In order to run this application, you unzip the downloaded source code and upload it into Visual Studio Code, **VS code**. 
 After all the source code and necessary dependencies are installed, open a terminal in **VS code** by clicking on the 3 dots at the top of the screen, selecting **Terminal** and clicking **New Terminal**. 
-Once the terminal is open, navigate to the **server** directory using the appropriate commands and run the lines 'npm i' and 'node server.mjs'. If everything was properly installed, you should receive the message that server is running and that MongoDB is connected. 
-Now, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and run the lines 'npm i' and 'npm start'.
+Once the terminal is open, navigate to the **server** directory using the appropriate commands and run the lines `npm i` and `node server.mjs`. If everything was properly installed, you should receive the message that server is running and that MongoDB is connected. 
+Now, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and run the lines `npm i` and `npm start`.
 This should open a new window in your device's default browser which contains the application.
+
+## Troubleshooting
 
 # Release Notes #
 
