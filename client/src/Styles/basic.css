@@ -1,5 +1,17 @@
 /** Basic styling for the whole application. */
 
+/**
+    Palette hsla( 0,0%,100% ,1)
+    background grey: #696969
+    Text: white
+    These next 3 do not contrast with each other, they're for contrast with the background
+    Having 3 is just a nice flourish
+    RATL Brown: #201d1e / hsl(345 6% 12% / 1)
+    Oxford Blue: #161c33
+    Deep Red: #330f0f
+ */
+
+
 * {
     color: white;
     background-color: rgb(105, 105, 105);
@@ -21,7 +33,7 @@ button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #333;
+    background-color: #161c33;
     margin: 20px 5px 5px 5px;
     cursor: pointer; /* Pointer on hover */
     transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effects */
@@ -60,7 +72,7 @@ input:focus {
 }
 
 .selected, .active {
-    color: black;
+    color: #330f0f;
     text-decoration: underline;
 }
 

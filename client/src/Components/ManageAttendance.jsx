@@ -57,6 +57,12 @@ function ManageAttendance() {
   const handleProgramSelect = (e) => {
     const selectedProgramId = e.target.value;
     setSelectedProgram(selectedProgramId);
+    let programsById = {};
+    programs.forEach( (p) => {
+      programsById[p._id] = p;
+    });
+    setCurrentProgram(programsById[selectedProgramId]);
+    setCurrentProgramId(selectedProgramId);
   
     if (!selectedProgramId) {
       // If the "Select a program" option is chosen, clear the currentAttendees
@@ -65,6 +71,15 @@ function ManageAttendance() {
       // Otherwise, fetch and display the attendees for the selected program
       fetchAttendeesForProgram(selectedProgramId);
     }
+
+    clearChecked();
+  };
+
+  const clearChecked = () => {
+    setChecked([]);
+    Array.from(document.getElementsByClassName("attendance-checkbox")).forEach(element => {
+      element.checked = false;
+    });
   };
 
   const fetchAttendeesForProgram = async (programId) => {   
@@ -122,10 +137,10 @@ function ManageAttendance() {
   };
 
   //modifies page based on which header is clicked
-  const modifyActiveComponent = useCallback(
-		newActiveComponent => {console.log(activeComponent, newActiveComponent); if (newActiveComponent === activeComponent) {setActiveComponent("");} else {setActiveComponent(newActiveComponent);}},
-		[setActiveComponent]
-	  );
+  const modifyActiveComponent = (newActiveComponent) => {
+    if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
+      else {setActiveComponent(newActiveComponent); console.log(activeComponent)}
+    };
   
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
@@ -282,9 +297,9 @@ function ManageAttendance() {
     <center>
     <div className="manage-attendance-container">
 	    <hr ></hr>
-      <h3 className={`clickable ${activeComponent === "Add" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
-      <h3 className={`clickable ${activeComponent === "Remove" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
-      <h3 className={`clickable ${activeComponent === "Attend" ? "active" : ""}`}style={{color:'white', display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
+      <h3 className={`clickable ${activeComponent === "Add" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Add")}>Add Attendees to Program</h3>
+      <h3 className={`clickable ${activeComponent === "Remove" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
+      <h3 className={`clickable ${activeComponent === "Attend" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
 
       {/* {activeComponent === "Add" && 	<div>
         <h3 style={{color:'white'}}>Select a Program</h3>
@@ -363,36 +378,42 @@ function ManageAttendance() {
           </div>
         )}
 
-      {activeComponent === "Attend" && <div>	
-				<h4>Select Program</h4> 
-        <select onChange={handleProgramSelect} value={selectedProgram}>
+{activeComponent === "Attend" && (
+    <div className="manage-attendance-section">
+        <h3>Select Program</h3>
+        <div className="attendance-select-container">
+          <select className="program-select" onChange={handleProgramSelect} value={selectedProgram}>
               <option value="">Select a program</option>
               {programs.map(program => (
-                <option key={program._id} value={program._id}>{program.name}</option>
+                  <option key={program._id} value={program._id}>{program.name}</option>
               ))}
-            </select><br/>
-				<h3>Mark Attendance for <span className='active'>{switchText()}</span></h3> 								
-				<div style={{maxHeight:200, width:200, overflow:'auto'}} className="list-container">
-       		{currentAttendees.map(attendee => (
-       			<div key={attendee._id}>
-							<input value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} type="checkbox" onChange={handleCheck}/>
-        				<span>{attendee.firstName} {attendee.lastName}</span>
-       			</div>))}
-   			</div> 
-				<div style={{overflow:'auto'}} className="marked-ones">
-					<h3>Selected Attendees</h3>
-					{checked.map((item, index) => ( 
-            /** 
-             * Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}`
-             * splitting ensures only the name is displayed
-            */
-       			<div key={index}>
-        			<span>{item.split(";")[1]}</span>
-       			</div>))}
-				</div>
-				<br/>
-				<button type="submitAttendance">Mark Attendance</button>
-				</div>}
+          </select>
+        </div>
+        
+        <div className="attendance-flex-container">
+            <div className="attendance-list-container">
+                <h3>Mark Attendance for <span className="active">{switchText()}</span></h3>
+                {currentAttendees.map(attendee => (
+                    <div key={attendee._id} className="attendance-item">
+                        <input type="checkbox" className="attendance-checkbox" value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} onChange={handleCheck}/>
+                        <span>{attendee.firstName} {attendee.lastName}</span>
+                    </div>
+                ))}
+            </div>
+
+            <div className="marked-ones">
+                <h3>Selected Attendees</h3>
+                {checked.map((item, index) => (
+                    <div key={index} className="attendance-item">
+                        <span>{item.split(";")[1]}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        <button type="submitAttendance" className="attendance-button">Mark Attendance</button>
+    </div>
+)}
 
     </div>
     </center>
