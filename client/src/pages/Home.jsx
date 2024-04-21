@@ -140,11 +140,8 @@ return (
 
         {activeComponent === "Roster" && 
             <div className="roster-container">
-                <h1 style={{color: 'white'}}>ATTENDEES</h1> 
                 <div>
-                    {list.map(txt => 
-                        <UserDisplayHack key={txt[1]} data={txt} className="user-display-hack" onUserUpdate={getAttendees} />)
-                    }
+                    <AttendeeDisplay list={list} onUpdate={getAttendees}/>
                 </div>
             </div>
         }

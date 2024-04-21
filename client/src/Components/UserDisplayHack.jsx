@@ -100,8 +100,8 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 	
 	return (
 		<>
-			<NameDisplay name={data[0]} style={{display: "flex", "fontStyle": "italic", justifyContent: 'center', 
-      alignItems: 'center' }}/>
+			<NameDisplay name={data[0]} style={{display: "inline", "fontStyle": "italic", justifyContent: 'center', 
+      alignItems: 'center'}}/>
 			{editing ? 
 				<div>
 					<form onSubmit={handleUpdateUser}>
@@ -117,18 +117,29 @@ export default function EditableUserNameDisplay({data, style, onUserUpdate}) {
 					</form>
 					
 					<div>
-						<p>Programs</p>
-						<ul>
-						{programs.length > 0 ? (
-							programs.map(program => (
-							<li key={program._id}>
-								{program.name} - {new Date(program.date).toLocaleDateString()}
-							</li>
-							))
-						) : (
+						<div>
+							<p>Programs</p>
+							{programs.length > 0 ? (
+							<table style={{width: "100%"}}>
+								<thead>
+								<tr>
+									<th>Program Name</th>
+									<th>Date</th>
+								</tr>
+								</thead>
+								<tbody>
+								{programs.map(program => (
+									<tr key={program._id}>
+									<td>{program.name}</td>
+									<td>{new Date(program.date).toLocaleDateString()}</td>
+									</tr>
+								))}
+								</tbody>
+							</table>
+							) : (
 							<p>No programs found for this user.</p>
-						)}
-						</ul>
+							)}
+						</div>
 					</div>
 
 					<button className="delete" onClick={handleDeleteUser}>Delete Attendee</button>

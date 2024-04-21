@@ -79,6 +79,31 @@ input:focus {
 p.selected, p.active {
     font-size: large;
 }
+
+.container {
+	display: flex;
+}
+
+.horizontal {
+	flex-flow: row nowrap;
+}
+
+.vertical {
+	flex-flow: column nowrap;
+}
+
+.horizontal div {
+	flex: 1 1 auto;
+}
+
+.hide {
+	display: none;
+}
+
+input.attendeeCheck {
+    display: inline-block;
+}
+
 /* Universal select style */
 select {
     width: 40%; 
@@ -100,8 +125,6 @@ select {
     text-align: center;
     color: white;
 }
-
-
 
 .attendance-select-container {
     display: flex;

@@ -84,7 +84,7 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 	}
 
 	return (
-		<div className="container horizontal" id="rosterContainer">
+		<div className="container horizontal" id="rosterContainer" style={{overflow: "hidden"}}>
 			<div style={{width: "33%"}}>
 				<div className="container vertical">
 					<h4>Filters</h4>
@@ -128,12 +128,12 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 			</div>
 			<div style={{width: "33%"}}>
 				<h1>ATTENDEES</h1> 
-				<div className="container vertical">
+				<div className="container vertical" style={{overflow: "auto"}}>
 					{list.map(txt => <div><p/><input value={`${txt[1]};${txt[0]}`} type="checkbox" className={`${multiSelectEnabled ? "attendeeCheck" : "hide"}`} onChange={handleCheck}/> <UserDisplayHack key={txt[1]} data={txt} style={{display: "inline-block"}} onUserUpdate={onUpdate}/></div>)}
 				</div>
 			</div>
 			<div style={{width: "33%"}}>
-				<div><input type="checkbox" value={"Multi-Selection"} onChange={() => {setMultiSelect(!multiSelectEnabled)}}/><h4 className={`${multiSelectEnabled ? "active" : ""}`}>Multi-Selection</h4></div>
+				<div><input style={{display: "inline"}} type="checkbox" value={"Multi-Selection"} onChange={() => {setMultiSelect(!multiSelectEnabled)}}/><h4 style={{display: "inline"}} className={`${multiSelectEnabled ? "active" : ""}`}>Multi-Selection</h4></div>
 				{multiSelectEnabled ? <><h4>Selected Attendees</h4>
 				{checked.map((item, index) => ( 
 					/** 
@@ -143,15 +143,16 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 					<div key={index}>
 						<span>{item.split(";")[1]}</span>
 					</div>))}
-					<div className="container vertical"><select onChange={handleProgramSelect} value={currentProgramId}>
+					<div className="container vertical">
+						<select style={{width: "100%"}} onChange={handleProgramSelect} value={currentProgramId}>
 						<option value="">Select a program</option>
 						{programs.map(program => (
 							<option key={program._id} value={program._id}>{program.name}</option>
 						))}
-					</select>
-					<button onClick={addSelectedUsers}>Add to Program</button>
-					<button onClick={removeSelectedUsers}>Remove from Program</button>
-					<button className="delete" onClick={clearMultiSelection}>Clear Selection</button>
+						</select>
+						<button onClick={addSelectedUsers}>Add to Program</button>
+						<button onClick={removeSelectedUsers}>Remove from Program</button>
+						<button className="delete" onClick={clearMultiSelection}>Clear Selection</button>
 				</div></> : null}
 			</div>
 		</div>
