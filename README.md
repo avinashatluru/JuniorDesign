@@ -59,16 +59,16 @@ These are the required libraries that must be installed on your device to run th
 * web-vitals: Version 2.1.4
 
 ## Download Instructions
-In order to download this project, simply navigate the the main page of this repository and click **Releases** to the right of the files list. Afterwords, you will be given the option to download the latest version of the application source code as either a zip file or a tar.gz file. To download older versions of this application, click **Tags** on the upper-left section of the screen and select the desired version.
+In order to download this project, simply navigate the main page of this repository and click **Releases** to the right of the files list. Afterwords, you will be given the option to download the latest version of the application source code as either a zip file or a tar.gz file. To download older versions of this application, click **Tags** on the upper-left section of the screen and select the desired version.
 
 ## Build and Installation
 Not applicable
 
 ## Run Instructions
-In order to run this appliaction, you unzip the downloaded source code and unloade it into Visual Studio Code, **VS code**. 
+In order to run this application, you unzip the downloaded source code and upload it into Visual Studio Code, **VS code**. 
 After all the source code and necessary dependencies are installed, open a terminal in **VS code** by clicking on the 3 dots at the top of the screen, selecting **Terminal** and clicking **New Terminal**. 
-Once the terminal is open, navigate to the **server** directory using the appropriate commands and run the lines **npm i** and **node server.mjs**. If everything was properly installed, you should recieve the message that server is running and that MOngoDB is connected. 
-Now, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and run the lines **npm i** and **npm start**.
+Once the terminal is open, navigate to the **server** directory using the appropriate commands and run the lines 'npm i' and 'node server.mjs'. If everything was properly installed, you should receive the message that server is running and that MongoDB is connected. 
+Now, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and run the lines 'npm i' and 'npm start'.
 This should open a new window in your device's default browser which contains the application.
 
 # Release Notes #
