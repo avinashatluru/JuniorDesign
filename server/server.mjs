@@ -4,7 +4,7 @@ import cors from 'cors';
 import {connectDB}  from './db/conn.mjs';
 import attendees from './routes/attendees.mjs';
 import programs from './routes/programs.mjs';
-import attendance from './schemas/attendance.mjs';
+import attendance from './routes/attendance.mjs';
 
 const app = express();
 connectDB();
