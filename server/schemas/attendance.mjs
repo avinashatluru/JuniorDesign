@@ -6,10 +6,10 @@ const attendanceSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Program'
   },
-  dates: {
-    type: [Date],
+  dates: [{
+    type: Date,
     required: true
-  },
+  }],
   attendees: [[{
     type: Schema.Types.ObjectId,
     ref: 'Attendee'

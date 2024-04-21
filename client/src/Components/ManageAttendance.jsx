@@ -5,25 +5,31 @@ import { addAttendees, getAttendeeNames  } from "../actions/programs.js";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 import '../Styles/basic.css'; // Ensure the path is correct
+import { getAllAttendance } from '../actions/attendance.js';
 
 function ManageAttendance() {
   const [activeComponent, setActiveComponent] = useState("");
+
   const [programs, setPrograms] = useState([]);
   const [attendees, setAttendees] = useState([]);
+  const [attendance, setAttendance] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedAttendees, setSelectedAttendees] = useState([]);
+  const [selectedAttendance, setSelectedAttendance] = useState('');
+
   const [checked, setChecked] = useState([]);
   const [currentProgram, setCurrentProgram] = useState("select a program");
   const [currentProgramId, setCurrentProgramId] = useState('');
   const [currentAttendees, setCurrentAttendees] = useState([])
 
-  // Fetch programsa
+  // Fetch programs & attendance records
   useEffect(() => {
     async function fetchPrograms() {
       const response = await fetch('http://localhost:5050/api/program');
       const data = await response.json();
       setPrograms(data);
     }
+
     fetchPrograms();
   }, []);
 
@@ -54,13 +60,26 @@ function ManageAttendance() {
     }
   }, [currentProgramId]);
 
-  const handleProgramSelect = (e) => {
-    const selectedProgramId = e.target.value;
-    setSelectedProgram(selectedProgramId);
+  useEffect(() => {
+    async function fetchAttendance() {
+      const data = await getAllAttendance();
+      setAttendance(data);
+    }
+    fetchAttendance();
+  })
+
+  const getProgramsById = () => {
     let programsById = {};
     programs.forEach( (p) => {
       programsById[p._id] = p;
     });
+    return programsById;
+  }
+
+  const handleProgramSelect = (e) => {
+    const selectedProgramId = e.target.value;
+    setSelectedProgram(selectedProgramId);
+    let programsById = getProgramsById();
     setCurrentProgram(programsById[selectedProgramId]);
     setCurrentProgramId(selectedProgramId);
   
@@ -256,6 +275,29 @@ function ManageAttendance() {
       alert(`There was a problem removing attendees: ${error.message}`);
     }
   };
+
+  const takeAttendance = async (e) => {
+
+  }
+
+  const handleTakeAttendance = async (e) => {
+    e.preventDefault();
+    let confirm = true;
+    if (!checked || checked.length <= 0) {
+      confirm = window.confirm("You have selected no attendees. This will create an empty attendance record. Are you sure you want to do this?");
+    }
+
+    try {
+      const response = await removeAttendees(selectedProgram, selectedAttendees);
+      console.log('Attendee(s) removed:', response);
+      setSelectedProgram('');
+      setSelectedAttendees([]);
+    } catch (error) {
+      console.error("Failed to remove attendees:", error);
+      alert(`There was a problem removing attendees: ${error.message}`);
+    }
+  }
+
   const selectStyles = {
     container: (provided) => ({
         ...provided,
@@ -411,7 +453,7 @@ function ManageAttendance() {
             </div>
         </div>
 
-        <button type="submitAttendance" className="attendance-button">Mark Attendance</button>
+        <button type="submitAttendance" onClick={handleTakeAttendance} className="attendance-button">Mark Attendance</button>
     </div>
 )}
 
