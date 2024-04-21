@@ -78,9 +78,24 @@ function ManageAttendance() {
   };
 
   const handleAttendeeSelect = (e) => {
+    const attendeeId = e.target.value;
+    const isChecked = e.target.checked;
+    setSelectedAttendees(prevSelected => {
+      if (isChecked) {
+        // Add the attendee ID if it's checked
+        return [...prevSelected, attendeeId];
+      } else {
+        // Remove the attendee ID if it's unchecked
+        return prevSelected.filter(id => id !== attendeeId);
+      }
+    });
+  };
+
+  const handleSelect = (e) => {
     const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
     setSelectedAttendees(selectedOptions);
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -287,42 +302,46 @@ function ManageAttendance() {
         </select> <br/>
         <button onClick={handleSubmit} className='AttendeesButton'>Add Selected Attendees to Program</button>
 			</div>} */}
-           {activeComponent === "Add" && (
-    <div className="manage-attendance-section">
-        <h3 style={{
-            fontFamily: '"Times New Roman", serif'
-        }}>Select a Program</h3>
+      {activeComponent === "Add" && (
+              <div className="manage-attendance-section">
+                  <h3 style={{
+                      fontFamily: '"Times New Roman", serif'
+                  }}>Select a Program</h3>
 
-        <select
-            onChange={handleProgramSelect}
-            value={selectedProgram}
-            className="manage-attendance-select"
-        >
-            <option value="">Select a program</option>
-            {programs.map(program => (
-                <option key={program._id} value={program._id}>{program.name}</option>
-            ))}
-        </select>
+                  <select
+                      onChange={handleProgramSelect}
+                      value={selectedProgram}
+                      className="manage-attendance-select"
+                  >
+                      <option value="">Select a program</option>
+                      {programs.map(program => (
+                          <option key={program._id} value={program._id}>{program.name}</option>
+                      ))}
+                  </select>
 
-        <h3>Select Attendees To Add</h3>
-
-        <select
-            multiple={true}
-            onChange={handleAttendeeSelect}
-            value={selectedAttendees}
-            className="manage-attendance-multiple-select manage-attendance-select"
-        >
-            {attendees.map(attendee => (
-                <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
-            ))}
-        </select>
-        <br/>
-        <button
-            onClick={handleSubmit}
-            className="manage-attendance-button"
-        >Add Selected Attendees to Program</button>
-    </div>
-)}
+                  <h3>Select Attendees To Add</h3>
+                    <div>
+                        {attendees.map(attendee => (
+                            <div key={attendee._id}>
+                                <input
+                                    type="checkbox"
+                                    id={`attendee-${attendee._id}`}
+                                    value={attendee._id}
+                                    checked={selectedAttendees.includes(attendee._id)}
+                                    onChange={handleAttendeeSelect}
+                                />
+                                <label htmlFor={`attendee-${attendee._id}`}>
+                                    {attendee.firstName} {attendee.lastName}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                    <br />
+                    <button onClick={handleSubmit} className="manage-attendance-button">
+                        Add Selected Attendees to Program
+                    </button>
+                </div>
+          )}
 
 
       {activeComponent === "Remove" && (
@@ -335,7 +354,7 @@ function ManageAttendance() {
               ))}
             </select>
             <h3 style={{color:'white'}}>Select Attendees to Remove</h3>
-            <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className="manage-attendance-multiple-select manage-attendance-select">
+            <select multiple='true' onChange={handleSelect} value={selectedAttendees} className="manage-attendance-multiple-select manage-attendance-select">
               {currentAttendees.map(attendee => (
                 <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
               ))}
