@@ -144,69 +144,66 @@ function ViewAttendance() {
 
   return (
     <center>
-      <div >
-        <h1 onClick={toHome} style={{color:'white', fontSize:65, display:'inline'}}>RATL</h1> 
-	      <img src="https://images.squarespace-cdn.com/content/v1/614c9bfd68d9c26fdceae9fc/99fd7e14-ab6c-405b-8de8-225103396a29/Circle-Logo-%28Line%29.png"
-	      style={{width:50, height:50, display:'inline'}} alt="new"/>
-	      <hr style={{color:'white'}}></hr>
-        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h2>
-        <h2 style={{color:'white', display:'inline', marginRight:260}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h2>
+      <div className="attendance-view-container">
+	      <hr/>
+        <h3 className={`${activeComponent=="ListByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
+        <h3 className={`${activeComponent=="VisualByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
-      {activeComponent === "ListByProgram" && <div>	
-        <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
-        <select onChange={handleProgramChange} value={currentProgramId} >
-          <option value="">Select a program</option>
-          {programs.map((program) => (
-            <option key={program._id} value={program._id}>
-              {program.name}
-            </option>
-          ))}
-        </select>
+        {activeComponent === "ListByProgram" && (
+          <div>
+            <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
+            <select onChange={handleProgramChange} value={currentProgramId}>
+              <option value="">Select a program</option>
+              {programs.map((program) => (
+                <option key={program._id} value={program._id}>
+                  {program.name}
+                </option>
+              ))}
+            </select>
 
-        {currentProgramId && (
-          <>
-            <h3 style={{ color: 'white'}}>Attendees:</h3>
-            <ul style={{ color: 'white' }}>
+            {currentProgramId && (
+              <>
+                <h3 style={{ color: 'white'}}>Attendees:</h3>
                 {attendees.length > 0 ? (
-                    attendees.map((attendee, index) => (
-                      <li key={index}>{attendee.firstName} {attendee.lastName}</li>
-                    ))) : 
-                    (<li>No attendees to display</li>)
-                }
-            </ul>
-          </>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style={{ color: 'white', borderBottom: '1px solid white' }}>First Name</th>
+                          <th style={{ color: 'white', borderBottom: '1px solid white' }}>Last Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {attendees.map((attendee, index) => (
+                          <tr key={index}>
+                            <td style={{ color: 'white' }}>{attendee.firstName}</td>
+                            <td style={{ color: 'white' }}>{attendee.lastName}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p style={{ color: 'white' }}>No attendees to display</p>
+                )}
+              </>
+            )}
+          </div>
         )}
+
+
+      {activeComponent === "ListByAge" && <div>	
+        <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>
+        <select>{ages.map((age) => (
+            <option key={age} value={age}>
+              {age}
+            </option>
+        ))}</select>
 			</div>}
 
-      {activeComponent === "VisualByAge" && <div style={{backgroundColor:"white"}}>	
-      <select onChange={handleProgramChange} value={currentProgramId} >
-        <option value="">Select a program</option>
-        {programs.map((program) => (
-          <option key={program._id} value={program._id}>
-            {program.name}
-          </option>
-        ))}
-      </select>
-
-      {currentProgramId && (
-        <div style={{ width: '600px', height: '500px' }}>
-        <h2>Age Distribution of Attendees</h2>
-        <Bar data={ageChartData} options={{ 
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          },
-          responsive: true,
-          maintainAspectRatio: false
-        }} />
-      </div>
-      )}
-			</div>}
-
-      {activeComponent === "VisualByProgram" && <div >	
+      {activeComponent === "VisualByProgram" && <div>	
       <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button>
-        <h1>PARTICIPATION FOR THIS WEEK</h1>
+        <h4>Participation for this Week</h4>
             <div style={{maxWidth: "650px"}}>
                 <Bar
                     data={{
@@ -222,8 +219,8 @@ function ViewAttendance() {
                                 backgroundColor: 
                                     ["aqua", "red", "green"],
                                 // Border color of each bar
-                                borderColor: ["aqua"],
-                                borderWidth: 0.5,
+                                borderColor: ["white"],
+                                borderWidth: 2,
                             },
                         ],
                     }}
@@ -245,6 +242,33 @@ function ViewAttendance() {
                     }}
                 />
             </div>
+				</div>}
+
+        {activeComponent === "VisualByAge" && <div style={{height:"700px"}}>	
+        <button onClick={() => modifyActiveComponent("VisualByProgram")}>View by Program</button><br/>
+        <select onChange={handleProgramChange} value={currentProgramId}>
+        <option value="">Select a program</option>
+        {programs.map((program) => (
+          <option key={program._id} value={program._id}>
+            {program.name}
+          </option>
+        ))}
+      </select>
+
+      {currentProgramId && (
+        <div style={{ maxWidth: '650px', height: '500px' }}>
+        <h3>Age Distribution of Attendees</h3>
+        <Bar data={ageChartData} options={{ 
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }} />
+      </div>
+      )}
 				</div>}
 
       </div>

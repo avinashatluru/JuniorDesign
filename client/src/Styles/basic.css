@@ -131,10 +131,12 @@ select {
 .attendance-checkbox {
     margin-right: 10px;
 }
+
 table {
     width: 40%; /* tables width */
     border-collapse: collapse; /* Collapses the border */
 }
+
 th, td {
     text-align: left; /* Align text to the left */
     padding: 8px; /* Add padding */
@@ -142,7 +144,12 @@ th, td {
     border-left: 1px solid #120f0f; /* Border on the left side */
     border-right: 1px solid #120f0f; /* Border on the right side */
 }
+
 th {
     background-color: #333; /* Darker background for headers */
     color: white; /* Light text color for contrast */
+}
+
+.table-container {
+    margin-top: 20px; /* Adjust the value to move the table down */
 }
