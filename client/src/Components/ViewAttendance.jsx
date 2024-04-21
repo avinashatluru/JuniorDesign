@@ -139,17 +139,16 @@ function ViewAttendance() {
         <h3 className={`${activeComponent=="ListByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("ListByProgram")}>Participation By Program</h3>
         <h3 className={`${activeComponent=="VisualByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
-        {activeComponent === "ListByProgram" && (
-          <div>
-            <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
-            <select onChange={handleProgramChange} value={currentProgramId}>
-              <option value="">Select a program</option>
-              {programs.map((program) => (
-                <option key={program._id} value={program._id}>
-                  {program.name}
-                </option>
-              ))}
-            </select>
+        {activeComponent === "ListByProgram" && <div>	
+        <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
+        <select onChange={handleProgramChange} value={currentProgramId}>
+          <option value="">Select a program</option>
+          {programs.map((program) => (
+            <option key={program._id} value={program._id}>
+              {program.name}
+            </option>
+          ))}
+        </select><br/>
 
             {currentProgramId && (
               <>
@@ -179,7 +178,7 @@ function ViewAttendance() {
               </>
             )}
           </div>
-        )}
+        }
 
 
       {activeComponent === "ListByAge" && <div>	
@@ -192,7 +191,7 @@ function ViewAttendance() {
 			</div>}
 
       {activeComponent === "VisualByProgram" && <div>	
-      <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button>
+      <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button><br/>
         <h4>Participation for this Week</h4>
             <div style={{maxWidth: "650px"}}>
                 <Bar

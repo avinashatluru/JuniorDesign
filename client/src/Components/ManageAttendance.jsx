@@ -363,45 +363,36 @@ function ManageAttendance() {
           </div>
         )}
 
-
-{activeComponent === "Attend" && (
-    <div className="manage-attendance-section">
-        <h3>Select Program</h3>
-        <div className="attendance-select-container">
-            <Select 
-                options={programsList()} 
-                value={currentProgram} 
-                onChange={handleSelectAttendance} 
-                styles={selectStyles} 
-                isSearchable={false}
-            />
-        </div>
-        
-        <div className="attendance-flex-container">
-            <div className="attendance-list-container">
-                <h3>Mark Attendance for {switchText()}</h3>
-                {currentAttendees.map(attendee => (
-                    <div key={attendee._id} className="attendance-item">
-                        <input type="checkbox" className="attendance-checkbox" value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} onChange={handleCheck}/>
-                        <span>{attendee.firstName} {attendee.lastName}</span>
-                    </div>
-                ))}
-            </div>
-
-            <div className="marked-ones">
-                <h3>Marked Attendees</h3>
-                {checked.map((item, index) => (
-                    <div key={index} className="attendance-item">
-                        <span>{item.split(";")[1]}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-
-        <button type="submitAttendance" className="attendance-button">Mark Attendance</button>
-    </div>
-)}
-
+      {activeComponent === "Attend" && <div>	
+				<h4>Select Program</h4> 
+        <select onChange={handleProgramSelect} value={selectedProgram}>
+              <option value="">Select a program</option>
+              {programs.map(program => (
+                <option key={program._id} value={program._id}>{program.name}</option>
+              ))}
+            </select><br/>
+				<h3>Mark Attendance for <span className='active'>{switchText()}</span></h3> 								
+				<div style={{maxHeight:200, width:200, overflow:'auto'}} className="list-container">
+       		{currentAttendees.map(attendee => (
+       			<div key={attendee._id}>
+							<input value={`${attendee._id};${attendee.firstName} ${attendee.lastName}`} type="checkbox" onChange={handleCheck}/>
+        				<span>{attendee.firstName} {attendee.lastName}</span>
+       			</div>))}
+   			</div> 
+				<div style={{overflow:'auto'}} className="marked-ones">
+					<h3>Selected Attendees</h3>
+					{checked.map((item, index) => ( 
+            /** 
+             * Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}`
+             * splitting ensures only the name is displayed
+            */
+       			<div key={index}>
+        			<span>{item.split(";")[1]}</span>
+       			</div>))}
+				</div>
+				<br/>
+				<button type="submitAttendance">Mark Attendance</button>
+				</div>}
 
     </div>
     </center>
