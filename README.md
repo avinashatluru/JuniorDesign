@@ -72,6 +72,7 @@ Now, open a new terminal and navigate to the **client** directory the same way y
 This should open a new window in your device's default browser which contains the application.
 
 ## Troubleshooting
+Not Applicable
 
 # Release Notes #
 
