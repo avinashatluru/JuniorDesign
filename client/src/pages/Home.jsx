@@ -97,7 +97,6 @@ return (
         <button onClick={toExportToCsv}>Export to CSV</button> */}
          <div style={{ padding: '20px' }}>
             <button onClick={toLogin} className="customButton">Logout</button>
-            <button onClick={toUserM} className="customButton">Manage Users</button>
             <button onClick={toExportToCsv} className="customButton">Export to CSV</button>
         </div>
 
