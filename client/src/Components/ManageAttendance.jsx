@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import Select, { NonceProvider } from "react-select"
-import { addAttendees, getAttendeeNames  } from "../actions/programs.js";
+import { addAttendees, getAttendeeNames, getAttendees  } from "../actions/programs.js";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 import '../Styles/basic.css'; // Ensure the path is correct
@@ -74,6 +74,14 @@ function ManageAttendance() {
       programsById[p._id] = p;
     });
     return programsById;
+  }
+
+  const getAttendeesById = () => {
+    let attendeesById = {};
+    attendees.forEach( (p) => {
+      attendeesById[p._id] = p;
+    });
+    return attendeesById;
   }
 
   const handleProgramSelect = (e) => {
@@ -411,11 +419,22 @@ function ManageAttendance() {
               ))}
             </select>
             <h3 style={{color:'white'}}>Select Attendees to Remove</h3>
-            <select multiple='true' onChange={handleSelect} value={selectedAttendees} className="manage-attendance-multiple-select manage-attendance-select">
-              {currentAttendees.map(attendee => (
-                <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
+            <div>
+              {selectedProgram && getProgramsById()[selectedProgram].attendees.map(id => (
+                  <div key={id}>
+                      <input
+                          type="checkbox"
+                          id={`attendee-${id}`}
+                          value={id}
+                          checked={selectedAttendees.includes(id)}
+                          onChange={handleAttendeeSelect}
+                      />
+                      <label htmlFor={`attendee-${id}`}>
+                          {getAttendeesById()[id].firstName} {getAttendeesById()[id].lastName}
+                      </label>
+                  </div>
               ))}
-            </select> <br/>
+          </div> <br/>
             <button onClick={handleRemove} className="manage-attendance-button">Remove Selected Attendees from Program</button>
           </div>
         )}
