@@ -1,5 +1,5 @@
 import React,{useState, useCallback, useEffect} from "react";
-import { getAllPrograms } from "../actions/programs";
+import { getAllPrograms, addAttendees } from "../actions/programs.js";
 import UserDisplayHack from "../Components/UserDisplayHack";
 import "../Styles/basic.css"
 
@@ -20,6 +20,22 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 		'20-24',
 		// Add more ranges as needed
 		];
+	
+	const getProgramsById = () => {
+		let programsById = {};
+		programs.forEach( (p) => {
+			programsById[p._id] = p;
+		});
+		return programsById;
+	}
+	
+	const getAttendeesById = () => {
+		let attendeesById = {};
+		attendees.forEach( (p) => {
+			attendeesById[p._id] = p;
+		});
+		return attendeesById;
+	}
 
 	// Fetch all programs on component mount
 	useEffect(() => {
@@ -55,12 +71,82 @@ const AttendeeDisplay = ({list, onUpdate}) => {
 		setChecked(x)
 	}
 
-	const addSelectedUsers = (e) => {
-		console.log("I'm not impletemented yet!")
+	const addSelectedUsers = async (e) => {
+		e.preventDefault();
+		if (!currentProgramId || checked.length === 0) {
+		alert("Please select a program and at least one attendee.");
+		return;
+		}
+
+		const isConfirmed = window.confirm("Are you sure you want to add this program?");
+		if (!isConfirmed) {
+			return;
+		}
+
+		try {
+			const response = await addAttendees(currentProgramId, checked.map((a) => {return a.split(";")[0]}));
+			console.log('Attendee was added', response.selectedAttendees);
+			setCurrentProgramId('');
+		//fetchAttendeesForProgram(currentProgramId);
+		} catch (error) {
+			console.error("Failed to add attendees:", error);
+			alert("There was a problem adding attendees.");
+		}
 	}
 
-	const removeSelectedUsers = (e) => {
-		console.log("I'm not impletemented yet!")
+	const removeAttendees = async (programId, attendeeIds) => {
+		try {
+		  const response = await fetch(`http://localhost:5050/api/program/${programId}/removeAttendees`, {
+			method: 'DELETE',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ attendeeIds }),
+		  });
+		  
+		  // Check if the response header contains 'application/json'
+		  const contentType = response.headers.get('content-type');
+		  if (!contentType || !contentType.includes('application/json')) {
+			const errorText = await response.text();
+			throw new Error(`Expected JSON, but received: ${errorText}`);
+		  }
+	  
+		  const data = await response.json();
+		  
+		  // Check for the 'ok' status based on fetch API standard
+		  if (!response.ok) {
+			throw new Error(data.message || 'Failed to remove attendees');
+		  }
+		  
+		  return data;
+		} catch (error) {
+		  console.error('Failed to remove attendees:', error);
+		  throw error;
+		}
+	  };
+
+	const removeSelectedUsers = async (e) => {
+		e.preventDefault();
+		if (!currentProgramId || checked.length === 0) {
+			alert("Please select a program and at least one attendee to remove.");
+			return;
+		}
+
+		console.log(checked);
+
+		const isConfirmed = window.confirm(`Are you sure you want to remove the selected attendees from program ${getProgramsById()[currentProgramId].name}?`);
+		if (!isConfirmed) {
+			return;
+		}
+
+		try {
+			const response = await removeAttendees(currentProgramId, checked.map((a) => {return a.split(";")[0]}));
+			console.log('Attendee(s) removed:', response);
+			setCurrentProgramId('');
+		} catch (error) {
+			console.error("Failed to remove attendees:", error);
+			alert(`There was a problem removing attendees: ${error.message}`);
+		}
 	}
 
 	const clearMultiSelection = () => {
