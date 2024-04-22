@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { getAllPrograms, getAttendees, getAttendeeNames } from "../actions/programs";
+import { getAllAttendance, updatedAttendance } from '../actions/attendance.js';
 import { Bar, Pie } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 
@@ -8,6 +9,7 @@ function ViewAttendance() {
   const [currentProgramId, setCurrentProgramId] = useState('');
   const [attendees, setAttendees] = useState([]);
   const [programs, setPrograms] = useState([]);
+  const [attendance, setAttendance] = useState([]);
   const ages = ["Select Age Range", "< 10", "10 - 20", "20 - 30", "30 - 40", "40 - 50", "50+"];
   const [ageDistribution, setAgeDistribution] = useState([]);
 
@@ -46,6 +48,20 @@ function ViewAttendance() {
     }
   }, [currentProgramId]);
 
+  useEffect(() => {
+    async function fetchAttendance() {
+      try {
+        const response = await getAllAttendance();
+        setAttendance(response.data);
+      } catch (error) {
+          console.error('Error getting attendees', error.message);
+      }
+      
+    }
+  
+    fetchAttendance();
+  })
+
   //modifies page based on which header is clicked
 	const modifyActiveComponent =(newActiveComponent) => {
 		if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
@@ -66,11 +82,38 @@ function ViewAttendance() {
 		return names
 	};
 
+	function getAttendanceByProgramId() {
+		let stuff = {};
+		attendance.map(attendance => 
+			{if (attendance && attendance.program && attendance.program._id) stuff[attendance.program._id] = attendance});
+		return stuff;
+	}
+
+  const inWeek = (date) => {
+    const input = new Date(date)
+    const today = new Date()
+    const diff = Math.abs(input - today)
+    const week = 7 * 24 * 60 * 60 * 1000
+    return diff <= week
+  }
+
   //returns list of integers for each program
   const attendanceData = () => {
 		let participation = [];
 		programs.forEach(program =>{
-      participation.push(program.attendees.length)
+      const today = new Date();
+      let count = 0;
+      let att = getAttendanceByProgramId()[program._id];
+      if (att != null){
+        let dates = att.dates
+        let peops = att.attendees
+        for(let i = 0; i < dates.length; i++) {
+          if(inWeek(dates[i]) && peops[i] != null){
+            count += peops[i].length
+          }
+        }
+      }
+      participation.push(count)
     });
 		return participation
 	};
@@ -140,7 +183,9 @@ function ViewAttendance() {
         <h3 className={`${activeComponent=="VisualByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
         {activeComponent === "ListByProgram" && <div>	
+{/* 
         <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
+         */}
         <select onChange={handleProgramChange} value={currentProgramId}>
           <option value="">Select a program</option>
           {programs.map((program) => (
@@ -181,14 +226,14 @@ function ViewAttendance() {
         }
 
 
-      {activeComponent === "ListByAge" && <div>	
+      {/* {activeComponent === "ListByAge" && <div>	
         <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>
         <select>{ages.map((age) => (
             <option key={age} value={age}>
               {age}
             </option>
         ))}</select>
-			</div>}
+			</div>} */}
 
       {activeComponent === "VisualByProgram" && <div>	
       <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button><br/>
