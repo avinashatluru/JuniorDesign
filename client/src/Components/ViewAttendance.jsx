@@ -103,12 +103,12 @@ function ViewAttendance() {
 		programs.forEach(program =>{
       const today = new Date();
       let count = 0;
-      let attendance = getAttendanceByProgramId()[program.id];
-      if (attendance != null){
-        let dates = attendance.dates
-        let peops = attendance.attendees
+      let att = getAttendanceByProgramId()[program._id];
+      if (att != null){
+        let dates = att.dates
+        let peops = att.attendees
         for(let i = 0; i < dates.length; i++) {
-          if(inWeek(dates[i])){
+          if(inWeek(dates[i]) && peops[i] != null){
             count += peops[i].length
           }
         }
