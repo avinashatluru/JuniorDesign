@@ -183,7 +183,9 @@ function ViewAttendance() {
         <h3 className={`${activeComponent=="VisualByProgram"? "clickable active" : "clickable"}`} style={{display:'inline', margin:30}} onClick={() => modifyActiveComponent("VisualByProgram")}>Visualization</h3>
 
         {activeComponent === "ListByProgram" && <div>	
+{/* 
         <button onClick={() => modifyActiveComponent("ListByAge")}>View by Age</button><br/>
+         */}
         <select onChange={handleProgramChange} value={currentProgramId}>
           <option value="">Select a program</option>
           {programs.map((program) => (
@@ -224,14 +226,14 @@ function ViewAttendance() {
         }
 
 
-      {activeComponent === "ListByAge" && <div>	
+      {/* {activeComponent === "ListByAge" && <div>	
         <button onClick={() => modifyActiveComponent("ListByProgram")}>View by Program</button><br/>
         <select>{ages.map((age) => (
             <option key={age} value={age}>
               {age}
             </option>
         ))}</select>
-			</div>}
+			</div>} */}
 
       {activeComponent === "VisualByProgram" && <div>	
       <button onClick={() => modifyActiveComponent("VisualByAge")}>View by Age</button><br/>
