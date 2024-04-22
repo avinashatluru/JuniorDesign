@@ -76,6 +76,23 @@ Not Applicable
 
 # Release Notes #
 
+## Version 0.5.0 
+
+**New Features**
+* Major UI redesign
+  * Changed background color and made headers appear more prominent when selected
+  * Added ability to view programs attended by each attendee and ability to add and remove attendees to/from programs to the Roster on Homepage
+  * Added multi-select option for all pre-existing select fields
+  * Added filter options to Roster on Homepage
+* Selecting programs on the Export to CSV page how displays a preview of the data before exporting
+
+**Bug Fixes**
+* Exported CSV file no longer displays all Attendees' names in one cell
+* Visualization graph of all programs now only displays the number of attendees marked as attended within one week of the current date
+
+**Known Issues**
+* Filtering options for Roster is currently unimplemented
+
 ## Version 0.4.0 
 
 **New Features**
