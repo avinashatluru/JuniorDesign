@@ -240,7 +240,7 @@ function ManageAttendance() {
   const handlePresetCheck = () => {
       let checkBoxes = Array.from(document.getElementsByClassName("attendance-checkbox"));
       
-      if (getAttendanceByProgramId()[currentProgramId].dates && 
+      if (currentProgramId && getAttendanceByProgramId()[currentProgramId].dates && 
             getAttendanceByProgramId()[currentProgramId].dates.includes(currentDate)) {
           let i = getAttendanceByProgramId()[currentProgramId].dates.indexOf(currentDate);
           let ids = [], x = [], a = [];
