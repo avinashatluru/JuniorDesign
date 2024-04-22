@@ -14,8 +14,13 @@ const deleteAttendance = (id) => {
   return axios.delete(`${baseUrl}/${id}`);
 };
 
+const updatedAttendance = (id, newAttendance) => {
+  return axios.put(`${baseUrl}/${id}`, newAttendance);
+}
+
 export {
   getAllAttendance,
   createAttendance,
-  deleteAttendance
+  deleteAttendance,
+  updatedAttendance
 };

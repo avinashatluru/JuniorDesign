@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
 import Select, { NonceProvider } from "react-select"
-import { addAttendees, getAttendeeNames  } from "../actions/programs.js";
+import { addAttendees, getAllPrograms, getAttendeeNames  } from "../actions/programs.js";
 import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 import '../Styles/basic.css'; // Ensure the path is correct
-import { getAllAttendance } from '../actions/attendance.js';
+import { getAllAttendance, updatedAttendance } from '../actions/attendance.js';
+import { getAllUsers } from '../actions/users.js';
+import AttendeeDisplay from './AttendeeDisplay.jsx';
 
 function ManageAttendance() {
   const [activeComponent, setActiveComponent] = useState("");
@@ -20,25 +22,28 @@ function ManageAttendance() {
   const [checked, setChecked] = useState([]);
   const [currentProgram, setCurrentProgram] = useState("select a program");
   const [currentProgramId, setCurrentProgramId] = useState('');
-  const [currentAttendees, setCurrentAttendees] = useState([])
+  const [currentAttendees, setCurrentAttendees] = useState([]);
+
+  const [currentDate, setDate] = useState(Date);
   const [sortPreference, setSortPreference] = useState("firstName");
 
   // Fetch programs & attendance records
   useEffect(() => {
     async function fetchPrograms() {
-      const response = await fetch('http://localhost:5050/api/program');
-      const data = await response.json();
+      const response = await getAllPrograms();
+      const data = response.data;
       setPrograms(data);
     }
 
     fetchPrograms();
+    setDate(new Date());  //Eliminate ME!
   }, []);
 
   // Fetch attendees
   useEffect(() => {
     async function fetchAttendees() {
-      const response = await fetch('http://localhost:5050/api/attendees');
-      const data = await response.json();
+      const response = await getAllUsers();
+      const data = response.data;
       setAttendees(data);
     }
     fetchAttendees();
@@ -63,9 +68,15 @@ function ManageAttendance() {
 
   useEffect(() => {
     async function fetchAttendance() {
-      const data = await getAllAttendance();
-      setAttendance(data);
+      try {
+        const response = await getAllAttendance();
+        setAttendance(response.data);
+      } catch (error) {
+          console.error('Error getting attendees', error.message);
+      }
+      
     }
+  
     fetchAttendance();
   })
 
@@ -76,6 +87,13 @@ function ManageAttendance() {
     });
     return programsById;
   }
+
+	function getAttendanceByProgramId() {
+		let stuff = {};
+		attendance.map(attendance => 
+			{if (attendance && attendance.program && attendance.program._id) stuff[attendance.program._id] = attendance});
+		return stuff;
+	}
 
   const handleProgramSelect = (e) => {
     const selectedProgramId = e.target.value;
@@ -93,6 +111,7 @@ function ManageAttendance() {
     }
 
     clearChecked();
+    handlePresetCheck();
   };
 
   const clearChecked = () => {
@@ -159,8 +178,12 @@ function ManageAttendance() {
   //modifies page based on which header is clicked
   const modifyActiveComponent = (newActiveComponent) => {
     if (newActiveComponent === activeComponent) {setActiveComponent("None");} 
-      else {setActiveComponent(newActiveComponent); console.log(activeComponent)}
-    };
+      else {setActiveComponent(newActiveComponent);}
+    if (newActiveComponent === "Attend") {
+      clearChecked();
+      handlePresetCheck();
+    }
+  };
   
   //Sets currentProgram to which ever program is chosen in Selct component
   const handleSelectAttendance = (e) => {
@@ -202,6 +225,28 @@ function ManageAttendance() {
 		return participation
 	};
 
+  const handlePresetCheck = () => {
+      let checkBoxes = Array.from(document.getElementsByClassName("attendance-checkbox"));
+      
+      if (getAttendanceByProgramId()[currentProgramId].dates && 
+            getAttendanceByProgramId()[currentProgramId].dates.includes(currentDate)) {
+          let i = getAttendanceByProgramId()[currentProgramId].dates.indexOf(currentDate);
+          let ids = [], x = [], a = [];
+          getAttendanceByProgramId()[currentProgramId].attendees[i].forEach((attendee) => {
+              ids.push(attendee._id);
+              x.push(`${attendee._id};${attendee.firstName} ${attendee.lastName}`);
+          });
+
+          checkBoxes.forEach((e) => {
+              if (ids.includes(e.value.split(";")[0])) {
+                e.checked = true;
+              }
+          });
+
+          setChecked(x);
+      }
+  }
+
   //Places and removes attendees to/from checked based on whether or not thei checkbox is checked 
   //Note attendees are passed in formated strings `${attendee._id};${attendee.firstName} ${attendee.lastName}` through e.target.value
 	const handleCheck = (e) => {
@@ -219,6 +264,7 @@ function ManageAttendance() {
 			x.splice(checked.indexOf(e.target.value), 1)
 		}
 		setChecked(x)
+    
 	}
 
   const removeAttendees = async (programId, attendeeIds) => {
@@ -278,7 +324,70 @@ function ManageAttendance() {
   };
 
   const takeAttendance = async (e) => {
+      let attendance = getAttendanceByProgramId()[currentProgramId];
+      
+      let ids = [];
+      checked.forEach((a) => {
+          ids.push(a.split(";")[0]);
+      });
 
+      if (attendance.dates.includes(currentDate)) {
+          let i = attendance.dates.indexOf(currentDate);
+
+            //Filter the existing list & current list of attendees for only the checked attendees & concat them to get the list of all attendees who attended (whether deleted or not)
+          attendance.attendees[i] = attendance.attendees[i].filter((attendee) => {
+              return ids.includes(attendee._id);
+            }).concat(currentAttendees.filter((attendee) => {
+              return ids.includes(attendee._id);})
+            ).sort((a, b) => {
+              return (a._id < b._id ) ? -1 : ( a._id > b._id ? 1 : 0 )});
+            //Of course, sort the attendees by ID too
+
+          console.log(`Attendance: ${attendees}`)
+      } else {
+          attendance.dates.push(currentDate);
+
+          if (attendance.attendees.length > 1) {
+            attendance.attendees.push(currentAttendees.filter((attendee) => {
+              return ids.includes(attendee._id);}));
+          } else if (attendance.attendees[0].length == 0) {
+            attendance.attendees[0] = currentAttendees.filter((attendee) => {
+              return ids.includes(attendee._id);});
+          }
+          
+      }
+
+      let d = attendance.dates;
+      let sortedAttendeeRecords = [];
+      if (attendance.dates.length > 1) {
+        //Sort the attendance records by date
+        let d = attendance.dates.toSorted((a, b) => {
+          return (a.valueOf() < b.valueOf()) ? -1 : (a.valueOf() > b.valueOf() ? 1 : 0 )
+        });
+
+        //Use the sorted date records to create a sorted array of their respective attendee records
+        for (let i = 0; i < d.length; i++) {
+            sortedAttendeeRecords.push(attendance.attendees[attendance.dates.indexOf(d[i])])
+            console.log(sortedAttendeeRecords)
+        }
+
+        console.log("sorted attendance? ", sortedAttendeeRecords)
+      } else {
+        sortedAttendeeRecords = attendance.attendees;
+      }
+
+      let newAttendance = {program: attendance.program, dates: d, attendees: sortedAttendeeRecords};
+
+      try {
+        let response = await updatedAttendance(attendance._id, newAttendance);
+        console.log(`Took attendance: `, response, newAttendance);
+        clearChecked();
+        return response;
+      } catch (error) {
+        console.error("Failed to take attendance: ", error, newAttendance);
+        alert(`Error taking attendance: ${error}`);
+        return error;
+      }
   }
 
   // Helper function to sort the attendees based on the sort preference
@@ -296,18 +405,12 @@ function ManageAttendance() {
     e.preventDefault();
     let confirm = true;
     if (!checked || checked.length <= 0) {
-      confirm = window.confirm("You have selected no attendees. This will create an empty attendance record. Are you sure you want to do this?");
+      confirm = window.confirm("You have selected no attendees. This will create an empty attendance record for the selected date. Are you sure you want to do this?");
+    } else if (getAttendanceByProgramId()[currentProgramId].dates.includes(currentDate)) {
+      confirm = window.confirm("There is an existing attendance record for this program on this date, do you want to overwrite it?");
     }
-
-    try {
-      const response = await removeAttendees(selectedProgram, selectedAttendees);
-      console.log('Attendee(s) removed:', response);
-      setSelectedProgram('');
-      setSelectedAttendees([]);
-    } catch (error) {
-      console.error("Failed to remove attendees:", error);
-      alert(`There was a problem removing attendees: ${error.message}`);
-    }
+    
+    await takeAttendance(e);
   }
 
   const selectStyles = {
