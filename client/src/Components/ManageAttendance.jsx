@@ -6,7 +6,7 @@ import { Bar } from "react-chartjs-2";
 import Chart from "chart.js/auto"; 
 import '../Styles/basic.css'; // Ensure the path is correct
 import { getAllAttendance, updatedAttendance } from '../actions/attendance.js';
-import { getAllUsers } from '../actions/users.js';
+import { getAllUsers, getPrograms } from '../actions/users.js';
 import AttendeeDisplay from './AttendeeDisplay.jsx';
 
 function ManageAttendance() {
@@ -535,7 +535,7 @@ function ManageAttendance() {
             </select>
             <h3 style={{color:'white'}}>Select Attendees to Remove</h3>
             <div>
-              {selectedProgram && getProgramsById()[selectedProgram].attendees.map(id => (
+              {selectedProgram && getProgramsById()[selectedProgram] && getProgramsById()[selectedProgram].attendees.length > 0 && getProgramsById()[selectedProgram].attendees.map(id => (id &&
                   <div key={id}>
                       <input
                           type="checkbox"
@@ -545,7 +545,7 @@ function ManageAttendance() {
                           onChange={handleAttendeeSelect}
                       />
                       <label htmlFor={`attendee-${id}`}>
-                          {getAttendeesById()[id].firstName} {getAttendeesById()[id].lastName}
+                          {getAttendeesById()[id] && getAttendeesById()[id].firstName} {getAttendeesById()[id] && getAttendeesById()[id].lastName}
                       </label>
                   </div>
               ))}
