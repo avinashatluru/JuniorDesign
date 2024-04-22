@@ -244,9 +244,9 @@ function ProgramManagement() {
 
 
 	{activeComponent === "View" && <div>
-					<div style={{maxHeight:200, width:200, overflow:'auto'}}>
+					<div style={{width: '90%', height: 200, display: 'flex', flexFlow: 'column wrap', overflow:'auto'}}>
 						{list.map(program => (
-							<div key={program[1]} style={{display: 'flex', justifyContent: 'space-between',   alignItems: 'center', // This ensures vertical alignment
+							<div key={program[1]} style={{display: 'flex', justifyContent: 'space-between', flexFlow: 'row nowrap', width: 200, alignItems: 'center', // This ensures vertical alignment
 							lineHeight: '1.5' }}>
 								<span>{program[0]}</span>
 								<button onClick={() => handleDelete(program[1])} className="delete">Delete</button>

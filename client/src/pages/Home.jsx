@@ -97,7 +97,6 @@ return (
         <button onClick={toExportToCsv}>Export to CSV</button> */}
          <div style={{ padding: '20px' }}>
             <button onClick={toLogin} className="customButton">Logout</button>
-            <button onClick={toUserM} className="customButton">Manage Users</button>
             <button onClick={toExportToCsv} className="customButton">Export to CSV</button>
         </div>
 
@@ -117,10 +116,18 @@ return (
         
         <br/>
 
-     {activeComponent === "Home" && (
+     {activeComponent === "Home" && <>
+            <div className="container horizontal">
                 <div>
+                    <img style={{width:"95%", marginTop: "3pt", border: "solid white 1pt"}} src="./RATLPic1.jpg"/>
+                </div>
+                <div>
+                    <img style={{width:"95%", marginTop: "3pt", border: "solid white 1pt"}} src="./RATLPic2FromAnna.jpg"/>
+                </div>
+            </div>
+                {/*<div>
                     <h2  style={{ color: 'white', textAlign: 'center', marginTop: '50px', fontSize: '36px' }}>Greetings, the RATL family!</h2>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '60px', marginTop: '50px'}}> {/* Adjust the gap between images here */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '60px', marginTop: '50px'}}> {/* Adjust the gap between images here *\/
 
                         {homeImages.map((image, index) => (
                             <div key={index} style={{ textAlign: 'center' }}>
@@ -134,9 +141,9 @@ return (
                                 <p style={{ color: 'white' }}>{image.title}</p>
                             </div>
                         ))}
-                    </div>
-                </div>
-                )}
+                    </div> */}
+                </>
+                }
 
         {activeComponent === "Roster" && 
             <div className="roster-container">
