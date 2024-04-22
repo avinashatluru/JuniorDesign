@@ -25,6 +25,7 @@ function ManageAttendance() {
   const [currentAttendees, setCurrentAttendees] = useState([]);
 
   const [currentDate, setDate] = useState(Date);
+  const [sortPreference, setSortPreference] = useState("firstName");
 
   // Fetch programs & attendance records
   useEffect(() => {
@@ -389,6 +390,17 @@ function ManageAttendance() {
       }
   }
 
+  // Helper function to sort the attendees based on the sort preference
+  const sortAttendees = (attendees) => {
+    return attendees.sort((a, b) => {
+      if (sortPreference === "firstName") {
+        return a.firstName.localeCompare(b.firstName);
+      } else {
+        return a.lastName.localeCompare(b.lastName);
+      }
+    });
+  };
+
   const handleTakeAttendance = async (e) => {
     e.preventDefault();
     let confirm = true;
@@ -446,62 +458,58 @@ function ManageAttendance() {
       <h3 className={`clickable ${activeComponent === "Remove" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Remove")}>Remove Attendees from Program</h3>
       <h3 className={`clickable ${activeComponent === "Attend" ? "active" : ""}`}style={{display:'inline', marginRight:60}} onClick={() => modifyActiveComponent("Attend")}>Mark Attendance</h3>
 
-      {/* {activeComponent === "Add" && 	<div>
-        <h3 style={{color:'white'}}>Select a Program</h3>
-        <select onChange={handleProgramSelect} value={selectedProgram}>
-          <option value="">Select a program</option>
-          {programs.map(program => (
-            <option key={program._id} value={program._id}>{program.name}</option>
-          ))}
-        </select>
-        <h3 style={{color:'white'}}>Select Attendees To Add</h3>
-        <select multiple='true' onChange={handleAttendeeSelect} value={selectedAttendees} className='AttendeesList'>
-          {attendees.map(attendee => (
-            <option key={attendee._id} value={attendee._id}>{attendee.firstName} {attendee.lastName}</option>
-          ))}
-        </select> <br/>
-        <button onClick={handleSubmit} className='AttendeesButton'>Add Selected Attendees to Program</button>
-			</div>} */}
       {activeComponent === "Add" && (
-              <div className="manage-attendance-section">
-                  <h3 style={{
-                      fontFamily: '"Times New Roman", serif'
-                  }}>Select a Program</h3>
+            <div className="manage-attendance-section">
+              <h3>Select a Program</h3>
+              <select
+                onChange={handleProgramSelect}
+                value={selectedProgram}
+                className="manage-attendance-select"
+              >
+                <option value="">Select a program</option>
+                {programs.map(program => (
+                  <option key={program._id} value={program._id}>{program.name}</option>
+                ))}
+              </select>
 
-                  <select
-                      onChange={handleProgramSelect}
-                      value={selectedProgram}
-                      className="manage-attendance-select"
-                  >
-                      <option value="">Select a program</option>
-                      {programs.map(program => (
-                          <option key={program._id} value={program._id}>{program.name}</option>
-                      ))}
-                  </select>
-
-                  <h3>Select Attendees To Add</h3>
-                    <div>
-                        {attendees.map(attendee => (
-                            <div key={attendee._id}>
-                                <input
-                                    type="checkbox"
-                                    id={`attendee-${attendee._id}`}
-                                    value={attendee._id}
-                                    checked={selectedAttendees.includes(attendee._id)}
-                                    onChange={handleAttendeeSelect}
-                                />
-                                <label htmlFor={`attendee-${attendee._id}`}>
-                                    {attendee.firstName} {attendee.lastName}
-                                </label>
-                            </div>
-                        ))}
-                    </div>
-                    <br />
-                    <button onClick={handleSubmit} className="manage-attendance-button">
-                        Add Selected Attendees to Program
-                    </button>
-                </div>
+              <h3>Select Attendees To Add</h3>
+              {/* Dropdown to select sorting preference */}
+              <div style={{ marginBottom: '10px' }}>
+                <label htmlFor="sortPreferenceSelect" style={{ marginRight: '10px' }}>Sort by: </label>
+                <select
+                  id="sortPreferenceSelect"
+                  value={sortPreference}
+                  onChange={(e) => setSortPreference(e.target.value)}
+                  className="manage-attendance-select"
+                >
+                  <option value="firstName">First Name</option>
+                  <option value="lastName">Last Name</option>
+                </select>
+              </div>
+              {/* Attendees sorted based on selected preference */}
+              <div>
+                {sortAttendees(attendees).map(attendee => (
+                  <div key={attendee._id}>
+                    <input
+                      type="checkbox"
+                      id={`attendee-${attendee._id}`}
+                      value={attendee._id}
+                      checked={selectedAttendees.includes(attendee._id)}
+                      onChange={handleAttendeeSelect}
+                    />
+                    <label htmlFor={`attendee-${attendee._id}`}>
+                      {attendee.firstName} {attendee.lastName}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <br />
+              <button onClick={handleSubmit} className="manage-attendance-button">
+                Add Selected Attendees to Program
+              </button>
+            </div>
           )}
+
 
 
       {activeComponent === "Remove" && (
