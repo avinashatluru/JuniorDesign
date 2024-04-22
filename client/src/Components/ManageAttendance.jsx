@@ -170,8 +170,12 @@ function ManageAttendance() {
 
   //changes checklist header to currentProgram.name
   const switchText = () => {
-		let name = currentProgram.name;
-		return name
+    if (currentProgram) {
+      let name = currentProgram.name;
+      return name
+    } else {
+      return "";
+    }
 	};
 
   //returns a list in the form of {label:program.name, value:program.id} for each program
