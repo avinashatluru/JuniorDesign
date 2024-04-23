@@ -86,7 +86,21 @@ Not Applicable
 
 # Release Notes #
 
-## Version 0.5.0 
+## Version 1.0.0 
+**Primary Features**
+* Attendance Tracking
+  * Attendees can be marked for attendance for a particular program
+* File Export
+  * Attendance can be exported to CSV for easy viewing for a program
+* Visualizations
+  * Attendance for a program can be viewed in a graph
+  * Attendance for an age group can be viewed for a program
+* Attendee Management
+  * Attendees can be added and edited when needed
+  * Attendee overall participation can be viewed
+* Program Management
+  * Programs can be created/edited/deleted
+  * Programs can be selected to view participants and other info
 
 **New Features**
 * Major UI redesign
