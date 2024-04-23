@@ -89,6 +89,7 @@ Not Applicable
 **Bug Fixes**
 * Exported CSV file no longer displays all Attendees' names in one cell
 * Visualization graph of all programs now only displays the number of attendees marked as attended within one week of the current date
+* Newly added attendees may not appear for selected programs on the remove program page until the user clicks off the attendance header and returning
 
 **Known Issues**
 * Filtering options for Roster is currently unimplemented
