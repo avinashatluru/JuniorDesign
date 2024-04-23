@@ -29,34 +29,42 @@ In order to utilizes this application, you will need to have the latest version 
 * If you use AWS EC2 instances, you should use a minimum of an m5.large instance
 
 ## Dependent Libraries
-These are the required libraries that must be installed on your device to run this application:
-* npm: Version 9.8.0
-* node.js: Version 18.17.0
-* cors: Version 2.8.5
-* dotenv: Version 16.4.4
-* express: Version 4.19.2
-* mongodb: Version 5.7.0
-* mongoose: Version 8.3.2
-* mongose: Version 0.0.2-security
-* @emotion/react: Version 11.11.4
-* @emotion/styled: Version 11.11.0
-* @mui/material: Version 5.15.11
-* @mui/x-charts: Version 6.19.5
-* @emotion/styled: Version 11.11.0
-* @mui/x-charts: Version 6.19.5
-* @testing-library/jest-dom: Version 5.17.0
-* @testing-library/react: Version 13.4.0
-* @testing-library/user-event: Version 13.5.0
-* axios: Version 1.6.7
-* bootstrap: Version 5.3.0
-* chart.js: Version 4.4.2
-* react: Version 18.2.0
-* react-chartjs-2: Version 5.2.0
-* react-dom: Version 18.2.0
-* react-router-dom: Version 6.21.3
-* react-scripts: 5.0.1
-* react-select: Version 5.8.0
-* web-vitals: Version 2.1.4
+These are the required libraries that must be installed and where they need to be installed on your device to run this application:
+* Dependencies for the Application:
+  * npm: Version 9.8.0
+  * node.js: Version 18.17.0
+* Dependencies for the Main Folder:
+  *  @emotion/react: Version: 11.11.4
+  * @emotion/styled: Version: 11.11.0
+  * @mui/material: Version: 5.15.11
+  * @mui/x-charts: Version: 6.19.5
+* Dependencies for the Client Folder:
+  * @emotion/styled: Version:  11.11.0
+  * @mui/x-charts: Version:  6.19.5
+  * @testing-library/jest-dom: Version:  5.17.0
+  * @testing-library/react: Version:  13.4.0
+  * @testing-library/user-event: Version:  13.5.0
+  * axios: Version:  1.6.7
+  * bootstrap: Version:  5.3.0
+  * chart.js: Version:  4.4.2
+  * cors: Version:  2.8.5
+  * express: Version:  4.18.3
+  * mongoose: Version:  8.2.1
+  * react: Version:  18.2.0
+  * react-chartjs-2: Version:  5.2.0
+  * react-dom: Version:  18.2.0
+  * react-router-dom: Version:  6.21.3
+  * react-scripts: Version: 5.0.1
+  * react-select: Version:  5.8.0
+  * web-vitals: Version:  2.1.4
+* Dependencies for the Server Folder 
+  * cors: Version: 2.8.5
+  * dotenv: Version: 16.4.4
+  * express: Version: 4.19.2
+  * mongodb: Version: 5.7.0
+  * mongoose: Version: 8.3.2
+  * mongose: Version: 0.0.2-security
+
 
 ## Download Instructions
 In order to download this project, simply navigate the main page of this repository and click **Releases** to the right of the files list. Afterwords, you will be given the option to download the latest version of the application source code as either a zip file or a tar.gz file. To download older versions of this application, click **Tags** on the upper-left section of the screen and select the desired version.
@@ -65,11 +73,13 @@ In order to download this project, simply navigate the main page of this reposit
 Not applicable
 
 ## Run Instructions
-In order to run this application, you unzip the downloaded source code and upload it into Visual Studio Code, **VS code**. 
-After all the source code and necessary dependencies are installed, open a terminal in **VS code** by clicking on the 3 dots at the top of the screen, selecting **Terminal** and clicking **New Terminal**. 
-Once the terminal is open, navigate to the **server** directory using the appropriate commands and run the lines `npm i` and `node server.mjs`. If everything was properly installed, you should receive the message that server is running and that MongoDB is connected. 
-Now, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and run the lines `npm i` and `npm start`.
-This should open a new window in your device's default browser which contains the application.
+In order to run this application, you must first make sure that the dependencies listed under **Dependencies for the Application** from above are installed on your device. 
+
+Next, unzip the downloaded source code and upload its contents into Visual Studio Code, **VS code**. Within the main folder of the application, open a terminal in **VS code** by clicking on the 3 dots at the top of the screen, selecting **Terminal** and clicking **New Terminal**. Then install the dependencies listed under **Dependencies for the Main Folder** from above. 
+
+Afterwords, navigate to the **server** directory using the appropriate commandsand and install the dependencies listed under **Dependencies for the Server Folder** from above. Then run the lines `npm i` and `node server.mjs`. If everything was properly installed, you should receive the message that server is running and that MongoDB is connected. 
+
+Finally, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and install the dependencies listed under **Dependencies for the Client Folder** from above. Then run the lines `npm i` and `npm start`. This should open a new window in your device's default browser which contains the application.
 
 ## Troubleshooting
 Not Applicable
