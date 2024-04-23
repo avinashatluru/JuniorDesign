@@ -75,11 +75,11 @@ Not applicable
 ## Run Instructions
 In order to run this application, you must first make sure that the dependencies listed under **Dependencies for the Application** from above are installed on your device. 
 
-Next, unzip the downloaded source code and upload its contents into Visual Studio Code, **VS code**. Within the main folder of the application, open a terminal in **VS code** by clicking on the 3 dots at the top of the screen, selecting **Terminal** and clicking **New Terminal**. Then install the dependencies listed under **Dependencies for the Main Folder** from above. 
+Next, unzip the downloaded source code and upload its contents into Visual Studio Code, **VS code**. Within the main folder of the application, open a terminal in **VS code** by clicking on the 3 dots at the top of the screen, selecting **Terminal** and clicking **New Terminal**. Then install the dependencies listed under **Dependencies for the Main Folder** from above if they are not installed already. 
 
-Afterwords, navigate to the **server** directory using the appropriate commandsand and install the dependencies listed under **Dependencies for the Server Folder** from above. Then run the lines `npm i` and `node server.mjs`. If everything was properly installed, you should receive the message that server is running and that MongoDB is connected. 
+Afterwords, navigate to the **server** directory using the appropriate commandsand and install the dependencies listed under **Dependencies for the Server Folder** from above if they are not installed already. Then run the lines `npm i` and `node server.mjs`. If everything was properly installed, you should receive the message that server is running and that MongoDB is connected. 
 
-Finally, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and install the dependencies listed under **Dependencies for the Client Folder** from above. Then run the lines `npm i` and `npm start`. This should open a new window in your device's default browser which contains the application.
+Finally, open a new terminal and navigate to the **client** directory the same way you navigated to **server** and install the dependencies listed under **Dependencies for the Client Folder** from above if they are not installed already. Then run the lines `npm i` and `npm start`. This should open a new window in your device's default browser which contains the application.
 
 ## Troubleshooting
 Not Applicable
